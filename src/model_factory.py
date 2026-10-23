@@ -1,0 +1,239 @@
+"""Build any of the 15 sub-domain models through the sibling ForensicHub registry.
+
+Sibling layout (local == remote):
+  graduation_project/
+    ForensicHub/                 <- ForensicHub repo
+    linear_probe-and-gradient/   <- this project (you are here)
+
+So ForensicHub is found as <project_root>/../ForensicHub.
+"""
+import sys
+import warnings
+from pathlib import Path
+
+import torch
+import torch.nn as nn
+
+THIS = Path(__file__).resolve()
+PROJECT_ROOT = THIS.parents[2]          # graduation_project/
+FORENSICHUB_REPO = PROJECT_ROOT / "ForensicHub"
+for p in (str(FORENSICHUB_REPO),):
+    if p not in sys.path:
+        sys.path.insert(0, p)
+
+# short key (cli) -> ForensicHub build config
+# image_size / norm follow the corresponding statics/*.yaml conventions.
+MODEL_CFG = {
+    "resnet":       dict(registry="Resnet101",      image_size=256, norm="imagenet",
+                         init=dict(output_type="label", image_size=256)),
+    "efficientnet": dict(registry="EfficientB4",    image_size=256, norm="imagenet",
+                         init=dict(output_type="label", image_size=256)),
+    "capsulenet":   dict(registry="Capsule_net",    image_size=256, norm="imagenet",
+                         init=dict(), need_deepfake_yaml="capsule_net.yaml"),
+    "segformer":    dict(registry="Segformerb3",     image_size=256, norm="imagenet",
+                         init=dict(output_type="label", image_size=256)),
+    "swin":         dict(registry="SwinSmall",       image_size=256, norm="imagenet",
+                         init=dict(output_type="label", image_size=256)),
+    "convnext":     dict(registry="ConvNextSmall",   image_size=256, norm="imagenet",
+                         init=dict(output_type="label", image_size=256)),
+    "recce":        dict(registry="Recce",           image_size=256, norm="imagenet",
+                         init=dict(), need_deepfake_yaml="recce.yaml"),
+    "sia":          dict(registry="SIA",             image_size=256, norm="imagenet",
+                         init=dict(), need_deepfake_yaml="sia.yaml",
+                         deepfake_fallbacks=["SIA", "Sia", "sia"]),
+    "iml-vit":      dict(registry="IML_ViT",        image_size=256, norm="imagenet",
+                         init=dict(), wrapper="Mask2LabelWrapper",
+                         wrapper_init=dict(edge_lambda=20)),
+    "trufor":       dict(registry="Trufor",         image_size=256, norm="imagenet",
+                         init=dict(), wrapper="Mask2LabelWrapper", wrapper_init=dict()),
+    "univfd":       dict(registry="UnivFD",         image_size=224, norm="clip",
+                         init=dict(name="ViT-L/14", num_classes=1)),
+    "ffdn":         dict(registry="FFDN",           image_size=256, norm="imagenet",
+                         init=dict(), wrapper="Mask2LabelWrapper", wrapper_init=dict()),
+    "effort":       dict(registry="Effort",         image_size=256, norm="imagenet",
+                         init=dict(), wrapper="Mask2LabelWrapper", wrapper_init=dict()),
+    "mesorch":      dict(registry="Mesorch",        image_size=256, norm="imagenet",
+                         init=dict(), wrapper="Mask2LabelWrapper", wrapper_init=dict()),
+    "co-spy":       dict(registry="CO_SPY",         image_size=224, norm="clip",
+                         init=dict(clip_model="ViT-L/14", pretrained="datacomp_xl_s13b_b90k", dim_clip=768)),
+}
+
+MASK_WRAPPER_NEED = {"IML_ViT", "Mesorch", "Trufor", "Effort", "FFDN", "DTD",
+                     "MVSSNet", "PSCC_Net", "Cat_Net"}
+
+
+def _resolve_deepfake_yaml(name_file):
+    """DeepfakeBench detector yamls live inside the installed DeepfakeBench package."""
+    try:
+        import DeepfakeBench, os
+        base = Path(DeepfakeBench.__file__).parent / "training" / "config" / "config" / "detector"
+        cand = base / name_file
+        if cand.exists():
+            return str(cand)
+        # sia yaml name may differ in case
+        for c in base.glob("*.yaml"):
+            if c.stem.lower() == Path(name_file).stem.lower():
+                return str(c)
+    except Exception as e:
+        warnings.warn(f"DeepfakeBench yaml resolve failed ({e})")
+    return None
+
+
+def build_forensic_model(model_key):
+    """Return (model, cfg). Raises with actionable message if dep missing."""
+    from ForensicHub.registry import MODELS, build_from_registry
+    key = model_key.lower()
+    if key not in MODEL_CFG:
+        raise KeyError(f"Unknown --model {model_key!r}. Choose from: {sorted(MODEL_CFG)}")
+    cfg = MODEL_CFG[key]
+
+    # 1) deepfake yaml-based models: fill yaml_config_path automatically
+    init = dict(cfg.get("init", {}))
+    if cfg.get("need_deepfake_yaml"):
+        if not init.get("yaml_config_path"):
+            yp = _resolve_deepfake_yaml(cfg["need_deepfake_yaml"])
+            if yp is None:
+                raise FileNotFoundError(
+                    f"[{key}] needs DeepfakeBench config '{cfg['need_deepfake_yaml']}' but "
+                    "DeepfakeBench is not installed or the yaml was not found. "
+                    "pip install DeepfakeBench (or run: pip install -e <DeepfakeBench>) "
+                    "on the remote server first.")
+            init["yaml_config_path"] = yp
+
+    # 2) FFDN ships a hard-coded weight_path that does not exist remotely -> random init fallback
+    if cfg["registry"] == "FFDN":
+        try:
+            from ForensicHub.tasks.document.models.ffdn.ffdn import FFDN as _FFDN
+            _orig = _FFDN.init_vph
+            def _safe_init_vph(self, weight_path):
+                try:
+                    return _orig(self, weight_path)
+                except Exception as e:
+                    warnings.warn(f"[ffdn] pretrained weights not found ({e}); use random init.")
+            _FFDN.init_vph = _safe_init_vph
+        except Exception:
+            pass
+
+
+    def _looks_like_network_err(e):
+        s = str(e).lower()
+        keys = ["network is unreachable", "huggingface", "client has been closed",
+                "connection", "timed out", "max retries", "101", "errno",
+                "getaddrinfo", "name resolution", "offline"]
+        return any(k in s for k in keys)
+
+    # 3) build (optionally wrapped for mask models)
+    if cfg.get("wrapper") == "Mask2LabelWrapper" or cfg["registry"] in MASK_WRAPPER_NEED:
+        outer = {"name": "Mask2LabelWrapper",
+                 "init_config": {"name": cfg["registry"], "init_config": cfg.get("wrapper_init", {})}}
+        try:
+            model = build_from_registry(MODELS, outer)
+        except Exception as e:
+            # IMDLBenCo pretrain files (mae_pretrain_vit_base.pth etc.) often missing ->
+            # retry with empty init so the model still trains from scratch for diagnosis.
+            warnings.warn(f"[{key}] wrapper build failed ({e}); retry without pretrain args.")
+            outer["init_config"]["init_config"] = {}
+            model = build_from_registry(MODELS, outer)
+    else:
+        req = {"name": cfg["registry"], "init_config": init}
+        # deepfake SIA name may vary in case across DeepfakeBench versions
+        names_to_try = [cfg["registry"]] + cfg.get("deepfake_fallbacks", [])
+        err = None
+        model = None
+        for nm in names_to_try:
+            try:
+                req["name"] = nm
+                model = build_from_registry(MODELS, req)
+                cfg = {**cfg, "registry": nm}
+                break
+            except Exception as e:
+                err = e
+        if model is None and _looks_like_network_err(err) and "pretrained" not in req["init_config"]:
+            try:
+                warnings.warn(f"[{key}] network blocked, retry with pretrained=False.")
+                req2 = {"name": req["name"], "init_config": {**req["init_config"], "pretrained": False}}
+                model = build_from_registry(MODELS, req2)
+                warnings.warn(f"[{key}] using random init (pretrained=False) for diagnosis.")
+            except Exception as e2:
+                err = e2
+        if model is None:
+            raise RuntimeError(f"[{key}] build failed. Last error: {err}")
+    return model, cfg
+
+
+class LastLinearInputHook:
+    """Capture the input of the last nn.Linear = the linear-probe feature space.
+
+    Works for (almost) all 15 models without knowing their internals:
+    the vector that the final linear classifier sees is exactly what a
+    linear probe would train on. For Mask2LabelWrapper we hook the inner model.
+    """
+
+    def __init__(self, model):
+        self.feat = None
+        target = model
+        # unwrap one level (Mask2LabelWrapper.base_model) for cleaner features
+        inner = getattr(model, "base_model", None)
+        search_root = inner if isinstance(inner, nn.Module) else model
+        self.linear = None
+        for m in search_root.modules():
+            if isinstance(m, nn.Linear):
+                self.linear = m  # keep last one
+        if self.linear is None:
+            # fallback: last Conv2d (pure mask heads) -> global-average to vector
+            for m in search_root.modules():
+                if isinstance(m, nn.Conv2d):
+                    self.linear = m
+        if self.linear is None:
+            raise RuntimeError("No Linear/Conv2d head found for feature hook.")
+        self.is_conv = isinstance(self.linear, nn.Conv2d)
+        self.handle = self.linear.register_forward_hook(self._hook)
+
+    def _hook(self, module, inp, out):
+        x = inp[0].detach()
+        if x.dim() == 4:  # [B,C,H,W] -> GAP vector
+            x = x.mean(dim=(2, 3))
+        self.feat = x
+
+    def close(self):
+        try:
+            self.handle.remove()
+        except Exception:
+            pass
+
+
+@torch.no_grad()
+def extract_features(model, loader, device, max_batches=None):
+    """Run forward (with dummy aux inputs) and collect hooked features."""
+    model.eval()
+    hook = LastLinearInputHook(model)
+    feats, labels, domains = [], [], []
+    try:
+        for i, batch in enumerate(loader):
+            if max_batches and i >= max_batches:
+                break
+            img = batch["image"].to(device)
+            lab = batch["label"].to(device)
+            B, _, H, W = img.shape
+            aux = dict(
+                mask=torch.zeros(B, 1, H, W, device=device),
+                edge_mask=torch.zeros(B, 1, H, W, device=device),
+                dct=torch.zeros(B, 1, H, W, dtype=torch.long, device=device),
+                qt=torch.ones(B, 1, 8, 8, dtype=torch.long, device=device),
+                DCT_coef=torch.zeros(B, 1, H, W, dtype=torch.long, device=device),
+                qtables=torch.ones(B, 1, 8, 8, dtype=torch.long, device=device),
+            )
+            try:
+                model(image=img, label=lab, **aux)
+            except TypeError:
+                model(image=img, label=lab)
+            if hook.feat is None:
+                raise RuntimeError("Feature hook captured nothing; check model forward.")
+            feats.append(hook.feat.float().cpu())
+            labels.append(batch["label"].cpu())
+            domains.append(batch["domain"].cpu())
+    finally:
+        hook.close()
+    import torch as _t
+    return {"features": _t.cat(feats).numpy(), "labels": _t.cat(labels).numpy(),
+            "domains": _t.cat(domains).numpy()}

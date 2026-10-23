@@ -1,0 +1,10 @@
+# default hyper-params for one unified diagnostic run (single GPU friendly)
+epochs: 5
+batch_size: 32
+lr: 1.0e-4
+weight_decay: 0.05
+num_workers: 4
+diag_every: 50
+probe_every: 1
+probe_samples: 2000
+seed: 42

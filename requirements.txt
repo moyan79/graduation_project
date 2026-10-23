@@ -1,0 +1,13 @@
+torch
+torchvision
+numpy
+pandas
+scikit-learn
+matplotlib
+pillow
+pyyaml
+timm
+# remote server must also have (for the corresponding models):
+#   pip install -e <ForensicHub>  (sibling repo, already there)
+#   pip install imdlbenco          (for iml-vit / trufor / mesorch / effort)
+#   pip install DeepfakeBench      (for recce / sia / capsulenet / spsl path)

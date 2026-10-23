@@ -1,0 +1,17 @@
+# 15 sub-domain models -> ForensicHub registry mapping (see src/model_factory.py MODEL_CFG)
+# key: cli --model value
+resnet:       {registry: Resnet101,    image_size: 256, norm: imagenet}
+efficientnet: {registry: EfficientB4,  image_size: 256, norm: imagenet}
+capsulenet:   {registry: Capsule_net,  image_size: 256, norm: imagenet}
+segformer:    {registry: Segformerb3,  image_size: 256, norm: imagenet}
+swin:         {registry: SwinSmall,    image_size: 256, norm: imagenet}
+convnext:     {registry: ConvNextSmall,image_size: 256, norm: imagenet}
+recce:        {registry: Recce,        image_size: 256, norm: imagenet}
+sia:          {registry: SIA,          image_size: 256, norm: imagenet}
+iml-vit:      {registry: IML_ViT,      image_size: 256, norm: imagenet, wrapper: Mask2LabelWrapper}
+trufor:       {registry: Trufor,       image_size: 256, norm: imagenet, wrapper: Mask2LabelWrapper}
+univfd:       {registry: UnivFD,       image_size: 224, norm: clip}
+ffdn:         {registry: FFDN,         image_size: 256, norm: imagenet, wrapper: Mask2LabelWrapper}
+effort:       {registry: Effort,       image_size: 256, norm: imagenet, wrapper: Mask2LabelWrapper}
+mesorch:      {registry: Mesorch,      image_size: 256, norm: imagenet, wrapper: Mask2LabelWrapper}
+co-spy:       {registry: CO_SPY,       image_size: 224, norm: clip}
