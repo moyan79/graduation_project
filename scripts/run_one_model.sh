@@ -11,13 +11,13 @@ mkdir -p "$OUT"
 if [ -n "$TRAIN_JSON" ] && [ -f "$TRAIN_JSON" ]; then
   echo "[run] model=$MODEL out=$OUT single-file=$TRAIN_JSON $EXTRA"
   python src/unified_train_diag.py --model "$MODEL" --train_json "$TRAIN_JSON" \
-    --epochs 5 --batch_size 32 --diag_every 50 --probe_every 1 \
+    --epochs 10 --batch_size 32 --probe_every 1 \
     --out_dir "$OUT" $EXTRA 2>&1 | tee "$OUT/train.log"
 else
   MANIFEST_DIR=${MANIFEST_DIR:-${OPENMMSEC_ROOT}/jsons_v4}
   echo "[run] model=$MODEL out=$OUT manifest=$MANIFEST_DIR $EXTRA"
   python src/unified_train_diag.py --model "$MODEL" --manifest_dir "$MANIFEST_DIR" \
-    --epochs 5 --batch_size 32 --diag_every 50 --probe_every 1 \
+    --epochs 10 --batch_size 32 --probe_every 1 \
     --out_dir "$OUT" $EXTRA 2>&1 | tee "$OUT/train.log"
 fi
 python src/analyze_gradient.py --log "$OUT/grad_log.csv" --out "$OUT"

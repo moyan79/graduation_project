@@ -50,7 +50,7 @@ def parse_args():
     p.add_argument("--openmmsec_root", default=os.environ.get("OPENMMSEC_ROOT", None))
     p.add_argument("--path_prefix_from", default="")
     p.add_argument("--path_prefix_to", default="")
-    p.add_argument("--epochs", type=int, default=5)
+    p.add_argument("--epochs", type=int, default=10)
     p.add_argument("--batch_size", type=int, default=32, help="per-GPU batch size")
     p.add_argument("--lr", type=float, default=1e-4)
     p.add_argument("--weight_decay", type=float, default=0.05)

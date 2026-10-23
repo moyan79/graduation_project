@@ -16,7 +16,7 @@ fi
 echo "[run-ddp] model=$MODEL nproc=$NPROC out=$OUT $MANIFEST_ARG $EXTRA"
 torchrun --nproc_per_node=$NPROC --master_port=${MASTER_PORT:-29500} src/unified_train_diag.py \
   --model "$MODEL" $MANIFEST_ARG \
-  --epochs 5 --batch_size 32 --diag_every 50 --probe_every 1 \
+  --epochs 10 --batch_size 128 --lr 0.0004 --diag_every 20 --probe_every 1 \
   --out_dir "$OUT" $EXTRA 2>&1 | tee "$OUT/train.log"
 # analysis runs on rank-0 outputs (only rank 0 wrote them)
 python src/analyze_gradient.py --log "$OUT/grad_log.csv" --out "$OUT"
