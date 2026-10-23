@@ -39,7 +39,10 @@ class OpenMMSecUnifiedDataset(Dataset):
         # resolve + optional existence filter (do NOT crash on one bad path)
         kept = []
         missing = 0
-        for s in samples:
+        total = len(samples)
+        for i, s in enumerate(samples):
+            if i % 20000 == 0:
+                print(f"[dataset] resolving {i}/{total} (is_train={is_train})", flush=True)
             rp = resolve_image_path(s["path"], manifest_dir or ".",
                                     openmmsec_root, prefix_from, prefix_to)
             if skip_missing and not os.path.exists(rp):

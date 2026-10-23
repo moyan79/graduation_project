@@ -1,0 +1,24 @@
+#!/bin/bash
+# usage: NPROC=4 [EXTRA_ARGS="..."] bash scripts/run_one_model_ddp.sh resnet [out_dir]
+# multi-GPU DDP via torchrun. --batch_size is per-GPU (global = batch * NPROC).
+set -e
+MODEL=${1:-resnet}
+OUT=${2:-outputs/diag_ddp_${MODEL}}
+NPROC=${NPROC:-4}
+EXTRA=${EXTRA_ARGS:-}
+mkdir -p "$OUT"
+if [ -n "$TRAIN_JSON" ] && [ -f "$TRAIN_JSON" ]; then
+  MANIFEST_ARG="--train_json $TRAIN_JSON"
+else
+  MANIFEST_DIR=${MANIFEST_DIR:-${OPENMMSEC_ROOT}/jsons_v4}
+  MANIFEST_ARG="--manifest_dir $MANIFEST_DIR"
+fi
+echo "[run-ddp] model=$MODEL nproc=$NPROC out=$OUT $MANIFEST_ARG $EXTRA"
+torchrun --nproc_per_node=$NPROC --master_port=${MASTER_PORT:-29500} src/unified_train_diag.py \
+  --model "$MODEL" $MANIFEST_ARG \
+  --epochs 5 --batch_size 32 --diag_every 50 --probe_every 1 \
+  --out_dir "$OUT" $EXTRA 2>&1 | tee "$OUT/train.log"
+# analysis runs on rank-0 outputs (only rank 0 wrote them)
+python src/analyze_gradient.py --log "$OUT/grad_log.csv" --out "$OUT"
+python src/analyze_rank.py --npz "$OUT/features_last.npz" --out "$OUT"
+echo "[run-ddp] done: $OUT/rank_report.json $OUT/gradient_report.json"

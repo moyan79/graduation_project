@@ -69,6 +69,20 @@ python src/analyze_gradient.py --log outputs/diag_resnet/grad_log.csv --out outp
 python src/analyze_rank.py --npz outputs/diag_resnet/features_last.npz --out outputs/diag_resnet
 ```
 
+## 2.5 多卡一起跑（DDP，服务器推荐）
+
+单卡只是默认，`--batch_size` 是单卡 batch，多卡时全局 batch = batch × 卡数：
+
+```bash
+NPROC=4 bash scripts/run_one_model_ddp.sh resnet
+# 等价于 torchrun --nproc_per_node=4 src/unified_train_diag.py --model resnet ...
+```
+
+* 梯度诊断只在 rank 0 上记（它那份 shard 的统计，结论一致，还省了同步开销）；
+* 特征 dump 是各卡分片提完再 gather 拼起来，和单卡结果等价；
+* 日志/CSV/NPZ/checkpoint 只有 rank 0 写，不会打架。
+* 想调大学习率按线性缩放自己乘卡数即可（默认不自动缩放）。
+
 ## 3. 报告里的数字怎么看
 
 - `rank_report.json`：`cumvar_top20 > 0.85~0.9` + `effective_rank` 很小 +
