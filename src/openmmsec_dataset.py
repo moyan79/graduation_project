@@ -57,15 +57,18 @@ class OpenMMSecUnifiedDataset(Dataset):
         return len(self.samples)
 
     def __getitem__(self, idx):
-        s = self.samples[idx]
-        try:
-            with Image.open(s["_resolved"]) as im:
-                im = im.convert("RGB")
-                img = self.tf(im)
-        except Exception as e:
-            # bad image (SICA starter also documents corrupted images): return neighbour
-            print(f"[dataset] bad image {s['_resolved']}: {e}")
-            return self.__getitem__((idx + 1) % len(self.samples))
+        # corrupted images are skipped silently (no per-file print: AIGC/laion has many)
+        for off in range(len(self.samples)):
+            s = self.samples[(idx + off) % len(self.samples)]
+            try:
+                with Image.open(s["_resolved"]) as im:
+                    im = im.convert("RGB")
+                    img = self.tf(im)
+                break
+            except Exception:
+                continue
+        else:
+            raise RuntimeError("no readable image found in dataset")
         return {
             "image": img,
             "label": torch.tensor(float(s["label"]), dtype=torch.float),

@@ -172,6 +172,13 @@ def main():
                                        a.openmmsec_root, a.path_prefix_from, a.path_prefix_to)
     ds_probe = OpenMMSecUnifiedDataset(id_samples, img_size, False, norm, ms["base"],
                                        a.openmmsec_root, a.path_prefix_from, a.path_prefix_to)
+    if len(ds_train) == 0 or len(ds_probe) == 0:
+        raise SystemExit(
+            f"[diag] empty dataset: train_kept={len(ds_train)} probe_kept={len(ds_probe)}. "
+            "Image paths in the manifest do not resolve locally. "
+            "Re-run with --path_prefix_from/--path_prefix_to (via EXTRA_ARGS), e.g. "
+            'EXTRA_ARGS="--path_prefix_from /mnt/public/public_datasets/OpenMMSecV2/ '
+            '--path_prefix_to /mnt/nas/public/public_datasets/OpenMMSecV2/" ...')
     # cap probe set (same indices on all ranks: same seed, no rank offset here)
     if len(ds_probe) > a.probe_samples:
         rng = np.random.RandomState(a.seed)
