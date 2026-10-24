@@ -81,6 +81,7 @@ NPROC=4 bash scripts/run_one_model_ddp.sh resnet
 * 梯度诊断只在 rank 0 上记（它那份 shard 的统计，结论一致，还省了同步开销）；
 * 特征 dump 是各卡分片提完再 gather 拼起来，和单卡结果等价；
 * 日志/CSV/NPZ/checkpoint 只有 rank 0 写，不会打架。
+* 每个 epoch 结束会写一行 `epoch_loss.csv`（全局平均 loss、本 epoch 平均冲突率/平均余弦），训练健康情况直接看这个文件。
 * 想调大学习率按线性缩放自己乘卡数即可（默认不自动缩放）。
 
 ## 3. 报告里的数字怎么看
