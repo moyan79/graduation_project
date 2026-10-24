@@ -182,7 +182,15 @@ def _resolve_imdl_asset(*parts):
         if mit:
             init["pretrain_path"] = mit
         else:
-            warnings.warn("[segformer] mit_b3.pth not found in IMDLBenCo; build will fail fast.")
+            # mit_b3 nowhere to be found (disk + openmmlab 404): feed an empty
+            # state dict so the unconditional torch.load in MixVisionTransformer
+            # no-ops under strict=False -> honest RANDOM INIT, same as FFDN.
+            import tempfile
+            dummy = str(Path(tempfile.gettempdir()) / "segformer_empty_init.pth")
+            if not Path(dummy).exists():
+                torch.save({}, dummy)
+            init["pretrain_path"] = dummy
+            warnings.warn("[segformer] mit_b3.pth not found; RANDOM INIT.")
     if key == "trufor":
         wi = dict(cfg.get("wrapper_init", {}))
         np_w = _resolve_imdl_asset("model_zoo", "trufor", "noiseprint.pth")
