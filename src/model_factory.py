@@ -140,6 +140,26 @@ def build_forensic_model(model_key):
                     "on the remote server first.")
             init["yaml_config_path"] = yp
 
+def _resolve_imdl_asset(*parts):
+    """Locate a file inside the installed IMDLBenCo checkout (repo layout varies).
+
+    Probes, in order: the IMDLBenCo package dir, its parent (repo root), and
+    the repo-root/model_zoo + statics trees. Returns path str or None.
+    """
+    try:
+        import IMDLBenCo
+        pkg = Path(IMDLBenCo.__file__).parent
+        cands = [pkg.joinpath(*parts),
+                 pkg.parent.joinpath(*parts),
+                 pkg.joinpath("model_zoo", *parts),
+                 pkg.parent.joinpath("model_zoo", *parts)]
+        for c in cands:
+            if c.exists():
+                return str(c)
+    except Exception as e:
+        warnings.warn(f"IMDLBenCo asset probe failed ({e})")
+    return None
+
     # 2) FFDN ships a hard-coded weight_path that does not exist remotely -> random init fallback
     if cfg["registry"] == "FFDN":
         try:
@@ -155,6 +175,27 @@ def build_forensic_model(model_key):
             pass
 
 
+    # 2b) server-side weight paths (resolve dynamically; local/server layouts differ)
+    if key == "segformer":
+        mit = (_resolve_imdl_asset("model_zoo", "diffiml", "mit_b3.pth")
+               or _resolve_imdl_asset("diffiml", "mit_b3.pth"))
+        if mit:
+            init["pretrain_path"] = mit
+        else:
+            warnings.warn("[segformer] mit_b3.pth not found in IMDLBenCo; build will fail fast.")
+    if key == "trufor":
+        wi = dict(cfg.get("wrapper_init", {}))
+        np_w = _resolve_imdl_asset("model_zoo", "trufor", "noiseprint.pth")
+        mit_w = _resolve_imdl_asset("model_zoo", "trufor", "mit_b2.pth")
+        cfg_yaml = (_resolve_imdl_asset("statics", "model_zoo", "configs", "trufor.yaml")
+                    or _resolve_imdl_asset("model_zoo", "configs", "trufor.yaml"))
+        if np_w:
+            wi.setdefault("np_pretrain_weights", np_w)
+        if mit_w:
+            wi.setdefault("mit_b2_pretrain_weights", mit_w)
+        if cfg_yaml:
+            wi.setdefault("config_path", cfg_yaml)
+        cfg = {**cfg, "wrapper_init": wi}
     def _looks_like_network_err(e):
         s = str(e).lower()
         keys = ["network is unreachable", "huggingface", "client has been closed",
@@ -283,4 +324,6 @@ def extract_features(model, loader, device, max_batches=None):
     import torch as _t
     return {"features": _t.cat(feats).numpy(), "labels": _t.cat(labels).numpy(),
             "domains": _t.cat(domains).numpy()}
+
+
 
