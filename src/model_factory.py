@@ -63,19 +63,57 @@ MASK_WRAPPER_NEED = {"IML_ViT", "Mesorch", "Trufor", "Effort", "FFDN", "DTD",
 
 
 def _resolve_deepfake_yaml(name_file):
-    """DeepfakeBench detector yamls live inside the installed DeepfakeBench package."""
+    """DeepfakeBench detector yamls live inside the installed DeepfakeBench package.
+
+    Robust to namespace-package shadowing: model_factory puts <...>/ForensicHub
+    first on sys.path, and on some machines that makes `import DeepfakeBench`
+    resolve to a namespace package (no __file__). So probe spec locations
+    (which survive shadowing) instead of relying on __file__ alone, descend
+    one extra level for checkout-root shadowing, and keep a
+    case-insensitive fallback.
+    """
+    import importlib.util
+    roots = []
     try:
-        import DeepfakeBench, os
-        base = Path(DeepfakeBench.__file__).parent / "training" / "config" / "config" / "detector"
-        cand = base / name_file
-        if cand.exists():
-            return str(cand)
-        # sia yaml name may differ in case
-        for c in base.glob("*.yaml"):
-            if c.stem.lower() == Path(name_file).stem.lower():
-                return str(c)
+        spec = importlib.util.find_spec("DeepfakeBench")
+        if spec is not None:
+            for loc in (spec.submodule_search_locations or []):
+                roots.append(loc)
+            if spec.origin and spec.origin not in (None, "namespace"):
+                roots.append(str(Path(spec.origin).parent))
+    except Exception as e:
+        warnings.warn(f"DeepfakeBench spec probe failed ({e})")
+    try:
+        import DeepfakeBench
+        f = getattr(DeepfakeBench, "__file__", None)
+        if f:
+            pp = Path(f).parent
+            roots.append(str(pp))
+            roots.append(str(pp / "DeepfakeBench"))
     except Exception as e:
         warnings.warn(f"DeepfakeBench yaml resolve failed ({e})")
+    subdirs = ("training/config/config/detector", "training/config/detector")
+    seen, bases = set(), []
+    for r in roots:
+        for s in subdirs:
+            key = r + "|" + s
+            if key not in seen:
+                seen.add(key)
+                bases.append(Path(r) / s)
+    for b in bases:
+        try:
+            if (b / name_file).exists():
+                return str(b / name_file)
+        except Exception:
+            continue
+    for b in bases:
+        try:
+            for c in b.glob("*.yaml"):
+                if c.stem.lower() == Path(name_file).stem.lower():
+                    return str(c)
+        except Exception:
+            continue
+    warnings.warn(f"DeepfakeBench yaml \u0027{name_file}\u0027 not found. Tried: {[str(b) for b in bases]}")
     return None
 
 
