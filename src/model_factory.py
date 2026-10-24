@@ -119,6 +119,27 @@ def _resolve_deepfake_yaml(name_file):
     return None
 
 
+def _resolve_imdl_asset(*parts):
+    """Locate a file inside the installed IMDLBenCo checkout (repo layout varies).
+
+    Probes, in order: the IMDLBenCo package dir, its parent (repo root), and
+    the repo-root/model_zoo + statics trees. Returns path str or None.
+    """
+    try:
+        import IMDLBenCo
+        pkg = Path(IMDLBenCo.__file__).parent
+        cands = [pkg.joinpath(*parts),
+                 pkg.parent.joinpath(*parts),
+                 pkg.joinpath("model_zoo", *parts),
+                 pkg.parent.joinpath("model_zoo", *parts)]
+        for c in cands:
+            if c.exists():
+                return str(c)
+    except Exception as e:
+        warnings.warn(f"IMDLBenCo asset probe failed ({e})")
+    return None
+
+
 def build_forensic_model(model_key):
     """Return (model, cfg). Raises with actionable message if dep missing."""
     from ForensicHub.registry import MODELS, build_from_registry
@@ -140,25 +161,6 @@ def build_forensic_model(model_key):
                     "on the remote server first.")
             init["yaml_config_path"] = yp
 
-def _resolve_imdl_asset(*parts):
-    """Locate a file inside the installed IMDLBenCo checkout (repo layout varies).
-
-    Probes, in order: the IMDLBenCo package dir, its parent (repo root), and
-    the repo-root/model_zoo + statics trees. Returns path str or None.
-    """
-    try:
-        import IMDLBenCo
-        pkg = Path(IMDLBenCo.__file__).parent
-        cands = [pkg.joinpath(*parts),
-                 pkg.parent.joinpath(*parts),
-                 pkg.joinpath("model_zoo", *parts),
-                 pkg.parent.joinpath("model_zoo", *parts)]
-        for c in cands:
-            if c.exists():
-                return str(c)
-    except Exception as e:
-        warnings.warn(f"IMDLBenCo asset probe failed ({e})")
-    return None
 
     # 2) FFDN ships a hard-coded weight_path that does not exist remotely -> random init fallback
     if cfg["registry"] == "FFDN":
