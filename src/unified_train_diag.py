@@ -35,7 +35,7 @@ from torch.utils.data.distributed import DistributedSampler
 THIS = Path(__file__).resolve()
 sys.path.insert(0, str(THIS.parent))
 
-import offline_patch  # noqa: F401
+import offline_patch  # noqa: F401  # auto-apply (env/argv detect); re-applied after parse_args for --online/--offline
 from manifest import DOMAIN_NAMES, DOMAIN2ID, find_manifests, load_samples
 from openmmsec_dataset import OpenMMSecUnifiedDataset, collate_with_domain
 from model_factory import MODEL_CFG, build_forensic_model, extract_features
@@ -63,6 +63,8 @@ def parse_args():
     p.add_argument("--seed", type=int, default=42)
     p.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")
     p.add_argument("--dist_url", default="env://", help="DDP init method (torchrun sets env)")
+    p.add_argument("--online", action="store_true", help="allow HF/timm downloads via mirror (default on, flag kept for explicitness)")
+    p.add_argument("--offline", action="store_true", help="force offline: fail fast on cached weights, no downloads")
     return p.parse_args()
 
 
@@ -129,6 +131,13 @@ def per_domain_grad_snapshots(model, batch, device):
 
 def main():
     a = parse_args()
+    # network mode must be final before model build (HF/timm read env lazily)
+    if a.offline:
+        offline_patch.apply(online=False)
+    elif a.online:
+        offline_patch.apply(online=True)
+    else:
+        offline_patch.apply()  # auto-detect, default online; --offline / DIAG_ONLINE=0 / HF_HUB_OFFLINE=1 opts out
     init_dist(a)
     if a.distributed:
         device = torch.device(f"cuda:{a.local_rank}")
@@ -144,8 +153,10 @@ def main():
     if a.id_test_json:
         id_json = Path(a.id_test_json)
     if is_main(a):
+        _net = offline_patch.describe()
         print(f"[diag] model={a.model} train={train_json} id_test={id_json} "
-              f"world={a.world_size} per_gpu_bs={a.batch_size} (global_bs={a.batch_size * a.world_size})")
+              f"world={a.world_size} per_gpu_bs={a.batch_size} (global_bs={a.batch_size * a.world_size}) "
+              f"net={_net['online'] and 'online' or 'offline'} endpoint={_net['HF_ENDPOINT']} HF_OFF={_net['HF_HUB_OFFLINE']} TIMM_OFF={_net['TIMM_OFFLINE']}")
 
     train_samples = load_samples(train_json)
     id_samples = load_samples(id_json)
@@ -328,3 +339,10 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+
+
+
+
+
