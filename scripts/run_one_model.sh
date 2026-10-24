@@ -22,4 +22,17 @@ else
 fi
 python src/analyze_gradient.py --log "$OUT/grad_log.csv" --out "$OUT"
 python src/analyze_rank.py --npz "$OUT/features_last.npz" --out "$OUT"
+# per-epoch trajectory (rank-collapse process evidence): one rank_report per epoch dump.
+# traj/ dirs + traj.log are written automatically; aggregate across models later.
+: > "$OUT/traj.log"
+for f in "$OUT"/features_epoch*.npz; do
+  [ -e "$f" ] || continue
+  b=$(basename "$f" .npz)
+  echo "== $b ==" >> "$OUT/traj.log"
+  python src/analyze_rank.py --npz "$f" --out "$OUT/traj/$b" >> "$OUT/traj.log" 2>&1 \
+    || echo "[warn] traj $b failed"
+done
+echo "[run-traj] done: $OUT/traj/*/rank_report.json (log: $OUT/traj.log)"
 echo "[run] done: $OUT/rank_report.json $OUT/gradient_report.json"
+
+
