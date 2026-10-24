@@ -79,6 +79,8 @@ def _resolve_deepfake_yaml(name_file):
         if spec is not None:
             for loc in (spec.submodule_search_locations or []):
                 roots.append(loc)
+                # namespace portion may be the repo root; real package is one level deeper
+                roots.append(str(Path(loc) / "DeepfakeBench"))
             if spec.origin and spec.origin not in (None, "namespace"):
                 roots.append(str(Path(spec.origin).parent))
     except Exception as e:
@@ -275,3 +277,4 @@ def extract_features(model, loader, device, max_batches=None):
     import torch as _t
     return {"features": _t.cat(feats).numpy(), "labels": _t.cat(labels).numpy(),
             "domains": _t.cat(domains).numpy()}
+
