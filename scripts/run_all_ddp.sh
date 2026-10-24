@@ -19,7 +19,7 @@ BASE_EXTRA=${EXTRA_ARGS:-}
 # B组 DeepfakeBench yaml：capsulenet recce sia（需 pip install DeepfakeBench）
 # C组 CLIP：univfd co-spy（ViT-L/14；co-spy 另需 datacomp_xl_s13b_b90k）
 # D组 Mask2LabelWrapper：iml-vit trufor ffdn effort mesorch（需 pip install imdlbenco）
-MODELS="efficientnet capsulenet segformer swin convnext recce sia iml-vit trufor univfd ffdn effort mesorch co-spy"
+MODELS="efficientnet capsulenet segformer swin convnext recce iml-vit trufor univfd ffdn mesorch co-spy"
 
 if [ -n "$ONLY" ]; then
   MODELS="$ONLY"

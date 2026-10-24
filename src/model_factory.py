@@ -158,7 +158,7 @@ def build_forensic_model(model_key):
     def _looks_like_network_err(e):
         s = str(e).lower()
         keys = ["network is unreachable", "huggingface", "client has been closed",
-                "connection", "timed out", "max retries", "101", "errno",
+                "connection", "timed out", "max retries", "101",
                 "getaddrinfo", "name resolution", "offline"]
         return any(k in s for k in keys)
 
@@ -194,6 +194,12 @@ def build_forensic_model(model_key):
                 req2 = {"name": req["name"], "init_config": {**req["init_config"], "pretrained": False}}
                 model = build_from_registry(MODELS, req2)
                 warnings.warn(f"[{key}] using random init (pretrained=False) for diagnosis.")
+            except TypeError as e2:
+                # e.g. Segformerb3 takes pretrain_path, not pretrained: keep ORIGINAL error.
+                if "pretrained" in str(e2):
+                    warnings.warn(f"[{key}] retry not applicable ({e2}); keeping original error.")
+                else:
+                    err = e2
             except Exception as e2:
                 err = e2
         if model is None:
