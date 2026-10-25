@@ -27,6 +27,12 @@ def main():
     out.mkdir(parents=True, exist_ok=True)
     d = np.load(a.npz, allow_pickle=True)
     X = d["features"].astype(np.float64)
+    orig_shape = list(X.shape)
+    if X.ndim != 2:
+        # e.g. Recce hooks a non-vector head input; stacked SVD would return 2-D S.
+        # Flatten sample dims so analysis works on any hook output (2-D unchanged).
+        print(f"[rank] features ndim={X.ndim} shape={orig_shape}; flattening to 2-D.")
+        X = X.reshape(X.shape[0], -1)
     X = center(X)
     # economy SVD
     U, S, Vt = np.linalg.svd(X, full_matrices=False)
@@ -36,7 +42,7 @@ def main():
     p_ = S / S.sum()
     eff_rank = float(np.exp(-(p_ * np.log(p_ + 1e-12)).sum()))
     rep = {
-        "n": int(X.shape[0]), "dim": int(X.shape[1]),
+        "n": int(X.shape[0]), "dim": int(X.shape[1]), "feat_shape": orig_shape,
         "topk_singular": [float(x) for x in S[:k]],
         f"cumvar_top{k}": float(cum[k - 1]),
         "effective_rank": eff_rank,

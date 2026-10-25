@@ -19,8 +19,8 @@ torchrun --nproc_per_node=$NPROC --master_port=${MASTER_PORT:-29500} src/unified
   --epochs 10 --batch_size 128 --lr 0.0004 --diag_every 20 --probe_every 1 \
   --out_dir "$OUT" $EXTRA 2>&1 | tee "$OUT/train.log"
 # analysis runs on rank-0 outputs (only rank 0 wrote them)
-python src/analyze_gradient.py --log "$OUT/grad_log.csv" --out "$OUT"
-python src/analyze_rank.py --npz "$OUT/features_last.npz" --out "$OUT"
+python src/analyze_gradient.py --log "$OUT/grad_log.csv" --out "$OUT" || echo "[warn] analyze_gradient failed"
+python src/analyze_rank.py --npz "$OUT/features_last.npz" --out "$OUT" || echo "[warn] analyze_rank failed"
 # per-epoch trajectory (rank-collapse process evidence): one rank_report per epoch dump.
 # traj/ dirs + traj.log are written automatically; aggregate across models later.
 : > "$OUT/traj.log"
@@ -28,7 +28,7 @@ for f in "$OUT"/features_epoch*.npz; do
   [ -e "$f" ] || continue
   b=$(basename "$f" .npz)
   echo "== $b ==" >> "$OUT/traj.log"
-  python src/analyze_rank.py --npz "$f" --out "$OUT/traj/$b" >> "$OUT/traj.log" 2>&1 \
+  python src/analyze_rank.py --npz "$f" --out "$OUT/traj/$b" >> "$OUT/traj.log" 2>&1 \ || echo "[warn] analyze_rank failed"
     || echo "[warn] traj $b failed"
 done
 echo "[run-traj] done: $OUT/traj/*/rank_report.json (log: $OUT/traj.log)"
