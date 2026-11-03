@@ -127,6 +127,11 @@ def per_domain_grad_snapshots(model, batch, device):
         loss = out["backward_loss"]
         if loss.dim() > 0:
             loss = loss.mean()
+        # Zero-contribution anchor so DDP never sees undefined grads.
+        # Dynamic-graph models (e.g. CO-SPY) leave some params unused in some
+        # forwards; without this the reducer allreduces undefined grads and dies.
+        # Mathematically identical for all models (adds exactly 0.0).
+        loss = loss + 0.0 * sum(p.sum() for p in model.parameters())
         loss.backward()
         gdict = {}
         for n, pg in model.named_parameters():
@@ -297,6 +302,11 @@ def main():
             loss = outd["backward_loss"]
             if loss.dim() > 0:
                 loss = loss.mean()
+            # Zero-contribution anchor so DDP never sees undefined grads.
+            # Dynamic-graph models (e.g. CO-SPY) leave some params unused in some
+            # forwards; without this the reducer allreduces undefined grads and dies.
+            # Mathematically identical for all models (adds exactly 0.0).
+            loss = loss + 0.0 * sum(p.sum() for p in model.parameters())
             loss.backward()
             opt.step()
             ep_loss_sum += float(loss.item())
