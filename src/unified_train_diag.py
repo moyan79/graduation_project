@@ -97,12 +97,18 @@ def _flatten_grads(model):
 def per_domain_grad_snapshots(model, batch, device):
     """Forward/backward once per domain present in the batch. Returns {dom: grad_vec}.
 
+    Vectors are aligned on the INTERSECTION of params that received grads in
+    every domain present: data-dependent control flow (e.g. CO-SPY activating
+    an extra head for some domains) would otherwise yield different-length
+    vectors and crash cosine computation. For models where all params are
+    shared (all previous ones) the result is bit-identical to plain flatten.
+
     NOTE: under DDP this must run inside model.no_sync() (done by caller on rank 0),
     otherwise the diagnostic backward would allreduce while other ranks idle.
     """
     imgs, labs, doms = batch["image"].to(device), batch["label"].to(device), batch["domain"].to(device)
     B, _, H, W = imgs.shape
-    snaps = {}
+    per_dom = {}
     for d in sorted(set(doms.tolist())):
         m = (doms == d)
         if m.sum().item() < 2:
@@ -122,11 +128,24 @@ def per_domain_grad_snapshots(model, batch, device):
         if loss.dim() > 0:
             loss = loss.mean()
         loss.backward()
-        g = _flatten_grads(model)
-        if g is not None:
-            snaps[d] = g.cpu()
+        gdict = {}
+        for n, pg in model.named_parameters():
+            if pg.grad is not None:
+                gdict[n] = pg.grad.detach().float().cpu().reshape(-1)
+        if gdict:
+            per_dom[d] = gdict
         model.zero_grad(set_to_none=True)
-    return snaps
+    if len(per_dom) < 2:
+        return {d: torch.cat([v for _, v in sorted(g.items())]) for d, g in per_dom.items()}
+    common = set.intersection(*[set(g) for g in per_dom.values()])
+    if not common:
+        return {}
+    order = [n for n, _ in model.named_parameters() if n in common]
+    maxtotal = max(len(g) for g in per_dom.values())
+    if len(order) < maxtotal:
+        print(f"[diag] grad align: {len(order)}/{maxtotal} params shared across domains "
+              "(cosine over shared subset).")
+    return {d: torch.cat([per_dom[d][n] for n in order]) for d in per_dom}
 
 
 def main():
