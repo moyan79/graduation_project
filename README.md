@@ -1,11 +1,16 @@
 # linear_probe-and-gradient（与 ForensicHub 同级）
 
-一次拉通训练，同时拿到两份证据：
+一次拉通训练，同时拿到两份证据。这里的 probe 指冻结训练后模型并分析特征谱，
+不是单独训练线性分类器的严格 linear probe：
 
 1. **表征秩塌陷**：在 id_test 上冻住 encoder 提特征，做 SVD，看前 20 维奇异谱 /
-   累计方差 cumvar@20 / 有效秩 / 条件数 kappa / 前 20 个主成分平均|相关|。
+   累计方差 cumvar@20 / 有效秩 / 条件数 kappa。
 2. **梯度冲突**：同一步内按域分别算梯度，看两两 cos(g_i,g_j)、
    冲突率 conflict_ratio = P(cos<0)、各域梯度范数是否失衡。
+
+特征 hook 默认截取最后一个线性分类器之前的向量。IML-ViT 和 TruFor 使用
+模型特定语义瓶颈：`predict_head.linear_fuse`（256 维）和
+`decode_head.linear_fuse`（512 维），避免误抓 16 维辅助分支或 128 维检测头。
 
 ```
 graduation_project/
@@ -86,8 +91,9 @@ NPROC=4 bash scripts/run_one_model_ddp.sh resnet
 
 ## 3. 报告里的数字怎么看
 
-- `rank_report.json`：`cumvar_top20 > 0.85~0.9` + `effective_rank` 很小 +
-  `kappa_s0_s19` 很大 + `mean_abs_corr_top20_PC` 很大，就说明“前 20 维共线性强、特征冗余”。
+- `rank_report.json`：`cumvar_top20` 较高且 `effective_rank` 较低、
+  `kappa_s0_s19` 较大，说明谱能量集中、有效维度偏低。
+  SVD 主方向彼此正交，`mean_abs_corr_top20_PC` 不应作为共线性证据。
 - `gradient_report.json`：`mean_conflict_ratio > 0.5`，且多对域的平均 `cos < 0`、
   `neg_frac` 很高，就说明“域间梯度负对齐、更新相互抵消”。
 

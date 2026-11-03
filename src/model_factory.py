@@ -258,39 +258,115 @@ def build_forensic_model(model_key):
     return model, cfg
 
 
-class LastLinearInputHook:
-    """Capture the input of the last nn.Linear = the linear-probe feature space.
+FEATURE_TARGETS = {
+    # Model-specific semantic bottlenecks.  Do not use the final task head for
+    # these wrapper models: their last Linear can be a 16-D auxiliary branch or
+    # an 8-D pooled-statistics detector.
+    "iml-vit": {
+        "path": "base_model.predict_head.linear_fuse",
+        "expected_dim": 256,
+    },
+    "trufor": {
+        "path": "base_model.model.decode_head.linear_fuse",
+        "expected_dim": 512,
+    },
+}
 
-    Works for (almost) all 15 models without knowing their internals:
-    the vector that the final linear classifier sees is exactly what a
-    linear probe would train on. For Mask2LabelWrapper we hook the inner model.
+
+def _resolve_module_path(root, dotted_path):
+    obj = root
+    for part in dotted_path.split("."):
+        if not hasattr(obj, part):
+            raise AttributeError(
+                f"Feature hook target {dotted_path!r} not found: "
+                f"{type(obj).__name__} has no attribute {part!r}"
+            )
+        obj = getattr(obj, part)
+    if not isinstance(obj, nn.Module):
+        raise TypeError(
+            f"Feature hook target {dotted_path!r} resolved to "
+            f"{type(obj).__name__}, not nn.Module"
+        )
+    return obj
+
+
+class RepresentationHook:
+    """Capture a comparable semantic representation for rank diagnostics.
+
+    Most models use the input of the last Linear/Conv classifier, preserving the
+    original behaviour.  IML-ViT and TruFor need explicit semantic bottlenecks:
+    their last Linear layers are task-specific heads and are much narrower than
+    the encoder representation.  For those models, hook the output of the
+    configured fusion layer and globally pool it to a vector.
     """
 
-    def __init__(self, model):
+    def __init__(self, model, model_key=None):
         self.feat = None
-        target = model
-        # unwrap one level (Mask2LabelWrapper.base_model) for cleaner features
+        self.model_key = model_key.lower() if model_key else None
+        self.expected_dim = None
+        target = FEATURE_TARGETS.get(self.model_key)
+        if target:
+            self.target_path = target["path"]
+            self.expected_dim = target.get("expected_dim")
+            module = _resolve_module_path(model, self.target_path)
+            self.mode = "output"
+            self.description = (
+                f"{self.model_key}:output:{self.target_path}:"
+                f"expected_dim={self.expected_dim}"
+            )
+            self.handle = module.register_forward_hook(self._hook_output)
+            return
+
+        # Generic fallback: the vector entering the final linear classifier.
         inner = getattr(model, "base_model", None)
         search_root = inner if isinstance(inner, nn.Module) else model
         self.linear = None
-        for m in search_root.modules():
-            if isinstance(m, nn.Linear):
-                self.linear = m  # keep last one
+        self.linear_name = None
+        for name, module in search_root.named_modules():
+            if isinstance(module, nn.Linear):
+                self.linear = module
+                self.linear_name = name
         if self.linear is None:
-            # fallback: last Conv2d (pure mask heads) -> global-average to vector
-            for m in search_root.modules():
-                if isinstance(m, nn.Conv2d):
-                    self.linear = m
+            for name, module in search_root.named_modules():
+                if isinstance(module, nn.Conv2d):
+                    self.linear = module
+                    self.linear_name = name
         if self.linear is None:
             raise RuntimeError("No Linear/Conv2d head found for feature hook.")
-        self.is_conv = isinstance(self.linear, nn.Conv2d)
-        self.handle = self.linear.register_forward_hook(self._hook)
+        self.mode = "input"
+        self.target_path = self.linear_name or type(self.linear).__name__
+        self.description = f"{self.model_key or 'unknown'}:{self.mode}:{self.target_path}"
+        self.handle = self.linear.register_forward_hook(self._hook_input)
 
-    def _hook(self, module, inp, out):
-        x = inp[0].detach()
-        if x.dim() == 4:  # [B,C,H,W] -> GAP vector
-            x = x.mean(dim=(2, 3))
-        self.feat = x
+    @staticmethod
+    def _pool(value):
+        if isinstance(value, (tuple, list)):
+            value = value[0]
+        if not torch.is_tensor(value):
+            raise TypeError(f"Feature hook expected a tensor, got {type(value).__name__}")
+        value = value.detach()
+        if value.dim() == 4:       # [B,C,H,W] -> [B,C]
+            value = value.mean(dim=(2, 3))
+        elif value.dim() == 3:     # [B,N,C] -> [B,C]
+            value = value.mean(dim=1)
+        elif value.dim() > 2:      # conservative flatten for unusual heads
+            value = value.flatten(1)
+        return value
+
+    def _assign_feat(self, value):
+        feat = self._pool(value)
+        if self.expected_dim is not None and feat.shape[-1] != self.expected_dim:
+            raise RuntimeError(
+                f"Feature hook {self.target_path!r} produced dim={feat.shape[-1]}, "
+                f"expected {self.expected_dim}"
+            )
+        self.feat = feat
+
+    def _hook_input(self, module, inp, out):
+        self._assign_feat(inp[0])
+
+    def _hook_output(self, module, inp, out):
+        self._assign_feat(out)
 
     def close(self):
         try:
@@ -299,11 +375,15 @@ class LastLinearInputHook:
             pass
 
 
+# Backward-compatible name for notebooks/scripts that imported the old class.
+LastLinearInputHook = RepresentationHook
+
+
 @torch.no_grad()
-def extract_features(model, loader, device, max_batches=None):
+def extract_features(model, loader, device, max_batches=None, model_key=None):
     """Run forward (with dummy aux inputs) and collect hooked features."""
     model.eval()
-    hook = LastLinearInputHook(model)
+    hook = RepresentationHook(model, model_key=model_key)
     feats, labels, domains = [], [], []
     try:
         for i, batch in enumerate(loader):
@@ -333,7 +413,7 @@ def extract_features(model, loader, device, max_batches=None):
         hook.close()
     import torch as _t
     return {"features": _t.cat(feats).numpy(), "labels": _t.cat(labels).numpy(),
-            "domains": _t.cat(domains).numpy()}
+            "domains": _t.cat(domains).numpy(), "feature_hook": hook.description}
 
 
 

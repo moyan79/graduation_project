@@ -1,0 +1,2736 @@
+[
+  {
+    "dir": "diag_ddp_capsulenet",
+    "model": "CapsuleNet",
+    "registry": "Capsule_net",
+    "status": "完成",
+    "init": "VGG19 预训练 + DeepfakeBench 配置",
+    "note": "钩子特征仅 64 维，跨模型比较需谨慎",
+    "world": 4,
+    "per_gpu_bs": 128,
+    "global_bs": 512,
+    "params_m": 3.9,
+    "image_size": 256,
+    "norm": "imagenet",
+    "feature_shape": "2000, 64",
+    "rank": {
+      "n": 2000,
+      "dim": 64,
+      "topk_singular": [
+        76.63403244688871,
+        60.56918406768181,
+        40.2222899133766,
+        32.14825424251706,
+        20.339270983290405,
+        16.652732081109594,
+        14.191070528967206,
+        10.191758737599963,
+        8.7223442877381,
+        7.78451321208167,
+        6.897544712208607,
+        6.369472500233442,
+        5.275836985504198,
+        4.482350134050115,
+        4.284163503987782,
+        4.04807904554179,
+        3.5907784220464545,
+        3.387147728283114,
+        3.1743772271194093,
+        2.892268032183445
+      ],
+      "cumvar_top20": 0.9949788942130723,
+      "effective_rank": 19.56286656475621,
+      "kappa_s0_s19": 26.496172413526033,
+      "s0": 76.63403244688871,
+      "s19": 2.892268032183445,
+      "mean_abs_corr_top20_PC": 1.3773581524048167e-16
+    },
+    "rank_metric": 0.9949788942130723,
+    "rank_metric_name": "cumvar@20",
+    "gradient": {
+      "steps": 80,
+      "mean_conflict_ratio": 0.5812575000000001,
+      "frac_steps_majority_conflict": 0.525,
+      "mean_cos_overall": -0.022594999999999997,
+      "per_pair_mean_cos": {
+        "cos_deepfake_vs_aigc": -0.01401125,
+        "cos_deepfake_vs_imdl": -0.0794975,
+        "cos_deepfake_vs_doc": 0.046497500000000004,
+        "cos_aigc_vs_imdl": -9.124999999999827e-05,
+        "cos_aigc_vs_doc": -0.0963375,
+        "cos_imdl_vs_doc": 0.007871249999999996
+      },
+      "per_pair_neg_frac": {
+        "cos_deepfake_vs_aigc": 0.55,
+        "cos_deepfake_vs_imdl": 0.675,
+        "cos_deepfake_vs_doc": 0.3875,
+        "cos_aigc_vs_imdl": 0.5625,
+        "cos_aigc_vs_doc": 0.7625,
+        "cos_imdl_vs_doc": 0.55
+      }
+    },
+    "losses": [
+      {
+        "epoch": 0,
+        "steps": 636,
+        "mean_train_loss": 2.4587,
+        "mean_conflict_ratio": 0.6042,
+        "mean_cos": -0.0349
+      },
+      {
+        "epoch": 1,
+        "steps": 636,
+        "mean_train_loss": 2.3649,
+        "mean_conflict_ratio": 0.6458,
+        "mean_cos": -0.0438
+      },
+      {
+        "epoch": 2,
+        "steps": 636,
+        "mean_train_loss": 2.3156,
+        "mean_conflict_ratio": 0.5208,
+        "mean_cos": -0.0179
+      },
+      {
+        "epoch": 3,
+        "steps": 636,
+        "mean_train_loss": 2.2837,
+        "mean_conflict_ratio": 0.6042,
+        "mean_cos": -0.0493
+      },
+      {
+        "epoch": 4,
+        "steps": 636,
+        "mean_train_loss": 2.2593,
+        "mean_conflict_ratio": 0.5208,
+        "mean_cos": 0.0042
+      },
+      {
+        "epoch": 5,
+        "steps": 636,
+        "mean_train_loss": 2.2393,
+        "mean_conflict_ratio": 0.5417,
+        "mean_cos": -0.0083
+      },
+      {
+        "epoch": 6,
+        "steps": 636,
+        "mean_train_loss": 2.2225,
+        "mean_conflict_ratio": 0.6458,
+        "mean_cos": -0.0345
+      },
+      {
+        "epoch": 7,
+        "steps": 636,
+        "mean_train_loss": 2.2113,
+        "mean_conflict_ratio": 0.5625,
+        "mean_cos": -0.0066
+      },
+      {
+        "epoch": 8,
+        "steps": 636,
+        "mean_train_loss": 2.1932,
+        "mean_conflict_ratio": 0.6458,
+        "mean_cos": -0.0295
+      },
+      {
+        "epoch": 9,
+        "steps": 636,
+        "mean_train_loss": 2.1806,
+        "mean_conflict_ratio": 0.5208,
+        "mean_cos": -0.0054
+      }
+    ],
+    "loss_first": 2.4587,
+    "loss_last": 2.1806,
+    "loss_min": 2.1806,
+    "loss_change_pct": -11.310855330052458,
+    "traj_first": {
+      "n": 2000,
+      "dim": 64,
+      "topk_singular": [
+        90.94196430760276,
+        64.25035936930607,
+        40.67340763225295,
+        30.286909472943773,
+        19.301232565495262,
+        12.017673366246932,
+        10.679620378343719,
+        9.221858371490551,
+        7.707158995190014,
+        7.2487814915682565,
+        6.76204818357853,
+        6.391859498725225,
+        5.51789587784599,
+        5.031083258845236,
+        4.327456478655163,
+        4.102436363707994,
+        3.9264879099348993,
+        3.430773281815629,
+        3.231892529997373,
+        3.180166258216362
+      ],
+      "cumvar_top20": 0.9937489019108063,
+      "effective_rank": 20.207535492355778,
+      "kappa_s0_s19": 28.596606882616307,
+      "s0": 90.94196430760276,
+      "s19": 3.180166258216362,
+      "mean_abs_corr_top20_PC": 1.5014695034210096e-16
+    },
+    "traj_last": {
+      "n": 2000,
+      "dim": 64,
+      "topk_singular": [
+        76.63403244688871,
+        60.56918406768181,
+        40.2222899133766,
+        32.14825424251706,
+        20.339270983290405,
+        16.652732081109594,
+        14.191070528967206,
+        10.191758737599963,
+        8.7223442877381,
+        7.78451321208167,
+        6.897544712208607,
+        6.369472500233442,
+        5.275836985504198,
+        4.482350134050115,
+        4.284163503987782,
+        4.04807904554179,
+        3.5907784220464545,
+        3.387147728283114,
+        3.1743772271194093,
+        2.892268032183445
+      ],
+      "cumvar_top20": 0.9949788942130723,
+      "effective_rank": 19.56286656475621,
+      "kappa_s0_s19": 26.496172413526033,
+      "s0": 76.63403244688871,
+      "s19": 2.892268032183445,
+      "mean_abs_corr_top20_PC": 1.3773581524048167e-16
+    },
+    "traj_count": 10,
+    "images": {
+      "svd_cumsum.png": "D:\\GPT\\gpt\\graduation_project\\linear_probe-and-gradient\\outputs\\diag_ddp_capsulenet\\svd_cumsum.png",
+      "svd_spectrum.png": "D:\\GPT\\gpt\\graduation_project\\linear_probe-and-gradient\\outputs\\diag_ddp_capsulenet\\svd_spectrum.png",
+      "grad_conflict_curve.png": "D:\\GPT\\gpt\\graduation_project\\linear_probe-and-gradient\\outputs\\diag_ddp_capsulenet\\grad_conflict_curve.png",
+      "grad_cos_bar.png": "D:\\GPT\\gpt\\graduation_project\\linear_probe-and-gradient\\outputs\\diag_ddp_capsulenet\\grad_cos_bar.png"
+    }
+  },
+  {
+    "dir": "diag_ddp_co-spy",
+    "model": "CO-SPY",
+    "registry": "CO_SPY",
+    "status": "完成",
+    "init": "CLIP 与 datacomp 预训练权重 + Stable Diffusion 组件",
+    "note": "参数量约 512.7M；日志实际单卡 batch 为 32",
+    "world": 4,
+    "per_gpu_bs": 32,
+    "global_bs": 128,
+    "params_m": 512.7,
+    "image_size": 224,
+    "norm": "clip",
+    "feature_shape": "2000, 1280",
+    "rank": {
+      "n": 2000,
+      "dim": 1280,
+      "feat_shape": [
+        2000,
+        1280
+      ],
+      "topk_singular": [
+        1856.7215112461558,
+        675.1721139354449,
+        374.8630018225888,
+        334.54748918625853,
+        249.83975792107023,
+        200.5209526056947,
+        170.7354334795696,
+        129.90927457318242,
+        123.21439922639705,
+        106.46446153051514,
+        95.87088550043593,
+        87.82241514949213,
+        81.95690603209017,
+        74.87507347910763,
+        72.06155774395205,
+        63.382013045545,
+        59.27188654233424,
+        56.715827220749,
+        53.09414799088777,
+        50.42380753601588
+      ],
+      "cumvar_top20": 0.9884012891398982,
+      "effective_rank": 124.91793554185595,
+      "kappa_s0_s19": 36.82231870173491,
+      "s0": 1856.7215112461558,
+      "s19": 50.42380753601588,
+      "mean_abs_corr_top20_PC": 1.1836113900064064e-16
+    },
+    "rank_metric": 0.9884012891398982,
+    "rank_metric_name": "cumvar@20",
+    "gradient": {
+      "steps": 319,
+      "mean_conflict_ratio": 0.49007742946708466,
+      "frac_steps_majority_conflict": 0.36990595611285265,
+      "mean_cos_overall": -0.009182131661442008,
+      "per_pair_mean_cos": {
+        "cos_deepfake_vs_aigc": -0.0636990099009901,
+        "cos_deepfake_vs_imdl": -0.02104984326018809,
+        "cos_deepfake_vs_doc": 0.06996464968152866,
+        "cos_aigc_vs_imdl": 0.038797029702970304,
+        "cos_aigc_vs_doc": -0.06541275167785236,
+        "cos_imdl_vs_doc": -0.02491592356687898
+      },
+      "per_pair_neg_frac": {
+        "cos_deepfake_vs_aigc": 0.49216300940438873,
+        "cos_deepfake_vs_imdl": 0.5141065830721003,
+        "cos_deepfake_vs_doc": 0.3981191222570533,
+        "cos_aigc_vs_imdl": 0.4169278996865204,
+        "cos_aigc_vs_doc": 0.5391849529780565,
+        "cos_imdl_vs_doc": 0.49843260188087773
+      }
+    },
+    "losses": [
+      {
+        "epoch": 0,
+        "steps": 2548,
+        "mean_train_loss": 0.5949,
+        "mean_conflict_ratio": 0.5521,
+        "mean_cos": -0.0591
+      },
+      {
+        "epoch": 1,
+        "steps": 2548,
+        "mean_train_loss": 0.5453,
+        "mean_conflict_ratio": 0.4792,
+        "mean_cos": -0.0169
+      },
+      {
+        "epoch": 2,
+        "steps": 2548,
+        "mean_train_loss": 0.5118,
+        "mean_conflict_ratio": 0.4583,
+        "mean_cos": -0.0087
+      },
+      {
+        "epoch": 3,
+        "steps": 2548,
+        "mean_train_loss": 0.4805,
+        "mean_conflict_ratio": 0.5521,
+        "mean_cos": -0.0297
+      },
+      {
+        "epoch": 4,
+        "steps": 2548,
+        "mean_train_loss": 0.4522,
+        "mean_conflict_ratio": 0.4531,
+        "mean_cos": 0.0142
+      },
+      {
+        "epoch": 5,
+        "steps": 2548,
+        "mean_train_loss": 0.4233,
+        "mean_conflict_ratio": 0.4896,
+        "mean_cos": -0.0039
+      },
+      {
+        "epoch": 6,
+        "steps": 2548,
+        "mean_train_loss": 0.3962,
+        "mean_conflict_ratio": 0.4677,
+        "mean_cos": 0.0089
+      },
+      {
+        "epoch": 7,
+        "steps": 2548,
+        "mean_train_loss": 0.3645,
+        "mean_conflict_ratio": 0.4688,
+        "mean_cos": -0.0059
+      },
+      {
+        "epoch": 8,
+        "steps": 2548,
+        "mean_train_loss": 0.3356,
+        "mean_conflict_ratio": 0.5156,
+        "mean_cos": -0.0115
+      },
+      {
+        "epoch": 9,
+        "steps": 2548,
+        "mean_train_loss": 0.3107,
+        "mean_conflict_ratio": 0.4635,
+        "mean_cos": 0.0212
+      }
+    ],
+    "loss_first": 0.5949,
+    "loss_last": 0.3107,
+    "loss_min": 0.3107,
+    "loss_change_pct": -47.77273491343083,
+    "traj_first": {
+      "n": 2000,
+      "dim": 1280,
+      "feat_shape": [
+        2000,
+        1280
+      ],
+      "topk_singular": [
+        1602.2638347549293,
+        476.1365526280999,
+        382.07064340216846,
+        296.574756546268,
+        201.38641509068043,
+        143.9440158505667,
+        132.0203152307782,
+        115.35696762489653,
+        96.86997844516873,
+        90.76165277368511,
+        85.92754246907819,
+        67.47845035215944,
+        59.76344492711967,
+        57.12245401675366,
+        53.12146743274085,
+        50.19343663535337,
+        48.164662710445285,
+        44.35826080489484,
+        42.629448195849214,
+        39.92290199426476
+      ],
+      "cumvar_top20": 0.9904515074060838,
+      "effective_rank": 88.29621011520352,
+      "kappa_s0_s19": 40.13395206052573,
+      "s0": 1602.2638347549293,
+      "s19": 39.92290199426476,
+      "mean_abs_corr_top20_PC": 9.167995087037389e-17
+    },
+    "traj_last": {
+      "n": 2000,
+      "dim": 1280,
+      "feat_shape": [
+        2000,
+        1280
+      ],
+      "topk_singular": [
+        1904.4400023381936,
+        674.8615501914633,
+        386.4382214159388,
+        351.459730789732,
+        252.08802290984897,
+        209.8682033370929,
+        180.27638801980453,
+        134.7570267108631,
+        130.28953982346297,
+        112.70897908530813,
+        100.61977396985486,
+        92.25941126077034,
+        84.78058238919684,
+        76.21188426745358,
+        72.93030407557394,
+        66.068361575279,
+        60.190506207780814,
+        59.11086877089052,
+        55.57175262865851,
+        52.02071314540224
+      ],
+      "cumvar_top20": 0.9882487199991786,
+      "effective_rank": 125.43994440223909,
+      "kappa_s0_s19": 36.60926364110173,
+      "s0": 1904.4400023381936,
+      "s19": 52.02071314540224,
+      "mean_abs_corr_top20_PC": 1.0336499416787839e-16
+    },
+    "traj_count": 10,
+    "images": {
+      "svd_cumsum.png": "D:\\GPT\\gpt\\graduation_project\\linear_probe-and-gradient\\outputs\\diag_ddp_co-spy\\svd_cumsum.png",
+      "svd_spectrum.png": "D:\\GPT\\gpt\\graduation_project\\linear_probe-and-gradient\\outputs\\diag_ddp_co-spy\\svd_spectrum.png",
+      "grad_conflict_curve.png": "D:\\GPT\\gpt\\graduation_project\\linear_probe-and-gradient\\outputs\\diag_ddp_co-spy\\grad_conflict_curve.png",
+      "grad_cos_bar.png": "D:\\GPT\\gpt\\graduation_project\\linear_probe-and-gradient\\outputs\\diag_ddp_co-spy\\grad_cos_bar.png"
+    }
+  },
+  {
+    "dir": "diag_ddp_convnext",
+    "model": "ConvNeXt-Small",
+    "registry": "ConvNextSmall",
+    "status": "完成",
+    "init": "timm ImageNet 预训练",
+    "note": "梯度冲突率处于较低水平",
+    "world": 4,
+    "per_gpu_bs": 128,
+    "global_bs": 512,
+    "params_m": 50.2,
+    "image_size": 256,
+    "norm": "imagenet",
+    "feature_shape": "2000, 768",
+    "rank": {
+      "n": 2000,
+      "dim": 768,
+      "topk_singular": [
+        454.20898083441944,
+        118.62913570975448,
+        91.27147119616565,
+        52.98757352745266,
+        38.098419167738584,
+        32.15306161955026,
+        26.9533197250319,
+        21.253621724032836,
+        20.385626982620618,
+        18.773587523395513,
+        15.357600547306996,
+        14.347191835564692,
+        13.699828593700095,
+        13.372054298535051,
+        11.480686096630105,
+        11.23107944806208,
+        10.516194792552364,
+        9.721570935087914,
+        8.56431866853415,
+        8.338019628197795
+      ],
+      "cumvar_top20": 0.9956773198338765,
+      "effective_rank": 47.879472717091986,
+      "kappa_s0_s19": 54.47444370343118,
+      "s0": 454.20898083441944,
+      "s19": 8.338019628197795,
+      "mean_abs_corr_top20_PC": 1.7199713302732411e-16
+    },
+    "rank_metric": 0.9956773198338765,
+    "rank_metric_name": "cumvar@20",
+    "gradient": {
+      "steps": 80,
+      "mean_conflict_ratio": 0.45416875,
+      "frac_steps_majority_conflict": 0.2875,
+      "mean_cos_overall": 0.016418750000000003,
+      "per_pair_mean_cos": {
+        "cos_deepfake_vs_aigc": 0.049743749999999996,
+        "cos_deepfake_vs_imdl": 0.055319999999999994,
+        "cos_deepfake_vs_doc": 0.027633749999999995,
+        "cos_aigc_vs_imdl": 0.030535,
+        "cos_aigc_vs_doc": -0.04892125000000001,
+        "cos_imdl_vs_doc": -0.015830000000000004
+      },
+      "per_pair_neg_frac": {
+        "cos_deepfake_vs_aigc": 0.4125,
+        "cos_deepfake_vs_imdl": 0.375,
+        "cos_deepfake_vs_doc": 0.3625,
+        "cos_aigc_vs_imdl": 0.525,
+        "cos_aigc_vs_doc": 0.55,
+        "cos_imdl_vs_doc": 0.5
+      }
+    },
+    "losses": [
+      {
+        "epoch": 0,
+        "steps": 636,
+        "mean_train_loss": 0.659,
+        "mean_conflict_ratio": 0.5833,
+        "mean_cos": -0.1544
+      },
+      {
+        "epoch": 1,
+        "steps": 636,
+        "mean_train_loss": 0.582,
+        "mean_conflict_ratio": 0.3958,
+        "mean_cos": 0.0721
+      },
+      {
+        "epoch": 2,
+        "steps": 636,
+        "mean_train_loss": 0.545,
+        "mean_conflict_ratio": 0.5,
+        "mean_cos": 0.0128
+      },
+      {
+        "epoch": 3,
+        "steps": 636,
+        "mean_train_loss": 0.5044,
+        "mean_conflict_ratio": 0.4792,
+        "mean_cos": -0.0051
+      },
+      {
+        "epoch": 4,
+        "steps": 636,
+        "mean_train_loss": 0.4685,
+        "mean_conflict_ratio": 0.4792,
+        "mean_cos": 0.0912
+      },
+      {
+        "epoch": 5,
+        "steps": 636,
+        "mean_train_loss": 0.4212,
+        "mean_conflict_ratio": 0.4375,
+        "mean_cos": 0.0345
+      },
+      {
+        "epoch": 6,
+        "steps": 636,
+        "mean_train_loss": 0.3677,
+        "mean_conflict_ratio": 0.3958,
+        "mean_cos": 0.0553
+      },
+      {
+        "epoch": 7,
+        "steps": 636,
+        "mean_train_loss": 0.3365,
+        "mean_conflict_ratio": 0.4583,
+        "mean_cos": 0.0172
+      },
+      {
+        "epoch": 8,
+        "steps": 636,
+        "mean_train_loss": 0.3014,
+        "mean_conflict_ratio": 0.3333,
+        "mean_cos": 0.0376
+      },
+      {
+        "epoch": 9,
+        "steps": 636,
+        "mean_train_loss": 0.2719,
+        "mean_conflict_ratio": 0.4792,
+        "mean_cos": 0.0028
+      }
+    ],
+    "loss_first": 0.659,
+    "loss_last": 0.2719,
+    "loss_min": 0.2719,
+    "loss_change_pct": -58.740515933232174,
+    "traj_first": {
+      "n": 2000,
+      "dim": 768,
+      "topk_singular": [
+        91.84060569971165,
+        47.522549095313025,
+        19.416654962258182,
+        15.065113399659769,
+        9.467579427660873,
+        6.565197200189664,
+        5.363857577268205,
+        4.787864488413251,
+        3.3126559376268587,
+        2.863787306687278,
+        2.425552607087635,
+        2.1414260604114492,
+        2.0029586155941757,
+        1.8835404382463903,
+        1.6344341830336304,
+        1.573239444594422,
+        1.358908750467168,
+        1.3331921602080457,
+        1.1675038721820725,
+        1.0760286779380035
+      ],
+      "cumvar_top20": 0.9987819690922872,
+      "effective_rank": 20.743161995053814,
+      "kappa_s0_s19": 85.35144795175968,
+      "s0": 91.84060569971165,
+      "s19": 1.0760286779380035,
+      "mean_abs_corr_top20_PC": 1.4710750280375663e-16
+    },
+    "traj_last": {
+      "n": 2000,
+      "dim": 768,
+      "topk_singular": [
+        454.20898083441944,
+        118.62913570975448,
+        91.27147119616565,
+        52.98757352745266,
+        38.098419167738584,
+        32.15306161955026,
+        26.9533197250319,
+        21.253621724032836,
+        20.385626982620618,
+        18.773587523395513,
+        15.357600547306996,
+        14.347191835564692,
+        13.699828593700095,
+        13.372054298535051,
+        11.480686096630105,
+        11.23107944806208,
+        10.516194792552364,
+        9.721570935087914,
+        8.56431866853415,
+        8.338019628197795
+      ],
+      "cumvar_top20": 0.9956773198338765,
+      "effective_rank": 47.879472717091986,
+      "kappa_s0_s19": 54.47444370343118,
+      "s0": 454.20898083441944,
+      "s19": 8.338019628197795,
+      "mean_abs_corr_top20_PC": 1.7199713302732411e-16
+    },
+    "traj_count": 10,
+    "images": {
+      "svd_cumsum.png": "D:\\GPT\\gpt\\graduation_project\\linear_probe-and-gradient\\outputs\\diag_ddp_convnext\\svd_cumsum.png",
+      "svd_spectrum.png": "D:\\GPT\\gpt\\graduation_project\\linear_probe-and-gradient\\outputs\\diag_ddp_convnext\\svd_spectrum.png",
+      "grad_conflict_curve.png": "D:\\GPT\\gpt\\graduation_project\\linear_probe-and-gradient\\outputs\\diag_ddp_convnext\\grad_conflict_curve.png",
+      "grad_cos_bar.png": "D:\\GPT\\gpt\\graduation_project\\linear_probe-and-gradient\\outputs\\diag_ddp_convnext\\grad_cos_bar.png"
+    }
+  },
+  {
+    "dir": "diag_ddp_efficientnet",
+    "model": "EfficientNet-B4",
+    "registry": "EfficientB4",
+    "status": "完成",
+    "init": "timm ImageNet 预训练",
+    "note": "有效秩较高，谱分布相对分散",
+    "world": 4,
+    "per_gpu_bs": 128,
+    "global_bs": 512,
+    "params_m": 19.3,
+    "image_size": 256,
+    "norm": "imagenet",
+    "feature_shape": "2000, 1792",
+    "rank": {
+      "n": 2000,
+      "dim": 1792,
+      "topk_singular": [
+        735.5452973215363,
+        397.2928146968496,
+        316.5924017371395,
+        220.75835889139498,
+        143.42298187981623,
+        111.81346506997015,
+        108.38398507813325,
+        103.35858960991445,
+        89.68949562619709,
+        77.15335696021425,
+        75.24437105954054,
+        68.06699625828496,
+        67.58166601333889,
+        66.01987428736341,
+        64.0886466484709,
+        63.654240377539345,
+        58.955083003023795,
+        58.01955987178056,
+        56.442040410195034,
+        56.19095999878078
+      ],
+      "cumvar_top20": 0.8068096292043655,
+      "effective_rank": 802.8062643876556,
+      "kappa_s0_s19": 13.090100210736441,
+      "s0": 735.5452973215363,
+      "s19": 56.19095999878078,
+      "mean_abs_corr_top20_PC": 9.760125081178761e-17
+    },
+    "rank_metric": 0.8068096292043655,
+    "rank_metric_name": "cumvar@20",
+    "gradient": {
+      "steps": 80,
+      "mean_conflict_ratio": 0.5875125000000001,
+      "frac_steps_majority_conflict": 0.575,
+      "mean_cos_overall": -0.01806,
+      "per_pair_mean_cos": {
+        "cos_deepfake_vs_aigc": -0.05300625,
+        "cos_deepfake_vs_imdl": -0.0372425,
+        "cos_deepfake_vs_doc": 0.12859875,
+        "cos_aigc_vs_imdl": 0.017588749999999997,
+        "cos_aigc_vs_doc": -0.13421,
+        "cos_imdl_vs_doc": -0.030085
+      },
+      "per_pair_neg_frac": {
+        "cos_deepfake_vs_aigc": 0.775,
+        "cos_deepfake_vs_imdl": 0.6875,
+        "cos_deepfake_vs_doc": 0.075,
+        "cos_aigc_vs_imdl": 0.45,
+        "cos_aigc_vs_doc": 0.95,
+        "cos_imdl_vs_doc": 0.5875
+      }
+    },
+    "losses": [
+      {
+        "epoch": 0,
+        "steps": 636,
+        "mean_train_loss": 0.3827,
+        "mean_conflict_ratio": 0.6042,
+        "mean_cos": -0.0753
+      },
+      {
+        "epoch": 1,
+        "steps": 636,
+        "mean_train_loss": 0.1806,
+        "mean_conflict_ratio": 0.6667,
+        "mean_cos": -0.066
+      },
+      {
+        "epoch": 2,
+        "steps": 636,
+        "mean_train_loss": 0.093,
+        "mean_conflict_ratio": 0.6458,
+        "mean_cos": -0.0321
+      },
+      {
+        "epoch": 3,
+        "steps": 636,
+        "mean_train_loss": 0.0548,
+        "mean_conflict_ratio": 0.5417,
+        "mean_cos": -0.0072
+      },
+      {
+        "epoch": 4,
+        "steps": 636,
+        "mean_train_loss": 0.0396,
+        "mean_conflict_ratio": 0.625,
+        "mean_cos": -0.0156
+      },
+      {
+        "epoch": 5,
+        "steps": 636,
+        "mean_train_loss": 0.0291,
+        "mean_conflict_ratio": 0.5417,
+        "mean_cos": 0.0038
+      },
+      {
+        "epoch": 6,
+        "steps": 636,
+        "mean_train_loss": 0.024,
+        "mean_conflict_ratio": 0.5417,
+        "mean_cos": -0.0025
+      },
+      {
+        "epoch": 7,
+        "steps": 636,
+        "mean_train_loss": 0.0222,
+        "mean_conflict_ratio": 0.5833,
+        "mean_cos": 0.0024
+      },
+      {
+        "epoch": 8,
+        "steps": 636,
+        "mean_train_loss": 0.0199,
+        "mean_conflict_ratio": 0.5625,
+        "mean_cos": 0.0042
+      },
+      {
+        "epoch": 9,
+        "steps": 636,
+        "mean_train_loss": 0.0179,
+        "mean_conflict_ratio": 0.5625,
+        "mean_cos": 0.0079
+      }
+    ],
+    "loss_first": 0.3827,
+    "loss_last": 0.0179,
+    "loss_min": 0.0179,
+    "loss_change_pct": -95.3227070812647,
+    "traj_first": {
+      "n": 2000,
+      "dim": 1792,
+      "topk_singular": [
+        391.9708685258751,
+        218.32252197511718,
+        168.82356784626498,
+        111.61051717962974,
+        103.3417509158244,
+        91.14079333058574,
+        85.69070000418148,
+        76.04365864290077,
+        62.08830408267131,
+        54.17032663263692,
+        51.59945857769798,
+        50.18820678997008,
+        48.467079926535526,
+        46.547972035867055,
+        46.27992518004762,
+        45.45216561794293,
+        42.55236121068618,
+        40.786650145085744,
+        39.780445591600355,
+        38.92601472904845
+      ],
+      "cumvar_top20": 0.7329087993247863,
+      "effective_rank": 896.7360987064329,
+      "kappa_s0_s19": 10.069637779624989,
+      "s0": 391.9708685258751,
+      "s19": 38.92601472904845,
+      "mean_abs_corr_top20_PC": 9.69663579633678e-17
+    },
+    "traj_last": {
+      "n": 2000,
+      "dim": 1792,
+      "topk_singular": [
+        735.5452973215363,
+        397.2928146968496,
+        316.5924017371395,
+        220.75835889139498,
+        143.42298187981623,
+        111.81346506997015,
+        108.38398507813325,
+        103.35858960991445,
+        89.68949562619709,
+        77.15335696021425,
+        75.24437105954054,
+        68.06699625828496,
+        67.58166601333889,
+        66.01987428736341,
+        64.0886466484709,
+        63.654240377539345,
+        58.955083003023795,
+        58.01955987178056,
+        56.442040410195034,
+        56.19095999878078
+      ],
+      "cumvar_top20": 0.8068096292043655,
+      "effective_rank": 802.8062643876556,
+      "kappa_s0_s19": 13.090100210736441,
+      "s0": 735.5452973215363,
+      "s19": 56.19095999878078,
+      "mean_abs_corr_top20_PC": 9.760125081178761e-17
+    },
+    "traj_count": 10,
+    "images": {
+      "svd_cumsum.png": "D:\\GPT\\gpt\\graduation_project\\linear_probe-and-gradient\\outputs\\diag_ddp_efficientnet\\svd_cumsum.png",
+      "svd_spectrum.png": "D:\\GPT\\gpt\\graduation_project\\linear_probe-and-gradient\\outputs\\diag_ddp_efficientnet\\svd_spectrum.png",
+      "grad_conflict_curve.png": "D:\\GPT\\gpt\\graduation_project\\linear_probe-and-gradient\\outputs\\diag_ddp_efficientnet\\grad_conflict_curve.png",
+      "grad_cos_bar.png": "D:\\GPT\\gpt\\graduation_project\\linear_probe-and-gradient\\outputs\\diag_ddp_efficientnet\\grad_cos_bar.png"
+    }
+  },
+  {
+    "dir": "diag_ddp_ffdn",
+    "model": "FFDN",
+    "registry": "FFDN",
+    "status": "失败/未完成",
+    "init": "FFDN 默认 ConvNeXt-Small 权重路径（日志无加载失败）",
+    "note": "512 输入、单卡 batch 16，首个反传 OOM",
+    "world": 4,
+    "per_gpu_bs": 16,
+    "global_bs": 64,
+    "params_m": 89.2,
+    "image_size": 512,
+    "norm": "imagenet",
+    "feature_shape": null,
+    "rank": null,
+    "rank_metric": null,
+    "rank_metric_name": null,
+    "gradient": {
+      "steps": 1,
+      "mean_conflict_ratio": 0.0,
+      "frac_steps_majority_conflict": 0.0,
+      "mean_cos_overall": 0.1792,
+      "per_pair_mean_cos": {
+        "cos_deepfake_vs_aigc": NaN,
+        "cos_deepfake_vs_imdl": NaN,
+        "cos_deepfake_vs_doc": NaN,
+        "cos_aigc_vs_imdl": 0.1792,
+        "cos_aigc_vs_doc": NaN,
+        "cos_imdl_vs_doc": NaN
+      },
+      "per_pair_neg_frac": {
+        "cos_deepfake_vs_aigc": 0.0,
+        "cos_deepfake_vs_imdl": 0.0,
+        "cos_deepfake_vs_doc": 0.0,
+        "cos_aigc_vs_imdl": 0.0,
+        "cos_aigc_vs_doc": 0.0,
+        "cos_imdl_vs_doc": 0.0
+      }
+    },
+    "losses": [],
+    "loss_first": null,
+    "loss_last": null,
+    "loss_min": null,
+    "loss_change_pct": null,
+    "traj_first": null,
+    "traj_last": null,
+    "traj_count": 0,
+    "images": {
+      "grad_conflict_curve.png": "D:\\GPT\\gpt\\graduation_project\\linear_probe-and-gradient\\outputs\\diag_ddp_ffdn\\grad_conflict_curve.png",
+      "grad_cos_bar.png": "D:\\GPT\\gpt\\graduation_project\\linear_probe-and-gradient\\outputs\\diag_ddp_ffdn\\grad_cos_bar.png"
+    }
+  },
+  {
+    "dir": "diag_ddp_iml-vit",
+    "model": "IML-ViT",
+    "registry": "IML_ViT",
+    "status": "完成",
+    "init": "IMDLBenCo 模型默认初始化/可用预训练权重",
+    "note": "钩子仅捕获 16 维小头，秩指标不作为有效比较",
+    "world": 4,
+    "per_gpu_bs": 64,
+    "global_bs": 256,
+    "params_m": 91.8,
+    "image_size": 256,
+    "norm": "imagenet",
+    "feature_shape": "2000, 16",
+    "rank": {
+      "n": 2000,
+      "dim": 16,
+      "feat_shape": [
+        2000,
+        16
+      ],
+      "topk_singular": [
+        5.741130781942228,
+        1.2100613228916512,
+        0.3738637792006639,
+        0.25123396893733907,
+        0.19359457328951474,
+        0.16895418433371345,
+        0.16376261318013524,
+        0.1579542438380888,
+        0.13370331226184287,
+        0.12292241937071777,
+        0.11290186888595725,
+        0.10610438632884366,
+        0.10548752393505052,
+        0.09613722750553619,
+        0.0929036093025983,
+        0.086592153075254
+      ],
+      "cumvar_top16": 1.0,
+      "effective_rank": 4.500221383621321,
+      "kappa_s0_s15": 66.30082031666917,
+      "s0": 5.741130781942228,
+      "s19": 0.086592153075254,
+      "mean_abs_corr_top16_PC": 1.0781088367360985e-16
+    },
+    "rank_metric": 1.0,
+    "rank_metric_name": "cumvar@16",
+    "gradient": {
+      "steps": 159,
+      "mean_conflict_ratio": 0.4245333333333333,
+      "frac_steps_majority_conflict": 0.25157232704402516,
+      "mean_cos_overall": 0.038965408805031444,
+      "per_pair_mean_cos": {
+        "cos_deepfake_vs_aigc": 0.0707943396226415,
+        "cos_deepfake_vs_imdl": 0.11269685534591195,
+        "cos_deepfake_vs_doc": -0.026540880503144657,
+        "cos_aigc_vs_imdl": 0.19654968553459118,
+        "cos_aigc_vs_doc": -0.02809559748427673,
+        "cos_imdl_vs_doc": -0.09160440251572326
+      },
+      "per_pair_neg_frac": {
+        "cos_deepfake_vs_aigc": 0.36477987421383645,
+        "cos_deepfake_vs_imdl": 0.33962264150943394,
+        "cos_deepfake_vs_doc": 0.5283018867924528,
+        "cos_aigc_vs_imdl": 0.1949685534591195,
+        "cos_aigc_vs_doc": 0.5408805031446541,
+        "cos_imdl_vs_doc": 0.5786163522012578
+      }
+    },
+    "losses": [
+      {
+        "epoch": 0,
+        "steps": 1272,
+        "mean_train_loss": 0.685,
+        "mean_conflict_ratio": 0.3542,
+        "mean_cos": 0.0435
+      },
+      {
+        "epoch": 1,
+        "steps": 1272,
+        "mean_train_loss": 0.6064,
+        "mean_conflict_ratio": 0.4167,
+        "mean_cos": 0.0316
+      },
+      {
+        "epoch": 2,
+        "steps": 1272,
+        "mean_train_loss": 0.5998,
+        "mean_conflict_ratio": 0.4167,
+        "mean_cos": 0.0479
+      },
+      {
+        "epoch": 3,
+        "steps": 1272,
+        "mean_train_loss": 0.5987,
+        "mean_conflict_ratio": 0.4375,
+        "mean_cos": 0.0696
+      },
+      {
+        "epoch": 4,
+        "steps": 1272,
+        "mean_train_loss": 0.5862,
+        "mean_conflict_ratio": 0.3333,
+        "mean_cos": 0.1149
+      },
+      {
+        "epoch": 5,
+        "steps": 1272,
+        "mean_train_loss": 0.5834,
+        "mean_conflict_ratio": 0.4479,
+        "mean_cos": 0.0214
+      },
+      {
+        "epoch": 6,
+        "steps": 1272,
+        "mean_train_loss": 0.5784,
+        "mean_conflict_ratio": 0.4583,
+        "mean_cos": 0.0299
+      },
+      {
+        "epoch": 7,
+        "steps": 1272,
+        "mean_train_loss": 0.5688,
+        "mean_conflict_ratio": 0.4479,
+        "mean_cos": 0.0176
+      },
+      {
+        "epoch": 8,
+        "steps": 1272,
+        "mean_train_loss": 0.5648,
+        "mean_conflict_ratio": 0.4792,
+        "mean_cos": -0.0088
+      },
+      {
+        "epoch": 9,
+        "steps": 1272,
+        "mean_train_loss": 0.5617,
+        "mean_conflict_ratio": 0.4556,
+        "mean_cos": 0.021
+      }
+    ],
+    "loss_first": 0.685,
+    "loss_last": 0.5617,
+    "loss_min": 0.5617,
+    "loss_change_pct": -18.00000000000001,
+    "traj_first": {
+      "n": 2000,
+      "dim": 16,
+      "feat_shape": [
+        2000,
+        16
+      ],
+      "topk_singular": [
+        1.2004033889473607,
+        0.7409152555390808,
+        0.09622146448268282,
+        0.08177992072506099,
+        0.05468788804600251,
+        0.03804396333690804,
+        0.033582560064324966,
+        0.02794623416875051,
+        0.02294088076947329,
+        0.021732346087034053,
+        0.021399354495941422,
+        0.020573734894465793,
+        0.01966621558716221,
+        0.018087104648512643,
+        0.01747870757688769,
+        0.016921454776891522
+      ],
+      "cumvar_top16": 1.0000000000000004,
+      "effective_rank": 4.603552296862517,
+      "kappa_s0_s15": 70.93972738772615,
+      "s0": 1.2004033889473607,
+      "s19": 0.016921454776891522,
+      "mean_abs_corr_top16_PC": 1.4472591318600957e-16
+    },
+    "traj_last": {
+      "n": 2000,
+      "dim": 16,
+      "feat_shape": [
+        2000,
+        16
+      ],
+      "topk_singular": [
+        5.741130781942228,
+        1.2100613228916512,
+        0.3738637792006639,
+        0.25123396893733907,
+        0.19359457328951474,
+        0.16895418433371345,
+        0.16376261318013524,
+        0.1579542438380888,
+        0.13370331226184287,
+        0.12292241937071777,
+        0.11290186888595725,
+        0.10610438632884366,
+        0.10548752393505052,
+        0.09613722750553619,
+        0.0929036093025983,
+        0.086592153075254
+      ],
+      "cumvar_top16": 1.0,
+      "effective_rank": 4.500221383621321,
+      "kappa_s0_s15": 66.30082031666917,
+      "s0": 5.741130781942228,
+      "s19": 0.086592153075254,
+      "mean_abs_corr_top16_PC": 1.0781088367360985e-16
+    },
+    "traj_count": 10,
+    "images": {
+      "svd_cumsum.png": "D:\\GPT\\gpt\\graduation_project\\linear_probe-and-gradient\\outputs\\diag_ddp_iml-vit\\svd_cumsum.png",
+      "svd_spectrum.png": "D:\\GPT\\gpt\\graduation_project\\linear_probe-and-gradient\\outputs\\diag_ddp_iml-vit\\svd_spectrum.png",
+      "grad_conflict_curve.png": "D:\\GPT\\gpt\\graduation_project\\linear_probe-and-gradient\\outputs\\diag_ddp_iml-vit\\grad_conflict_curve.png",
+      "grad_cos_bar.png": "D:\\GPT\\gpt\\graduation_project\\linear_probe-and-gradient\\outputs\\diag_ddp_iml-vit\\grad_cos_bar.png"
+    }
+  },
+  {
+    "dir": "diag_ddp_mesorch",
+    "model": "Mesorch",
+    "registry": "Mesorch",
+    "status": "完成",
+    "init": "IMDLBenCo 模型默认初始化/可用预训练权重",
+    "note": "钩子输出 64×2048，展平为 131072 维",
+    "world": 4,
+    "per_gpu_bs": 64,
+    "global_bs": 256,
+    "params_m": 85.8,
+    "image_size": 256,
+    "norm": "imagenet",
+    "feature_shape": "2000, 64, 2048",
+    "rank": {
+      "n": 2000,
+      "dim": 131072,
+      "feat_shape": [
+        2000,
+        64,
+        2048
+      ],
+      "topk_singular": [
+        122.34806654663277,
+        71.59907978984565,
+        58.515010160485865,
+        42.794212447265,
+        35.82781105941973,
+        29.87542694825019,
+        24.519354540235465,
+        22.882749393126648,
+        22.047185793268262,
+        20.574338540141756,
+        17.999303421909126,
+        16.938427827387837,
+        16.109327522184472,
+        15.573203670798529,
+        14.518566896594034,
+        14.308583678085366,
+        12.690847990004105,
+        12.285944758108256,
+        10.901288331343215,
+        10.552612138034094
+      ],
+      "cumvar_top20": 0.9567514268885842,
+      "effective_rank": 123.44484482821379,
+      "kappa_s0_s19": 11.594102478726569,
+      "s0": 122.34806654663277,
+      "s19": 10.552612138034094,
+      "mean_abs_corr_top20_PC": 8.967590432651514e-17
+    },
+    "rank_metric": 0.9567514268885842,
+    "rank_metric_name": "cumvar@20",
+    "gradient": {
+      "steps": 159,
+      "mean_conflict_ratio": 0.4937157232704402,
+      "frac_steps_majority_conflict": 0.37735849056603776,
+      "mean_cos_overall": -0.008150943396226414,
+      "per_pair_mean_cos": {
+        "cos_deepfake_vs_aigc": 0.004476100628930815,
+        "cos_deepfake_vs_imdl": -0.017661006289308185,
+        "cos_deepfake_vs_doc": 0.005977358490566041,
+        "cos_aigc_vs_imdl": 0.01297672955974843,
+        "cos_aigc_vs_doc": -0.07994088050314466,
+        "cos_imdl_vs_doc": 0.025262264150943396
+      },
+      "per_pair_neg_frac": {
+        "cos_deepfake_vs_aigc": 0.5220125786163522,
+        "cos_deepfake_vs_imdl": 0.5031446540880503,
+        "cos_deepfake_vs_doc": 0.4968553459119497,
+        "cos_aigc_vs_imdl": 0.44025157232704404,
+        "cos_aigc_vs_doc": 0.5534591194968553,
+        "cos_imdl_vs_doc": 0.44654088050314467
+      }
+    },
+    "losses": [
+      {
+        "epoch": 0,
+        "steps": 1272,
+        "mean_train_loss": 0.6256,
+        "mean_conflict_ratio": 0.5417,
+        "mean_cos": -0.0447
+      },
+      {
+        "epoch": 1,
+        "steps": 1272,
+        "mean_train_loss": 0.6156,
+        "mean_conflict_ratio": 0.5208,
+        "mean_cos": -0.0247
+      },
+      {
+        "epoch": 2,
+        "steps": 1272,
+        "mean_train_loss": 0.5988,
+        "mean_conflict_ratio": 0.4479,
+        "mean_cos": 0.0613
+      },
+      {
+        "epoch": 3,
+        "steps": 1272,
+        "mean_train_loss": 0.5883,
+        "mean_conflict_ratio": 0.5417,
+        "mean_cos": -0.0394
+      },
+      {
+        "epoch": 4,
+        "steps": 1272,
+        "mean_train_loss": 0.5855,
+        "mean_conflict_ratio": 0.4688,
+        "mean_cos": 0.0009
+      },
+      {
+        "epoch": 5,
+        "steps": 1272,
+        "mean_train_loss": 0.5817,
+        "mean_conflict_ratio": 0.4479,
+        "mean_cos": 0.0116
+      },
+      {
+        "epoch": 6,
+        "steps": 1272,
+        "mean_train_loss": 0.5785,
+        "mean_conflict_ratio": 0.4167,
+        "mean_cos": 0.005
+      },
+      {
+        "epoch": 7,
+        "steps": 1272,
+        "mean_train_loss": 0.5778,
+        "mean_conflict_ratio": 0.5104,
+        "mean_cos": -0.0302
+      },
+      {
+        "epoch": 8,
+        "steps": 1272,
+        "mean_train_loss": 0.5761,
+        "mean_conflict_ratio": 0.4792,
+        "mean_cos": 0.0021
+      },
+      {
+        "epoch": 9,
+        "steps": 1272,
+        "mean_train_loss": 0.5706,
+        "mean_conflict_ratio": 0.5667,
+        "mean_cos": -0.0245
+      }
+    ],
+    "loss_first": 0.6256,
+    "loss_last": 0.5706,
+    "loss_min": 0.5706,
+    "loss_change_pct": -8.791560102301798,
+    "traj_first": {
+      "n": 2000,
+      "dim": 131072,
+      "feat_shape": [
+        2000,
+        64,
+        2048
+      ],
+      "topk_singular": [
+        220.10148392665832,
+        8.606176825972847,
+        5.8908217264560925,
+        4.738477689669783,
+        3.9153629275064197,
+        3.558831797638511,
+        3.1642249016609356,
+        3.0588732850123765,
+        2.7617917826127143,
+        2.3348615047032353,
+        2.064109751851779,
+        2.018948616697201,
+        1.8440536352061216,
+        1.6509097555034138,
+        1.5598744814243584,
+        1.5129062532806012,
+        1.4431322736900187,
+        1.3205933190113512,
+        1.2350466766423682,
+        1.2212681049719425
+      ],
+      "cumvar_top20": 0.9989465981158545,
+      "effective_rank": 62.435529118342785,
+      "kappa_s0_s19": 180.2237224000333,
+      "s0": 220.10148392665832,
+      "s19": 1.2212681049719425,
+      "mean_abs_corr_top20_PC": 9.10116191424293e-17
+    },
+    "traj_last": {
+      "n": 2000,
+      "dim": 131072,
+      "feat_shape": [
+        2000,
+        64,
+        2048
+      ],
+      "topk_singular": [
+        122.34806654663277,
+        71.59907978984565,
+        58.515010160485865,
+        42.794212447265,
+        35.82781105941973,
+        29.87542694825019,
+        24.519354540235465,
+        22.882749393126648,
+        22.047185793268262,
+        20.574338540141756,
+        17.999303421909126,
+        16.938427827387837,
+        16.109327522184472,
+        15.573203670798529,
+        14.518566896594034,
+        14.308583678085366,
+        12.690847990004105,
+        12.285944758108256,
+        10.901288331343215,
+        10.552612138034094
+      ],
+      "cumvar_top20": 0.9567514268885842,
+      "effective_rank": 123.44484482821379,
+      "kappa_s0_s19": 11.594102478726569,
+      "s0": 122.34806654663277,
+      "s19": 10.552612138034094,
+      "mean_abs_corr_top20_PC": 8.967590432651514e-17
+    },
+    "traj_count": 10,
+    "images": {
+      "svd_cumsum.png": "D:\\GPT\\gpt\\graduation_project\\linear_probe-and-gradient\\outputs\\diag_ddp_mesorch\\svd_cumsum.png",
+      "svd_spectrum.png": "D:\\GPT\\gpt\\graduation_project\\linear_probe-and-gradient\\outputs\\diag_ddp_mesorch\\svd_spectrum.png",
+      "grad_conflict_curve.png": "D:\\GPT\\gpt\\graduation_project\\linear_probe-and-gradient\\outputs\\diag_ddp_mesorch\\grad_conflict_curve.png",
+      "grad_cos_bar.png": "D:\\GPT\\gpt\\graduation_project\\linear_probe-and-gradient\\outputs\\diag_ddp_mesorch\\grad_cos_bar.png"
+    }
+  },
+  {
+    "dir": "diag_ddp_recce",
+    "model": "RECCE",
+    "registry": "Recce",
+    "status": "完成",
+    "init": "Xception 预训练权重 + DeepfakeBench 配置",
+    "note": "钩子输出 16×512，展平为 8192 维",
+    "world": 4,
+    "per_gpu_bs": 128,
+    "global_bs": 512,
+    "params_m": 25.8,
+    "image_size": 256,
+    "norm": "imagenet",
+    "feature_shape": "2000, 16, 512",
+    "rank": {
+      "n": 2000,
+      "dim": 8192,
+      "feat_shape": [
+        2000,
+        16,
+        512
+      ],
+      "topk_singular": [
+        1961.9861190962342,
+        582.7025681717882,
+        537.8174184427293,
+        344.28281939048406,
+        319.0891499741325,
+        290.2901001893516,
+        257.92132492333184,
+        242.49171505610295,
+        219.33063819805997,
+        213.00376075021285,
+        205.920519449342,
+        192.82291863722514,
+        180.86602969784408,
+        176.93375260149816,
+        171.7586484943568,
+        158.3110803048558,
+        156.5499954730273,
+        149.21596088559576,
+        146.06325309899952,
+        136.04039286911092
+      ],
+      "cumvar_top20": 0.9131825915548468,
+      "effective_rank": 317.328330514909,
+      "kappa_s0_s19": 14.422085071335491,
+      "s0": 1961.9861190962342,
+      "s19": 136.04039286911092,
+      "mean_abs_corr_top20_PC": 1.232785044704915e-16
+    },
+    "rank_metric": 0.9131825915548468,
+    "rank_metric_name": "cumvar@20",
+    "gradient": {
+      "steps": 80,
+      "mean_conflict_ratio": 0.59376125,
+      "frac_steps_majority_conflict": 0.575,
+      "mean_cos_overall": -0.00876125,
+      "per_pair_mean_cos": {
+        "cos_deepfake_vs_aigc": -0.018012499999999997,
+        "cos_deepfake_vs_imdl": -0.0155375,
+        "cos_deepfake_vs_doc": 0.04179875000000001,
+        "cos_aigc_vs_imdl": 0.034409999999999996,
+        "cos_aigc_vs_doc": -0.0619575,
+        "cos_imdl_vs_doc": -0.033273750000000005
+      },
+      "per_pair_neg_frac": {
+        "cos_deepfake_vs_aigc": 0.65,
+        "cos_deepfake_vs_imdl": 0.75,
+        "cos_deepfake_vs_doc": 0.1875,
+        "cos_aigc_vs_imdl": 0.2375,
+        "cos_aigc_vs_doc": 0.925,
+        "cos_imdl_vs_doc": 0.8
+      }
+    },
+    "losses": [
+      {
+        "epoch": 0,
+        "steps": 636,
+        "mean_train_loss": 0.4067,
+        "mean_conflict_ratio": 0.5833,
+        "mean_cos": -0.0362
+      },
+      {
+        "epoch": 1,
+        "steps": 636,
+        "mean_train_loss": 0.2662,
+        "mean_conflict_ratio": 0.6875,
+        "mean_cos": -0.0163
+      },
+      {
+        "epoch": 2,
+        "steps": 636,
+        "mean_train_loss": 0.1961,
+        "mean_conflict_ratio": 0.6458,
+        "mean_cos": -0.0157
+      },
+      {
+        "epoch": 3,
+        "steps": 636,
+        "mean_train_loss": 0.1396,
+        "mean_conflict_ratio": 0.6667,
+        "mean_cos": -0.0106
+      },
+      {
+        "epoch": 4,
+        "steps": 636,
+        "mean_train_loss": 0.1058,
+        "mean_conflict_ratio": 0.6042,
+        "mean_cos": -0.007
+      },
+      {
+        "epoch": 5,
+        "steps": 636,
+        "mean_train_loss": 0.085,
+        "mean_conflict_ratio": 0.6458,
+        "mean_cos": -0.005
+      },
+      {
+        "epoch": 6,
+        "steps": 636,
+        "mean_train_loss": 0.0739,
+        "mean_conflict_ratio": 0.5625,
+        "mean_cos": -0.0017
+      },
+      {
+        "epoch": 7,
+        "steps": 636,
+        "mean_train_loss": 0.0635,
+        "mean_conflict_ratio": 0.5417,
+        "mean_cos": 0.0013
+      },
+      {
+        "epoch": 8,
+        "steps": 636,
+        "mean_train_loss": 0.0551,
+        "mean_conflict_ratio": 0.4583,
+        "mean_cos": 0.003
+      },
+      {
+        "epoch": 9,
+        "steps": 636,
+        "mean_train_loss": 0.0516,
+        "mean_conflict_ratio": 0.5417,
+        "mean_cos": 0.0005
+      }
+    ],
+    "loss_first": 0.4067,
+    "loss_last": 0.0516,
+    "loss_min": 0.0516,
+    "loss_change_pct": -87.31251536759282,
+    "traj_first": {
+      "n": 2000,
+      "dim": 8192,
+      "feat_shape": [
+        2000,
+        16,
+        512
+      ],
+      "topk_singular": [
+        1088.3881732819666,
+        1056.2360728780995,
+        429.88960383103415,
+        338.67355653411323,
+        316.1817621426754,
+        296.12980636929694,
+        256.3314941848249,
+        240.35657683504053,
+        229.7422472854866,
+        213.8140461297671,
+        192.56284725849181,
+        188.20575789018474,
+        177.094680380129,
+        166.23025604566516,
+        163.69249004067635,
+        161.9839943483338,
+        148.73340356948452,
+        146.0663668152881,
+        143.20428380059636,
+        134.57304957730548
+      ],
+      "cumvar_top20": 0.8416172517455556,
+      "effective_rank": 583.639255761533,
+      "kappa_s0_s19": 8.087712782764383,
+      "s0": 1088.3881732819666,
+      "s19": 134.57304957730548,
+      "mean_abs_corr_top20_PC": 9.907501476928001e-17
+    },
+    "traj_last": {
+      "n": 2000,
+      "dim": 8192,
+      "feat_shape": [
+        2000,
+        16,
+        512
+      ],
+      "topk_singular": [
+        1961.9861190962342,
+        582.7025681717882,
+        537.8174184427293,
+        344.28281939048406,
+        319.0891499741325,
+        290.2901001893516,
+        257.92132492333184,
+        242.49171505610295,
+        219.33063819805997,
+        213.00376075021285,
+        205.920519449342,
+        192.82291863722514,
+        180.86602969784408,
+        176.93375260149816,
+        171.7586484943568,
+        158.3110803048558,
+        156.5499954730273,
+        149.21596088559576,
+        146.06325309899952,
+        136.04039286911092
+      ],
+      "cumvar_top20": 0.9131825915548468,
+      "effective_rank": 317.328330514909,
+      "kappa_s0_s19": 14.422085071335491,
+      "s0": 1961.9861190962342,
+      "s19": 136.04039286911092,
+      "mean_abs_corr_top20_PC": 1.232785044704915e-16
+    },
+    "traj_count": 10,
+    "images": {
+      "svd_cumsum.png": "D:\\GPT\\gpt\\graduation_project\\linear_probe-and-gradient\\outputs\\diag_ddp_recce\\svd_cumsum.png",
+      "svd_spectrum.png": "D:\\GPT\\gpt\\graduation_project\\linear_probe-and-gradient\\outputs\\diag_ddp_recce\\svd_spectrum.png",
+      "grad_conflict_curve.png": "D:\\GPT\\gpt\\graduation_project\\linear_probe-and-gradient\\outputs\\diag_ddp_recce\\grad_conflict_curve.png",
+      "grad_cos_bar.png": "D:\\GPT\\gpt\\graduation_project\\linear_probe-and-gradient\\outputs\\diag_ddp_recce\\grad_cos_bar.png"
+    }
+  },
+  {
+    "dir": "diag_ddp_resnet",
+    "model": "ResNet101",
+    "registry": "ResNet101",
+    "status": "完成",
+    "init": "timm ImageNet 预训练",
+    "note": "基准模型；预训练版结果",
+    "world": 4,
+    "per_gpu_bs": 128,
+    "global_bs": 512,
+    "params_m": 44.6,
+    "image_size": 256,
+    "norm": "imagenet",
+    "feature_shape": "2000, 2048",
+    "rank": {
+      "n": 2000,
+      "dim": 2048,
+      "topk_singular": [
+        332.579977343834,
+        158.77671852353487,
+        85.37260238943371,
+        68.61113162468556,
+        52.74323848789791,
+        43.031704024667846,
+        39.168978337907184,
+        33.318023757341024,
+        32.65034654131947,
+        30.168265598365323,
+        27.620796804510363,
+        26.834243949930666,
+        25.471426050981396,
+        25.297976355767688,
+        24.037288482023758,
+        22.884427718523376,
+        22.45151824188985,
+        21.553194802736456,
+        20.99357863293147,
+        20.72277452813925
+      ],
+      "cumvar_top20": 0.8690929084098409,
+      "effective_rank": 771.3854528692573,
+      "kappa_s0_s19": 16.049008152465824,
+      "s0": 332.579977343834,
+      "s19": 20.72277452813925,
+      "mean_abs_corr_top20_PC": 1.2259856635140738e-16
+    },
+    "rank_metric": 0.8690929084098409,
+    "rank_metric_name": "cumvar@20",
+    "gradient": {
+      "steps": 80,
+      "mean_conflict_ratio": 0.5291675,
+      "frac_steps_majority_conflict": 0.3625,
+      "mean_cos_overall": -0.014751249999999997,
+      "per_pair_mean_cos": {
+        "cos_deepfake_vs_aigc": 0.042615,
+        "cos_deepfake_vs_imdl": -0.047592499999999996,
+        "cos_deepfake_vs_doc": -0.021928749999999997,
+        "cos_aigc_vs_imdl": -0.03955000000000001,
+        "cos_aigc_vs_doc": 0.0048412500000000035,
+        "cos_imdl_vs_doc": -0.026897499999999998
+      },
+      "per_pair_neg_frac": {
+        "cos_deepfake_vs_aigc": 0.4875,
+        "cos_deepfake_vs_imdl": 0.55,
+        "cos_deepfake_vs_doc": 0.6,
+        "cos_aigc_vs_imdl": 0.5,
+        "cos_aigc_vs_doc": 0.5,
+        "cos_imdl_vs_doc": 0.5375
+      }
+    },
+    "losses": [
+      {
+        "epoch": 0,
+        "steps": 636,
+        "mean_train_loss": 0.4286,
+        "mean_conflict_ratio": 0.5625,
+        "mean_cos": 0.0139
+      },
+      {
+        "epoch": 1,
+        "steps": 636,
+        "mean_train_loss": 0.2402,
+        "mean_conflict_ratio": 0.5417,
+        "mean_cos": -0.049
+      },
+      {
+        "epoch": 2,
+        "steps": 636,
+        "mean_train_loss": 0.1679,
+        "mean_conflict_ratio": 0.5417,
+        "mean_cos": -0.0418
+      },
+      {
+        "epoch": 3,
+        "steps": 636,
+        "mean_train_loss": 0.1145,
+        "mean_conflict_ratio": 0.5208,
+        "mean_cos": -0.0181
+      },
+      {
+        "epoch": 4,
+        "steps": 636,
+        "mean_train_loss": 0.0835,
+        "mean_conflict_ratio": 0.5625,
+        "mean_cos": 0.0125
+      },
+      {
+        "epoch": 5,
+        "steps": 636,
+        "mean_train_loss": 0.0614,
+        "mean_conflict_ratio": 0.5,
+        "mean_cos": 0.0112
+      },
+      {
+        "epoch": 6,
+        "steps": 636,
+        "mean_train_loss": 0.0538,
+        "mean_conflict_ratio": 0.5833,
+        "mean_cos": -0.0347
+      },
+      {
+        "epoch": 7,
+        "steps": 636,
+        "mean_train_loss": 0.0444,
+        "mean_conflict_ratio": 0.5417,
+        "mean_cos": -0.0271
+      },
+      {
+        "epoch": 8,
+        "steps": 636,
+        "mean_train_loss": 0.0413,
+        "mean_conflict_ratio": 0.5625,
+        "mean_cos": -0.0511
+      },
+      {
+        "epoch": 9,
+        "steps": 636,
+        "mean_train_loss": 0.034,
+        "mean_conflict_ratio": 0.375,
+        "mean_cos": 0.0368
+      }
+    ],
+    "loss_first": 0.4286,
+    "loss_last": 0.034,
+    "loss_min": 0.034,
+    "loss_change_pct": -92.06719552029864,
+    "traj_first": {
+      "n": 2000,
+      "dim": 2048,
+      "topk_singular": [
+        249.98804524618637,
+        108.34494003744226,
+        86.19083950039118,
+        63.85038469736046,
+        43.45588904529114,
+        39.54625033904449,
+        37.86808481729904,
+        33.602814140020534,
+        30.89123544827746,
+        28.77983444739489,
+        26.82457561358899,
+        25.19531607567805,
+        23.87294122721769,
+        22.94743247502518,
+        22.35956301347339,
+        21.842369908605836,
+        20.19846375417114,
+        19.5264328083474,
+        19.273403493661288,
+        18.75719402090778
+      ],
+      "cumvar_top20": 0.8253935678577671,
+      "effective_rank": 864.858061348251,
+      "kappa_s0_s19": 13.327582204860862,
+      "s0": 249.98804524618637,
+      "s19": 18.75719402090778,
+      "mean_abs_corr_top20_PC": 1.1488613402353243e-16
+    },
+    "traj_last": {
+      "n": 2000,
+      "dim": 2048,
+      "topk_singular": [
+        332.579977343834,
+        158.77671852353484,
+        85.37260238943371,
+        68.61113162468556,
+        52.74323848789791,
+        43.03170402466792,
+        39.168978337907234,
+        33.31802375734104,
+        32.650346541319514,
+        30.168265598365323,
+        27.620796804510363,
+        26.834243949930666,
+        25.471426050981414,
+        25.297976355767695,
+        24.037288482023758,
+        22.88442771852339,
+        22.45151824188985,
+        21.553194802736456,
+        20.993578632931474,
+        20.722774528139286
+      ],
+      "cumvar_top20": 0.8690929084098409,
+      "effective_rank": 771.3854528692573,
+      "kappa_s0_s19": 16.0490081524658,
+      "s0": 332.579977343834,
+      "s19": 20.722774528139286,
+      "mean_abs_corr_top20_PC": 1.146561131148676e-16
+    },
+    "traj_count": 10,
+    "images": {
+      "svd_cumsum.png": "D:\\GPT\\gpt\\graduation_project\\linear_probe-and-gradient\\outputs\\diag_ddp_resnet\\svd_cumsum.png",
+      "svd_spectrum.png": "D:\\GPT\\gpt\\graduation_project\\linear_probe-and-gradient\\outputs\\diag_ddp_resnet\\svd_spectrum.png",
+      "grad_conflict_curve.png": "D:\\GPT\\gpt\\graduation_project\\linear_probe-and-gradient\\outputs\\diag_ddp_resnet\\grad_conflict_curve.png",
+      "grad_cos_bar.png": "D:\\GPT\\gpt\\graduation_project\\linear_probe-and-gradient\\outputs\\diag_ddp_resnet\\grad_cos_bar.png"
+    }
+  },
+  {
+    "dir": "diag_ddp_segformer",
+    "model": "SegFormer-B3",
+    "registry": "Segformerb3",
+    "status": "完成",
+    "init": "随机初始化（mit_b3 权重缺失，空 state_dict 兜底）",
+    "note": "随机初始化，结果不能视作预训练基线",
+    "world": 4,
+    "per_gpu_bs": 128,
+    "global_bs": 512,
+    "params_m": 44.1,
+    "image_size": 256,
+    "norm": "imagenet",
+    "feature_shape": "2000, 512",
+    "rank": {
+      "n": 2000,
+      "dim": 512,
+      "topk_singular": [
+        0.0026337932315353488,
+        0.0017419474935104593,
+        0.0008072182459030839,
+        0.00032423432815095304,
+        0.00028004770583479064,
+        0.00018075756227834135,
+        0.00016473175731768555,
+        0.0001558571297602127,
+        0.00014455218494943052,
+        0.0001231965904534192,
+        0.00011594032903687331,
+        0.00011282352309469417,
+        0.00010454755152600213,
+        9.017775836387414e-05,
+        8.565780541273775e-05,
+        7.91185161114508e-05,
+        7.413601853858737e-05,
+        6.719379066414458e-05,
+        6.429268639197768e-05,
+        6.168435915834417e-05
+      ],
+      "cumvar_top20": 0.9877861619151428,
+      "effective_rank": 99.30086788446629,
+      "kappa_s0_s19": 42.69790956369466,
+      "s0": 0.0026337932315353488,
+      "s19": 6.168435915834417e-05,
+      "mean_abs_corr_top20_PC": 1.5179865897534242e-16
+    },
+    "rank_metric": 0.9877861619151428,
+    "rank_metric_name": "cumvar@20",
+    "gradient": {
+      "steps": 80,
+      "mean_conflict_ratio": 0.5750174999999998,
+      "frac_steps_majority_conflict": 0.55,
+      "mean_cos_overall": -0.1609425,
+      "per_pair_mean_cos": {
+        "cos_deepfake_vs_aigc": -0.28954625,
+        "cos_deepfake_vs_imdl": -0.1520625,
+        "cos_deepfake_vs_doc": 0.1353975,
+        "cos_aigc_vs_imdl": 0.3976575,
+        "cos_aigc_vs_doc": -0.7877125,
+        "cos_imdl_vs_doc": -0.2694325
+      },
+      "per_pair_neg_frac": {
+        "cos_deepfake_vs_aigc": 0.6375,
+        "cos_deepfake_vs_imdl": 0.575,
+        "cos_deepfake_vs_doc": 0.425,
+        "cos_aigc_vs_imdl": 0.2875,
+        "cos_aigc_vs_doc": 0.9125,
+        "cos_imdl_vs_doc": 0.6125
+      }
+    },
+    "losses": [
+      {
+        "epoch": 0,
+        "steps": 636,
+        "mean_train_loss": 0.691,
+        "mean_conflict_ratio": 0.5417,
+        "mean_cos": -0.1038
+      },
+      {
+        "epoch": 1,
+        "steps": 636,
+        "mean_train_loss": 0.6737,
+        "mean_conflict_ratio": 0.5625,
+        "mean_cos": -0.1342
+      },
+      {
+        "epoch": 2,
+        "steps": 636,
+        "mean_train_loss": 0.6527,
+        "mean_conflict_ratio": 0.5,
+        "mean_cos": -0.0562
+      },
+      {
+        "epoch": 3,
+        "steps": 636,
+        "mean_train_loss": 0.6483,
+        "mean_conflict_ratio": 0.625,
+        "mean_cos": -0.2351
+      },
+      {
+        "epoch": 4,
+        "steps": 636,
+        "mean_train_loss": 0.6528,
+        "mean_conflict_ratio": 0.5,
+        "mean_cos": -0.0462
+      },
+      {
+        "epoch": 5,
+        "steps": 636,
+        "mean_train_loss": 0.6816,
+        "mean_conflict_ratio": 0.5833,
+        "mean_cos": -0.1895
+      },
+      {
+        "epoch": 6,
+        "steps": 636,
+        "mean_train_loss": 0.6821,
+        "mean_conflict_ratio": 0.625,
+        "mean_cos": -0.229
+      },
+      {
+        "epoch": 7,
+        "steps": 636,
+        "mean_train_loss": 0.6821,
+        "mean_conflict_ratio": 0.6042,
+        "mean_cos": -0.2085
+      },
+      {
+        "epoch": 8,
+        "steps": 636,
+        "mean_train_loss": 0.6816,
+        "mean_conflict_ratio": 0.5833,
+        "mean_cos": -0.1592
+      },
+      {
+        "epoch": 9,
+        "steps": 636,
+        "mean_train_loss": 0.6822,
+        "mean_conflict_ratio": 0.625,
+        "mean_cos": -0.2478
+      }
+    ],
+    "loss_first": 0.691,
+    "loss_last": 0.6822,
+    "loss_min": 0.6483,
+    "loss_change_pct": -1.2735166425470217,
+    "traj_first": {
+      "n": 2000,
+      "dim": 512,
+      "topk_singular": [
+        753.0554342574311,
+        13.953644425784537,
+        4.430420952189508,
+        2.341089844223749,
+        1.414246619744757,
+        1.1657122173946837,
+        0.9275497274301557,
+        0.8199711692891426,
+        0.7305055476272104,
+        0.6710872077700335,
+        0.5518127561788045,
+        0.49262247855968666,
+        0.39724541202015823,
+        0.3762206933262338,
+        0.33624024833108584,
+        0.31075829960607765,
+        0.30190535459676004,
+        0.2596188909490662,
+        0.24115525186569106,
+        0.23051507435341925
+      ],
+      "cumvar_top20": 0.9999995115724071,
+      "effective_rank": 1.337879617178204,
+      "kappa_s0_s19": 3266.838129204517,
+      "s0": 753.0554342574311,
+      "s19": 0.23051507435341925,
+      "mean_abs_corr_top20_PC": 2.7089995050883336e-16
+    },
+    "traj_last": {
+      "n": 2000,
+      "dim": 512,
+      "topk_singular": [
+        0.0026337932315353488,
+        0.0017419474935104593,
+        0.0008072182459030839,
+        0.00032423432815095304,
+        0.00028004770583479064,
+        0.00018075756227834135,
+        0.00016473175731768555,
+        0.0001558571297602127,
+        0.00014455218494943052,
+        0.0001231965904534192,
+        0.00011594032903687331,
+        0.00011282352309469417,
+        0.00010454755152600213,
+        9.017775836387414e-05,
+        8.565780541273775e-05,
+        7.91185161114508e-05,
+        7.413601853858737e-05,
+        6.719379066414458e-05,
+        6.429268639197768e-05,
+        6.168435915834417e-05
+      ],
+      "cumvar_top20": 0.9877861619151428,
+      "effective_rank": 99.30086788446629,
+      "kappa_s0_s19": 42.69790956369466,
+      "s0": 0.0026337932315353488,
+      "s19": 6.168435915834417e-05,
+      "mean_abs_corr_top20_PC": 1.5179865897534242e-16
+    },
+    "traj_count": 10,
+    "images": {
+      "svd_cumsum.png": "D:\\GPT\\gpt\\graduation_project\\linear_probe-and-gradient\\outputs\\diag_ddp_segformer\\svd_cumsum.png",
+      "svd_spectrum.png": "D:\\GPT\\gpt\\graduation_project\\linear_probe-and-gradient\\outputs\\diag_ddp_segformer\\svd_spectrum.png",
+      "grad_conflict_curve.png": "D:\\GPT\\gpt\\graduation_project\\linear_probe-and-gradient\\outputs\\diag_ddp_segformer\\grad_conflict_curve.png",
+      "grad_cos_bar.png": "D:\\GPT\\gpt\\graduation_project\\linear_probe-and-gradient\\outputs\\diag_ddp_segformer\\grad_cos_bar.png"
+    }
+  },
+  {
+    "dir": "diag_ddp_swin",
+    "model": "Swin-Small",
+    "registry": "SwinSmall",
+    "status": "完成",
+    "init": "timm ImageNet 预训练",
+    "note": "平均梯度余弦为正，冲突程度较低",
+    "world": 4,
+    "per_gpu_bs": 128,
+    "global_bs": 512,
+    "params_m": 49.6,
+    "image_size": 256,
+    "norm": "imagenet",
+    "feature_shape": "2000, 768",
+    "rank": {
+      "n": 2000,
+      "dim": 768,
+      "topk_singular": [
+        907.9716996466526,
+        275.61470959977805,
+        220.56261089677454,
+        152.0847547134535,
+        126.71893560120392,
+        116.37553260896918,
+        109.80113767392328,
+        84.27969637897569,
+        82.56479459009542,
+        72.5308595595492,
+        67.94027271323212,
+        63.47310245054371,
+        61.16590157788637,
+        59.243321261335915,
+        54.69294789516336,
+        51.90740157410145,
+        49.337665326894104,
+        46.90595270101765,
+        45.04679836936313,
+        44.191297447715534
+      ],
+      "cumvar_top20": 0.9199569702153435,
+      "effective_rank": 317.5250215909559,
+      "kappa_s0_s19": 20.546391531520186,
+      "s0": 907.9716996466526,
+      "s19": 44.191297447715534,
+      "mean_abs_corr_top20_PC": 1.5195781192247415e-16
+    },
+    "rank_metric": 0.9199569702153435,
+    "rank_metric_name": "cumvar@20",
+    "gradient": {
+      "steps": 80,
+      "mean_conflict_ratio": 0.43958875,
+      "frac_steps_majority_conflict": 0.275,
+      "mean_cos_overall": 0.032869999999999996,
+      "per_pair_mean_cos": {
+        "cos_deepfake_vs_aigc": 0.025988750000000005,
+        "cos_deepfake_vs_imdl": 0.028590000000000004,
+        "cos_deepfake_vs_doc": 0.023385,
+        "cos_aigc_vs_imdl": 0.04440625,
+        "cos_aigc_vs_doc": 0.02521125,
+        "cos_imdl_vs_doc": 0.04966
+      },
+      "per_pair_neg_frac": {
+        "cos_deepfake_vs_aigc": 0.475,
+        "cos_deepfake_vs_imdl": 0.375,
+        "cos_deepfake_vs_doc": 0.4875,
+        "cos_aigc_vs_imdl": 0.4375,
+        "cos_aigc_vs_doc": 0.45,
+        "cos_imdl_vs_doc": 0.4
+      }
+    },
+    "losses": [
+      {
+        "epoch": 0,
+        "steps": 636,
+        "mean_train_loss": 0.3488,
+        "mean_conflict_ratio": 0.4792,
+        "mean_cos": 0.0336
+      },
+      {
+        "epoch": 1,
+        "steps": 636,
+        "mean_train_loss": 0.1752,
+        "mean_conflict_ratio": 0.4583,
+        "mean_cos": 0.0023
+      },
+      {
+        "epoch": 2,
+        "steps": 636,
+        "mean_train_loss": 0.113,
+        "mean_conflict_ratio": 0.4375,
+        "mean_cos": 0.0136
+      },
+      {
+        "epoch": 3,
+        "steps": 636,
+        "mean_train_loss": 0.0908,
+        "mean_conflict_ratio": 0.4167,
+        "mean_cos": 0.0567
+      },
+      {
+        "epoch": 4,
+        "steps": 636,
+        "mean_train_loss": 0.069,
+        "mean_conflict_ratio": 0.3333,
+        "mean_cos": 0.0855
+      },
+      {
+        "epoch": 5,
+        "steps": 636,
+        "mean_train_loss": 0.0548,
+        "mean_conflict_ratio": 0.3958,
+        "mean_cos": 0.0226
+      },
+      {
+        "epoch": 6,
+        "steps": 636,
+        "mean_train_loss": 0.0516,
+        "mean_conflict_ratio": 0.4792,
+        "mean_cos": 0.0259
+      },
+      {
+        "epoch": 7,
+        "steps": 636,
+        "mean_train_loss": 0.0471,
+        "mean_conflict_ratio": 0.5208,
+        "mean_cos": 0.0051
+      },
+      {
+        "epoch": 8,
+        "steps": 636,
+        "mean_train_loss": 0.0497,
+        "mean_conflict_ratio": 0.5208,
+        "mean_cos": 0.0137
+      },
+      {
+        "epoch": 9,
+        "steps": 636,
+        "mean_train_loss": 0.0395,
+        "mean_conflict_ratio": 0.3542,
+        "mean_cos": 0.0698
+      }
+    ],
+    "loss_first": 0.3488,
+    "loss_last": 0.0395,
+    "loss_min": 0.0395,
+    "loss_change_pct": -88.67545871559633,
+    "traj_first": {
+      "n": 2000,
+      "dim": 768,
+      "topk_singular": [
+        512.5614498875547,
+        280.81239527220225,
+        198.4846558599993,
+        165.09576687560784,
+        150.72346827674983,
+        118.00560005310369,
+        105.6110019355986,
+        92.82360531379744,
+        78.82792434839635,
+        72.99088003318548,
+        66.94566203049541,
+        64.29010027021673,
+        58.64983211793113,
+        56.76515791307033,
+        54.36196665925467,
+        53.14472096309124,
+        53.022132054943356,
+        49.52519833873622,
+        48.31552207700118,
+        45.83694888981658
+      ],
+      "cumvar_top20": 0.8202242679329228,
+      "effective_rank": 405.6400728858026,
+      "kappa_s0_s19": 11.18227679420035,
+      "s0": 512.5614498875547,
+      "s19": 45.83694888981658,
+      "mean_abs_corr_top20_PC": 1.4504368479603815e-16
+    },
+    "traj_last": {
+      "n": 2000,
+      "dim": 768,
+      "topk_singular": [
+        907.9716996466526,
+        275.61470959977805,
+        220.56261089677454,
+        152.0847547134535,
+        126.71893560120392,
+        116.37553260896918,
+        109.80113767392328,
+        84.27969637897569,
+        82.56479459009542,
+        72.5308595595492,
+        67.94027271323212,
+        63.47310245054371,
+        61.16590157788637,
+        59.243321261335915,
+        54.69294789516336,
+        51.90740157410145,
+        49.337665326894104,
+        46.90595270101765,
+        45.04679836936313,
+        44.191297447715534
+      ],
+      "cumvar_top20": 0.9199569702153435,
+      "effective_rank": 317.5250215909559,
+      "kappa_s0_s19": 20.546391531520186,
+      "s0": 907.9716996466526,
+      "s19": 44.191297447715534,
+      "mean_abs_corr_top20_PC": 1.5195781192247415e-16
+    },
+    "traj_count": 10,
+    "images": {
+      "svd_cumsum.png": "D:\\GPT\\gpt\\graduation_project\\linear_probe-and-gradient\\outputs\\diag_ddp_swin\\svd_cumsum.png",
+      "svd_spectrum.png": "D:\\GPT\\gpt\\graduation_project\\linear_probe-and-gradient\\outputs\\diag_ddp_swin\\svd_spectrum.png",
+      "grad_conflict_curve.png": "D:\\GPT\\gpt\\graduation_project\\linear_probe-and-gradient\\outputs\\diag_ddp_swin\\grad_conflict_curve.png",
+      "grad_cos_bar.png": "D:\\GPT\\gpt\\graduation_project\\linear_probe-and-gradient\\outputs\\diag_ddp_swin\\grad_cos_bar.png"
+    }
+  },
+  {
+    "dir": "diag_ddp_trufor",
+    "model": "TruFor",
+    "registry": "Trufor",
+    "status": "完成",
+    "init": "Noiseprint + MiT-B2 预训练权重 + TruFor 配置",
+    "note": "128 维且有效秩约 3，疑似钩子落在退化小头",
+    "world": 4,
+    "per_gpu_bs": 64,
+    "global_bs": 256,
+    "params_m": 68.7,
+    "image_size": 256,
+    "norm": "imagenet",
+    "feature_shape": "2000, 128",
+    "rank": {
+      "n": 2000,
+      "dim": 128,
+      "feat_shape": [
+        2000,
+        128
+      ],
+      "topk_singular": [
+        1172.217849526165,
+        499.4186068948665,
+        44.29364392333537,
+        36.399362318482915,
+        14.654024315884588,
+        10.753151917022837,
+        7.39324113148794,
+        5.343824464468393,
+        4.069250528295742,
+        3.742510097374171,
+        3.1529223872551384,
+        2.7532352862423486,
+        2.250716195680896,
+        2.0930622204712517,
+        1.8920478280287123,
+        1.5739823095995435,
+        1.4277007675806692,
+        1.227060864533579,
+        1.175921131533749,
+        1.0453667386564067
+      ],
+      "cumvar_top20": 0.9999946379458602,
+      "effective_rank": 2.9977412410492597,
+      "kappa_s0_s19": 1121.3460369244929,
+      "s0": 1172.217849526165,
+      "s19": 1.0453667386564067,
+      "mean_abs_corr_top20_PC": 1.4796767511913283e-16
+    },
+    "rank_metric": 0.9999946379458602,
+    "rank_metric_name": "cumvar@20",
+    "gradient": {
+      "steps": 159,
+      "mean_conflict_ratio": 0.5230654088050315,
+      "frac_steps_majority_conflict": 0.4276729559748428,
+      "mean_cos_overall": -0.004832704402515722,
+      "per_pair_mean_cos": {
+        "cos_deepfake_vs_aigc": -0.027373584905660373,
+        "cos_deepfake_vs_imdl": 0.01181572327044025,
+        "cos_deepfake_vs_doc": 0.006575471698113206,
+        "cos_aigc_vs_imdl": -0.006962893081761004,
+        "cos_aigc_vs_doc": -0.028242138364779873,
+        "cos_imdl_vs_doc": 0.015192452830188677
+      },
+      "per_pair_neg_frac": {
+        "cos_deepfake_vs_aigc": 0.5849056603773585,
+        "cos_deepfake_vs_imdl": 0.4968553459119497,
+        "cos_deepfake_vs_doc": 0.48427672955974843,
+        "cos_aigc_vs_imdl": 0.5345911949685535,
+        "cos_aigc_vs_doc": 0.5911949685534591,
+        "cos_imdl_vs_doc": 0.44025157232704404
+      }
+    },
+    "losses": [
+      {
+        "epoch": 0,
+        "steps": 1272,
+        "mean_train_loss": 0.6077,
+        "mean_conflict_ratio": 0.5208,
+        "mean_cos": 0.0025
+      },
+      {
+        "epoch": 1,
+        "steps": 1272,
+        "mean_train_loss": 0.5192,
+        "mean_conflict_ratio": 0.5521,
+        "mean_cos": -0.0273
+      },
+      {
+        "epoch": 2,
+        "steps": 1272,
+        "mean_train_loss": 0.4657,
+        "mean_conflict_ratio": 0.5417,
+        "mean_cos": -0.0062
+      },
+      {
+        "epoch": 3,
+        "steps": 1272,
+        "mean_train_loss": 0.4264,
+        "mean_conflict_ratio": 0.5,
+        "mean_cos": -0.0182
+      },
+      {
+        "epoch": 4,
+        "steps": 1272,
+        "mean_train_loss": 0.4043,
+        "mean_conflict_ratio": 0.4896,
+        "mean_cos": 0.0092
+      },
+      {
+        "epoch": 5,
+        "steps": 1272,
+        "mean_train_loss": 0.3876,
+        "mean_conflict_ratio": 0.5729,
+        "mean_cos": 0.0032
+      },
+      {
+        "epoch": 6,
+        "steps": 1272,
+        "mean_train_loss": 0.3738,
+        "mean_conflict_ratio": 0.5521,
+        "mean_cos": -0.0067
+      },
+      {
+        "epoch": 7,
+        "steps": 1272,
+        "mean_train_loss": 0.3628,
+        "mean_conflict_ratio": 0.5,
+        "mean_cos": 0.0132
+      },
+      {
+        "epoch": 8,
+        "steps": 1272,
+        "mean_train_loss": 0.356,
+        "mean_conflict_ratio": 0.5,
+        "mean_cos": -0.0159
+      },
+      {
+        "epoch": 9,
+        "steps": 1272,
+        "mean_train_loss": 0.3481,
+        "mean_conflict_ratio": 0.5,
+        "mean_cos": -0.002
+      }
+    ],
+    "loss_first": 0.6077,
+    "loss_last": 0.3481,
+    "loss_min": 0.3481,
+    "loss_change_pct": -42.71844660194174,
+    "traj_first": {
+      "n": 2000,
+      "dim": 128,
+      "feat_shape": [
+        2000,
+        128
+      ],
+      "topk_singular": [
+        434.6684028293269,
+        331.70917431641084,
+        42.008342812240194,
+        18.337372676198388,
+        15.163368468630003,
+        11.628597019519939,
+        10.131517518716597,
+        8.243454364842696,
+        7.0659128262402,
+        5.169362979483782,
+        5.018822161595639,
+        3.7388818477076233,
+        2.9758353233319004,
+        2.7079721328160447,
+        2.6206946268740325,
+        2.369176143334957,
+        2.1656057905800763,
+        1.7120192105403147,
+        1.6854538209607854,
+        1.6495050500695962
+      ],
+      "cumvar_top20": 0.9999251263153999,
+      "effective_rank": 5.1951468248203785,
+      "kappa_s0_s19": 263.5144419901738,
+      "s0": 434.6684028293269,
+      "s19": 1.6495050500695962,
+      "mean_abs_corr_top20_PC": 1.54644228072353e-16
+    },
+    "traj_last": {
+      "n": 2000,
+      "dim": 128,
+      "feat_shape": [
+        2000,
+        128
+      ],
+      "topk_singular": [
+        1172.217849526165,
+        499.4186068948665,
+        44.29364392333537,
+        36.399362318482915,
+        14.654024315884588,
+        10.753151917022837,
+        7.39324113148794,
+        5.343824464468393,
+        4.069250528295742,
+        3.742510097374171,
+        3.1529223872551384,
+        2.7532352862423486,
+        2.250716195680896,
+        2.0930622204712517,
+        1.8920478280287123,
+        1.5739823095995435,
+        1.4277007675806692,
+        1.227060864533579,
+        1.175921131533749,
+        1.0453667386564067
+      ],
+      "cumvar_top20": 0.9999946379458602,
+      "effective_rank": 2.9977412410492597,
+      "kappa_s0_s19": 1121.3460369244929,
+      "s0": 1172.217849526165,
+      "s19": 1.0453667386564067,
+      "mean_abs_corr_top20_PC": 1.4796767511913283e-16
+    },
+    "traj_count": 10,
+    "images": {
+      "svd_cumsum.png": "D:\\GPT\\gpt\\graduation_project\\linear_probe-and-gradient\\outputs\\diag_ddp_trufor\\svd_cumsum.png",
+      "svd_spectrum.png": "D:\\GPT\\gpt\\graduation_project\\linear_probe-and-gradient\\outputs\\diag_ddp_trufor\\svd_spectrum.png",
+      "grad_conflict_curve.png": "D:\\GPT\\gpt\\graduation_project\\linear_probe-and-gradient\\outputs\\diag_ddp_trufor\\grad_conflict_curve.png",
+      "grad_cos_bar.png": "D:\\GPT\\gpt\\graduation_project\\linear_probe-and-gradient\\outputs\\diag_ddp_trufor\\grad_cos_bar.png"
+    }
+  },
+  {
+    "dir": "diag_ddp_univfd",
+    "model": "UnivFD",
+    "registry": "UnivFD",
+    "status": "完成",
+    "init": "CLIP ViT-L/14 预训练",
+    "note": "cumvar@20 最低、有效秩最高，谱分布最分散",
+    "world": 4,
+    "per_gpu_bs": 64,
+    "global_bs": 256,
+    "params_m": 427.6,
+    "image_size": 224,
+    "norm": "clip",
+    "feature_shape": "2000, 768",
+    "rank": {
+      "n": 2000,
+      "dim": 768,
+      "feat_shape": [
+        2000,
+        768
+      ],
+      "topk_singular": [
+        182.32491212335196,
+        162.84763830851088,
+        117.15402070009613,
+        90.37685040238232,
+        85.5443410079829,
+        79.82460562148148,
+        73.0775292434595,
+        71.08956677766426,
+        67.42996445409999,
+        64.73142162296284,
+        63.706243193343305,
+        62.70362916056089,
+        60.38807029478757,
+        58.28260917157436,
+        57.42585926274189,
+        56.66450223435469,
+        54.817249783001664,
+        52.45555289681137,
+        52.118820362491554,
+        51.02298126752605
+      ],
+      "cumvar_top20": 0.4001391302401712,
+      "effective_rank": 513.5256300908253,
+      "kappa_s0_s19": 3.57338806149672,
+      "s0": 182.32491212335196,
+      "s19": 51.02298126752605,
+      "mean_abs_corr_top20_PC": 1.5962348661225258e-16
+    },
+    "rank_metric": 0.4001391302401712,
+    "rank_metric_name": "cumvar@20",
+    "gradient": {
+      "steps": 159,
+      "mean_conflict_ratio": 0.5262163522012578,
+      "frac_steps_majority_conflict": 0.42138364779874216,
+      "mean_cos_overall": -0.01983333333333333,
+      "per_pair_mean_cos": {
+        "cos_deepfake_vs_aigc": 0.008537106918238993,
+        "cos_deepfake_vs_imdl": -0.01272075471698113,
+        "cos_deepfake_vs_doc": 0.017472955974842774,
+        "cos_aigc_vs_imdl": -0.04806603773584905,
+        "cos_aigc_vs_doc": -0.08602327044025156,
+        "cos_imdl_vs_doc": 0.0017968553459119495
+      },
+      "per_pair_neg_frac": {
+        "cos_deepfake_vs_aigc": 0.5094339622641509,
+        "cos_deepfake_vs_imdl": 0.5345911949685535,
+        "cos_deepfake_vs_doc": 0.4276729559748428,
+        "cos_aigc_vs_imdl": 0.5786163522012578,
+        "cos_aigc_vs_doc": 0.5911949685534591,
+        "cos_imdl_vs_doc": 0.5157232704402516
+      }
+    },
+    "losses": [
+      {
+        "epoch": 0,
+        "steps": 1272,
+        "mean_train_loss": 0.5448,
+        "mean_conflict_ratio": 0.5521,
+        "mean_cos": -0.0474
+      },
+      {
+        "epoch": 1,
+        "steps": 1272,
+        "mean_train_loss": 0.4549,
+        "mean_conflict_ratio": 0.5417,
+        "mean_cos": -0.041
+      },
+      {
+        "epoch": 2,
+        "steps": 1272,
+        "mean_train_loss": 0.422,
+        "mean_conflict_ratio": 0.5833,
+        "mean_cos": -0.0518
+      },
+      {
+        "epoch": 3,
+        "steps": 1272,
+        "mean_train_loss": 0.4038,
+        "mean_conflict_ratio": 0.4479,
+        "mean_cos": 0.0126
+      },
+      {
+        "epoch": 4,
+        "steps": 1272,
+        "mean_train_loss": 0.391,
+        "mean_conflict_ratio": 0.5312,
+        "mean_cos": -0.0036
+      },
+      {
+        "epoch": 5,
+        "steps": 1272,
+        "mean_train_loss": 0.3818,
+        "mean_conflict_ratio": 0.5,
+        "mean_cos": -0.0196
+      },
+      {
+        "epoch": 6,
+        "steps": 1272,
+        "mean_train_loss": 0.3756,
+        "mean_conflict_ratio": 0.5104,
+        "mean_cos": 0.0134
+      },
+      {
+        "epoch": 7,
+        "steps": 1272,
+        "mean_train_loss": 0.3698,
+        "mean_conflict_ratio": 0.5312,
+        "mean_cos": -0.0194
+      },
+      {
+        "epoch": 8,
+        "steps": 1272,
+        "mean_train_loss": 0.3664,
+        "mean_conflict_ratio": 0.5417,
+        "mean_cos": -0.0339
+      },
+      {
+        "epoch": 9,
+        "steps": 1272,
+        "mean_train_loss": 0.363,
+        "mean_conflict_ratio": 0.5222,
+        "mean_cos": -0.0069
+      }
+    ],
+    "loss_first": 0.5448,
+    "loss_last": 0.363,
+    "loss_min": 0.363,
+    "loss_change_pct": -33.370044052863435,
+    "traj_first": {
+      "n": 2000,
+      "dim": 768,
+      "feat_shape": [
+        2000,
+        768
+      ],
+      "topk_singular": [
+        182.32491212335196,
+        162.84763830851088,
+        117.15402070009613,
+        90.37685040238232,
+        85.5443410079829,
+        79.82460562148148,
+        73.0775292434595,
+        71.08956677766426,
+        67.42996445409999,
+        64.73142162296284,
+        63.706243193343305,
+        62.70362916056089,
+        60.38807029478757,
+        58.28260917157436,
+        57.42585926274189,
+        56.66450223435469,
+        54.817249783001664,
+        52.45555289681137,
+        52.118820362491554,
+        51.02298126752605
+      ],
+      "cumvar_top20": 0.4001391302401712,
+      "effective_rank": 513.5256300908253,
+      "kappa_s0_s19": 3.57338806149672,
+      "s0": 182.32491212335196,
+      "s19": 51.02298126752605,
+      "mean_abs_corr_top20_PC": 1.5962348661225258e-16
+    },
+    "traj_last": {
+      "n": 2000,
+      "dim": 768,
+      "feat_shape": [
+        2000,
+        768
+      ],
+      "topk_singular": [
+        182.32491212335196,
+        162.84763830851088,
+        117.15402070009613,
+        90.37685040238232,
+        85.5443410079829,
+        79.82460562148148,
+        73.0775292434595,
+        71.08956677766426,
+        67.42996445409999,
+        64.73142162296284,
+        63.706243193343305,
+        62.70362916056089,
+        60.38807029478757,
+        58.28260917157436,
+        57.42585926274189,
+        56.66450223435469,
+        54.817249783001664,
+        52.45555289681137,
+        52.118820362491554,
+        51.02298126752605
+      ],
+      "cumvar_top20": 0.4001391302401712,
+      "effective_rank": 513.5256300908253,
+      "kappa_s0_s19": 3.57338806149672,
+      "s0": 182.32491212335196,
+      "s19": 51.02298126752605,
+      "mean_abs_corr_top20_PC": 1.5962348661225258e-16
+    },
+    "traj_count": 10,
+    "images": {
+      "svd_cumsum.png": "D:\\GPT\\gpt\\graduation_project\\linear_probe-and-gradient\\outputs\\diag_ddp_univfd\\svd_cumsum.png",
+      "svd_spectrum.png": "D:\\GPT\\gpt\\graduation_project\\linear_probe-and-gradient\\outputs\\diag_ddp_univfd\\svd_spectrum.png",
+      "grad_conflict_curve.png": "D:\\GPT\\gpt\\graduation_project\\linear_probe-and-gradient\\outputs\\diag_ddp_univfd\\grad_conflict_curve.png",
+      "grad_cos_bar.png": "D:\\GPT\\gpt\\graduation_project\\linear_probe-and-gradient\\outputs\\diag_ddp_univfd\\grad_cos_bar.png"
+    }
+  }
+]

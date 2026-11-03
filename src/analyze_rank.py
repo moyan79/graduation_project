@@ -3,8 +3,9 @@
   python src/analyze_rank.py --npz outputs/diag_resnet/features_last.npz --out outputs/diag_resnet
 
 Outputs: rank_report.json + svd_spectrum.png + svd_cumsum.png
-Metrics: top-20 singular values, cumvar@20, effective rank, kappa=s0/s19,
-         mean |corr| of top-20 PCs (your "co-linearity" claim).
+Metrics: top-20 singular values, cumvar@20, effective rank, kappa=s0/s19.
+         The SVD principal directions are orthogonal; their mean |corr| is a
+         diagnostic artifact, not evidence of collinearity.
 """
 import argparse
 import json
@@ -49,7 +50,7 @@ def main():
         f"kappa_s0_s{k-1}": float(S[0] / (S[k - 1] + 1e-12)),
         "s0": float(S[0]), "s19": float(S[min(19, len(S)-1)]),
     }
-    # PC collinearity proxy: mean |corr| among top-k PC scores
+    # Kept for compatibility; orthogonal PCs make this a near-zero artifact.
     Z = U[:, :k] * S[:k]
     C = np.corrcoef(Z.T)
     iu = np.triu_indices(k, 1)
