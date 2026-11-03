@@ -1,3 +1,8 @@
 # 模型权重：只留说明文件，大文件不进 git
 /weights/*
 !/weights/README.md
+
+# Python bytecode
+__pycache__/
+*.py[cod]
+.pytest_cache/
