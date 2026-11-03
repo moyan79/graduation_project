@@ -22,7 +22,6 @@ import csv
 import itertools
 import os
 import sys
-from contextlib import nullcontext
 from pathlib import Path
 
 import numpy as np
@@ -83,6 +82,30 @@ def is_main(a):
     return a.rank == 0
 
 
+class DDPForwardAnchor(torch.nn.Module):
+    """Make every trainable parameter part of the DDP forward graph.
+
+    Adding the anchor *outside* DDP.forward makes find_unused_parameters mark a
+    parameter ready as unused and then fire its hook again, which raises
+    "marked as ready twice" for CO-SPY. Keeping the zero term inside this
+    wrapper lets DDP see every parameter while preserving the loss exactly.
+    """
+
+    def __init__(self, model):
+        super().__init__()
+        self.model = model
+
+    def forward(self, *args, **kwargs):
+        out = self.model(*args, **kwargs)
+        loss = out["backward_loss"]
+        if loss.dim() > 0:
+            loss = loss.mean()
+        anchor = 0.0 * sum(p.sum() for p in self.parameters() if p.requires_grad)
+        out = dict(out)
+        out["backward_loss"] = loss + anchor
+        return out
+
+
 @torch.no_grad()
 def _flatten_grads(model):
     vs = []
@@ -127,11 +150,6 @@ def per_domain_grad_snapshots(model, batch, device):
         loss = out["backward_loss"]
         if loss.dim() > 0:
             loss = loss.mean()
-        # Zero-contribution anchor so DDP never sees undefined grads.
-        # Dynamic-graph models (e.g. CO-SPY) leave some params unused in some
-        # forwards; without this the reducer allreduces undefined grads and dies.
-        # Mathematically identical for all models (adds exactly 0.0).
-        loss = loss + 0.0 * sum(p.sum() for p in model.parameters())
         loss.backward()
         gdict = {}
         for n, pg in model.named_parameters():
@@ -192,11 +210,13 @@ def main():
     norm = mcfg["norm"]
     model.to(device)
     if a.distributed:
-        # find_unused_parameters=True: mask/backbone branches vary across forwards;
-        # diagnosis tolerates the extra sync cost.
+        # The wrapper puts a zero-valued dependency on every trainable parameter
+        # inside the DDP forward. This handles dynamic branches without using
+        # find_unused_parameters=True, which conflicts with out-of-forward anchors.
+        ddp_module = DDPForwardAnchor(model)
         model = torch.nn.parallel.DistributedDataParallel(
-            model, device_ids=[a.local_rank], find_unused_parameters=True)
-        base_model = model.module
+            ddp_module, device_ids=[a.local_rank], find_unused_parameters=False)
+        base_model = ddp_module.model
     else:
         base_model = model
     n_params = sum(p.numel() for p in base_model.parameters())
@@ -262,9 +282,9 @@ def main():
             B, _, H, W = imgs.shape
             # --- diagnostic per-domain grads (rank 0 only, does NOT update weights) ---
             if step % a.diag_every == 1 and is_main(a):
-                ctx = model.no_sync() if a.distributed else nullcontext()
-                with ctx:
-                    snaps = per_domain_grad_snapshots(model, batch, device)
+                # Use the unwrapped module: the diagnostic backward must never
+                # interact with the DDP reducer on rank 0.
+                snaps = per_domain_grad_snapshots(base_model, batch, device)
                 if len(snaps) >= 2:
                     keys = sorted(snaps)
                     coss, norms = {}, {}
@@ -302,11 +322,6 @@ def main():
             loss = outd["backward_loss"]
             if loss.dim() > 0:
                 loss = loss.mean()
-            # Zero-contribution anchor so DDP never sees undefined grads.
-            # Dynamic-graph models (e.g. CO-SPY) leave some params unused in some
-            # forwards; without this the reducer allreduces undefined grads and dies.
-            # Mathematically identical for all models (adds exactly 0.0).
-            loss = loss + 0.0 * sum(p.sum() for p in model.parameters())
             loss.backward()
             opt.step()
             ep_loss_sum += float(loss.item())
