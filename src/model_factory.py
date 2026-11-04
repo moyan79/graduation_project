@@ -273,6 +273,24 @@ FEATURE_TARGETS = {
 }
 
 
+def _unwrap_feature_root(model):
+    """Peel DDP and the local zero-anchor wrapper before resolving hook paths."""
+    root = model
+    seen = set()
+    while id(root) not in seen:
+        seen.add(id(root))
+        if isinstance(root, torch.nn.parallel.DistributedDataParallel):
+            root = root.module
+            continue
+        if root.__class__.__name__ == "DDPForwardAnchor":
+            inner = getattr(root, "model", None)
+            if isinstance(inner, nn.Module):
+                root = inner
+                continue
+        break
+    return root
+
+
 def _resolve_module_path(root, dotted_path):
     obj = root
     for part in dotted_path.split("."):
@@ -304,6 +322,7 @@ class RepresentationHook:
         self.feat = None
         self.model_key = model_key.lower() if model_key else None
         self.expected_dim = None
+        model = _unwrap_feature_root(model)
         target = FEATURE_TARGETS.get(self.model_key)
         if target:
             self.target_path = target["path"]

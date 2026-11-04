@@ -346,7 +346,7 @@ def main():
 
         # --- periodic frozen-feature dump for SVD representation diagnostics ---
         if (ep + 1) % a.probe_every == 0 or ep == a.epochs - 1:
-            local_fb = extract_features(model, dl_probe, device, model_key=a.model)
+            local_fb = extract_features(base_model, dl_probe, device, model_key=a.model)
             if a.distributed:
                 gathered = [None] * a.world_size
                 dist.all_gather_object(gathered, {k: v for k, v in local_fb.items()})
@@ -364,7 +364,7 @@ def main():
                          domain_names=np.array(DOMAIN_NAMES))
                 print(f"[diag] dumped features_epoch{ep}.npz {local_fb['features'].shape}")
 
-    local_fb = extract_features(model, dl_probe, device, model_key=a.model)
+    local_fb = extract_features(base_model, dl_probe, device, model_key=a.model)
     if a.distributed:
         gathered = [None] * a.world_size
         dist.all_gather_object(gathered, {k: v for k, v in local_fb.items()})
