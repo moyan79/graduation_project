@@ -265,10 +265,17 @@ FEATURE_TARGETS = {
     "iml-vit": {
         "path": "base_model.predict_head.linear_fuse",
         "expected_dim": 256,
+        "source": "output",
     },
     "trufor": {
         "path": "base_model.model.decode_head.linear_fuse",
         "expected_dim": 512,
+        "source": "output",
+    },
+    "sia": {
+        "path": "backbone.last_layer",
+        "expected_dim": 1792,
+        "source": "input",
     },
 }
 
@@ -327,13 +334,15 @@ class RepresentationHook:
         if target:
             self.target_path = target["path"]
             self.expected_dim = target.get("expected_dim")
+            self.mode = target.get("source", "output")
             module = _resolve_module_path(model, self.target_path)
-            self.mode = "output"
             self.description = (
-                f"{self.model_key}:output:{self.target_path}:"
+                f"{self.model_key}:{self.mode}:{self.target_path}:"
                 f"expected_dim={self.expected_dim}"
             )
-            self.handle = module.register_forward_hook(self._hook_output)
+            self.handle = module.register_forward_hook(
+                self._hook_input if self.mode == "input" else self._hook_output
+            )
             return
 
         # Generic fallback: the vector entering the final linear classifier.
