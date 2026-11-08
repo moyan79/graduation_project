@@ -9,3 +9,5 @@
 | `manual/` | 手动 `hf download --local-dir` 归档，比如 `/tmp/test_resnet` 搬过来的 |
 
 只有本文件进 git，权重本身全部忽略。新机器 `git clone` 后目录会自动建好（HF 首次下载时创建）。
+
+当前领域权重放在 `manual/hf_tasks/`：`deepfakebench/` 下为 `spsl_best.pth`、`srm_best.pth`、`f3net_best.pth`、`xception_best.pth`、`capsule_best.pth`；`univfd/fc_weights.pth` 仅包含 UnivFD 分类头。来源清单和许可文件与权重放在同一归档目录。

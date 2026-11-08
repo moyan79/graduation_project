@@ -22,7 +22,8 @@ LOG_PATTERNS = {
     "built": r"\[diag\] (model=|built |dumped features_epoch0|feature_hook=)",
     "init": (
         r"random init|pretrain|Downloading:|lazy import|Loading '|Loading weights|"
-        r"load_state_dict|fallback|fall back|missing keys|unexpected keys|No checkpoint"
+        r"load_state_dict|loaded task checkpoint|fallback|fall back|missing keys|"
+        r"unexpected keys|No checkpoint"
     ),
     "errors": (
         r"Traceback|\bError\b|not found|not registered|failed|Failure|"

@@ -34,6 +34,8 @@ linear_probe-and-gradient/
 
 模型配置只有一份：修改 `configs/models.yaml` 后，训练入口、运行脚本和结果检查工具共同读取。`init` 和 `wrapper_init` 用于构建模型，`feature` 指定诊断层，`ddp` 指定多卡默认 batch 和学习率。
 
+`task_checkpoint` 指定领域检测权重，`task_checkpoint_target` 指定加载模块。文件缺失或参数不匹配时停止构建，不退回随机初始化。
+
 ## 环境与数据
 
 ```bash
@@ -86,6 +88,23 @@ EXTRA_ARGS="--epochs 5 --batch_size 16 --lr 0.00005" \
 python src/model_config.py --list
 python src/model_config.py --model resnet
 ```
+
+### 从领域检测权重开始训练
+
+SPSL、SRM、F3Net、Xception 默认读取 `weights/manual/hf_tasks/deepfakebench/<model>_best.pth`，加载完整 DeepfakeBench 检测器。构建时保留原生结构，跳过随后会被完整 checkpoint 覆盖的 ImageNet 初始化；输入使用原配置的 `[0.5, 0.5, 0.5]` 均值和标准差。
+
+CapsuleNet 和 UnivFD 通过参数选择任务权重，保留不传参数时的初始化行为：
+
+```bash
+EXTRA_ARGS="$EXTRA_ARGS --task_checkpoint weights/manual/hf_tasks/deepfakebench/capsule_best.pth" \
+  NPROC=4 bash scripts/run_model.sh capsulenet outputs/domain_pretrained/deepfake/diag_ddp_capsulenet
+EXTRA_ARGS="$EXTRA_ARGS --task_checkpoint weights/manual/hf_tasks/univfd/fc_weights.pth" \
+  NPROC=4 bash scripts/run_model.sh univfd outputs/domain_pretrained/aigc/diag_ddp_univfd
+```
+
+CapsuleNet 加载完整检测器参数，并使用 Deepfake 归一化；VGG19 的构建缓存仍需可用。其诊断层为 `vgg_ext` 输出，经全局池化得到 256 维向量。SPSL、SRM、F3Net、Xception 取分类器前的 2048 维特征，SRM 使用 RGB 分类分支。
+
+UnivFD 的文件只包含 `fc` 分类头，CLIP ViT-L/14 编码器继续冻结。它是固定表征对照，不能用来证明编码器在联合训练中发生表征塌陷。日志中的 `loaded task checkpoint=... strict=True` 表示任务权重加载成功。
 
 ## 输出目录
 

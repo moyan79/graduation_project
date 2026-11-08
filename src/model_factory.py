@@ -9,6 +9,7 @@ So ForensicHub is found as <project_root>/../ForensicHub.
 """
 import sys
 import warnings
+from collections.abc import Mapping
 from pathlib import Path
 
 import torch
@@ -105,13 +106,64 @@ def _resolve_imdl_asset(*parts):
     return None
 
 
-def build_forensic_model(model_key):
+def _load_task_checkpoint(model, cfg, path):
+    """Load a complete detector or its configured task head, with strict matching."""
+    state = torch.load(path, map_location="cpu", weights_only=True)
+    for field in ("state_dict", "model"):
+        if isinstance(state, Mapping) and isinstance(state.get(field), Mapping):
+            state = state[field]
+    if not isinstance(state, Mapping) or not state:
+        raise ValueError(f"Invalid task checkpoint: {path}")
+    if all(name.startswith("module.") for name in state):
+        state = {name[len("module."):]: value for name, value in state.items()}
+    target_path = cfg.get("task_checkpoint_target", "")
+    target = _resolve_module_path(model, target_path) if target_path else model
+    prefix = target_path + "."
+    if target_path and all(name.startswith(prefix) for name in state):
+        state = {name[len(prefix):]: value for name, value in state.items()}
+    target.load_state_dict(state, strict=True)
+    print(f"[diag] loaded task checkpoint={path} "
+          f"target={target_path or 'model'} tensors={len(state)} strict=True", flush=True)
+
+
+def _build_task_deepfake(registry_name, yaml_config_path):
+    """Build the native detector without a redundant ImageNet weight download."""
+    from DeepfakeBench.training import detectors
+    from DeepfakeBench.training.networks import BACKBONE
+    from ForensicHub.tasks.deepfake.wrapper.wrappers import Deepfake2ForensicWrapper
+
+    detector_class = getattr(detectors, registry_name)
+
+    class TaskDetector(detector_class):
+        def build_backbone(self, config):
+            backbone_config = dict(config["backbone_config"])
+            if config["model_name"] == "spsl":
+                backbone_config["inc"] = 4
+            elif config["model_name"] == "f3net":
+                backbone_config["inc"] = 12
+            return BACKBONE[config["backbone_name"]](backbone_config)
+
+    return Deepfake2ForensicWrapper(TaskDetector, yaml_config_path)
+
+
+def build_forensic_model(model_key, task_checkpoint=None):
     """Return (model, cfg). Raises with actionable message if dep missing."""
-    from ForensicHub.registry import MODELS, build_from_registry
     key = model_key.lower()
     if key not in MODEL_CFG:
         raise KeyError(f"Unknown --model {model_key!r}. Choose from: {sorted(MODEL_CFG)}")
     cfg = MODEL_CFG[key]
+    task_checkpoint = task_checkpoint or cfg.get("task_checkpoint")
+    if task_checkpoint:
+        task_checkpoint = Path(task_checkpoint).expanduser()
+        if not task_checkpoint.is_absolute():
+            task_checkpoint = THIS.parents[1] / task_checkpoint
+        task_checkpoint = task_checkpoint.resolve()
+        if not task_checkpoint.is_file():
+            raise FileNotFoundError(f"[{key}] task checkpoint not found: {task_checkpoint}")
+        if cfg.get("task_norm"):
+            cfg = {**cfg, "norm": cfg["task_norm"]}
+
+    from ForensicHub.registry import MODELS, build_from_registry
 
     # 1) deepfake yaml-based models: fill yaml_config_path automatically
     init = dict(cfg.get("init", {}))
@@ -179,12 +231,16 @@ def build_forensic_model(model_key):
         return any(k in s for k in keys)
 
     # 3) build (optionally wrapped for mask models)
-    if cfg.get("wrapper") == "Mask2LabelWrapper":
+    if task_checkpoint and cfg.get("task_checkpoint_target") == "_base_model":
+        model = _build_task_deepfake(cfg["registry"], init["yaml_config_path"])
+    elif cfg.get("wrapper") == "Mask2LabelWrapper":
         outer = {"name": "Mask2LabelWrapper",
                  "init_config": {"name": cfg["registry"], "init_config": cfg.get("wrapper_init", {})}}
         try:
             model = build_from_registry(MODELS, outer)
         except Exception as e:
+            if task_checkpoint:
+                raise
             # IMDLBenCo pretrain files (mae_pretrain_vit_base.pth etc.) often missing ->
             # retry with empty init so the model still trains from scratch for diagnosis.
             warnings.warn(f"[{key}] wrapper build failed ({e}); retry without pretrain args.")
@@ -198,7 +254,8 @@ def build_forensic_model(model_key):
             model = build_from_registry(MODELS, req)
         except Exception as e:
             err = e
-        if model is None and _looks_like_network_err(err) and "pretrained" not in req["init_config"]:
+        if (model is None and not task_checkpoint and _looks_like_network_err(err)
+                and "pretrained" not in req["init_config"]):
             try:
                 warnings.warn(f"[{key}] network blocked, retry with pretrained=False.")
                 req2 = {"name": req["name"], "init_config": {**req["init_config"], "pretrained": False}}
@@ -214,6 +271,8 @@ def build_forensic_model(model_key):
                 err = e2
         if model is None:
             raise RuntimeError(f"[{key}] build failed. Last error: {err}")
+    if task_checkpoint:
+        _load_task_checkpoint(model, cfg, task_checkpoint)
     return model, cfg
 
 

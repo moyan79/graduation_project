@@ -44,6 +44,7 @@ from model_factory import build_forensic_model, extract_features
 def parse_args():
     p = argparse.ArgumentParser()
     p.add_argument("--model", default="resnet", help=f"one of {sorted(MODEL_CFG)}")
+    p.add_argument("--task_checkpoint", help="domain-trained detector or configured task-head weights")
     p.add_argument("--manifest_dir", default=os.environ.get("MANIFEST_DIR", None))
     p.add_argument("--train_json", default=os.environ.get("TRAIN_JSON", None))
     p.add_argument("--id_test_json", default=os.environ.get("ID_TEST_JSON", None))
@@ -207,7 +208,7 @@ def main():
     if is_main(a):
         print(f"[diag] train={len(train_samples)} id_test={len(id_samples)}")
 
-    model, mcfg = build_forensic_model(a.model)
+    model, mcfg = build_forensic_model(a.model, task_checkpoint=a.task_checkpoint)
     img_size = a.image_size or mcfg["image_size"]
     norm = mcfg["norm"]
     model.to(device)

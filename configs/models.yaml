@@ -28,9 +28,14 @@ capsulenet:
   norm: imagenet
   init: {}
   need_deepfake_yaml: capsule_net.yaml
+  task_norm: deepfake
   ddp:
     batch_size: 128
     lr: 0.0004
+  feature:
+    path: vgg_ext
+    expected_dim: 256
+    source: output
 segformer:
   registry: Segformerb3
   category: backbone
@@ -127,6 +132,7 @@ univfd:
   init:
     name: ViT-L/14
     num_classes: 1
+  task_checkpoint_target: fc
   ddp:
     batch_size: 64
     lr: 0.0002
@@ -174,3 +180,68 @@ co-spy:
   ddp:
     batch_size: 64
     lr: 0.0002
+
+spsl:
+  registry: SpslDetector
+  category: deepfake
+  image_size: 256
+  norm: deepfake
+  init: {}
+  need_deepfake_yaml: spsl.yaml
+  task_checkpoint: weights/manual/hf_tasks/deepfakebench/spsl_best.pth
+  task_checkpoint_target: _base_model
+  ddp:
+    batch_size: 32
+    lr: 0.0001
+  feature:
+    path: backbone.last_linear
+    expected_dim: 2048
+    source: input
+srm:
+  registry: SRMDetector
+  category: deepfake
+  image_size: 256
+  norm: deepfake
+  init: {}
+  need_deepfake_yaml: srm.yaml
+  task_checkpoint: weights/manual/hf_tasks/deepfakebench/srm_best.pth
+  task_checkpoint_target: _base_model
+  ddp:
+    batch_size: 32
+    lr: 0.0001
+  feature:
+    path: backbone_rgb.last_linear
+    expected_dim: 2048
+    source: input
+f3net:
+  registry: F3netDetector
+  category: deepfake
+  image_size: 256
+  norm: deepfake
+  init: {}
+  need_deepfake_yaml: f3net.yaml
+  task_checkpoint: weights/manual/hf_tasks/deepfakebench/f3net_best.pth
+  task_checkpoint_target: _base_model
+  ddp:
+    batch_size: 32
+    lr: 0.0001
+  feature:
+    path: backbone.last_linear
+    expected_dim: 2048
+    source: input
+xception:
+  registry: XceptionDetector
+  category: deepfake
+  image_size: 256
+  norm: deepfake
+  init: {}
+  need_deepfake_yaml: xception.yaml
+  task_checkpoint: weights/manual/hf_tasks/deepfakebench/xception_best.pth
+  task_checkpoint_target: _base_model
+  ddp:
+    batch_size: 32
+    lr: 0.0001
+  feature:
+    path: backbone.last_linear
+    expected_dim: 2048
+    source: input

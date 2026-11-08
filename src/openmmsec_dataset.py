@@ -19,6 +19,8 @@ CLIP_STD = [0.26862954, 0.26130258, 0.27577711]
 def build_transform(image_size, is_train, norm_type="imagenet"):
     mean = CLIP_MEAN if norm_type == "clip" else IMAGENET_MEAN
     std = CLIP_STD if norm_type == "clip" else IMAGENET_STD
+    if norm_type == "deepfake":
+        mean = std = [0.5, 0.5, 0.5]
     ops = []
     if is_train:
         ops.append(T.RandomHorizontalFlip(p=0.5))
