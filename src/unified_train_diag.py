@@ -2,10 +2,10 @@
 
 Single GPU:
   python src/unified_train_diag.py --model resnet --manifest_dir $OPENMMSEC_ROOT/jsons_v4 \
-      --epochs 5 --batch_size 32 --diag_every 50 --probe_every 1 --out_dir outputs/diag_resnet
+      --epochs 5 --batch_size 32 --diag_every 50 --probe_every 1 --out_dir outputs/backbone/diag_resnet
 
 Multi GPU (DDP, recommended on the server):
-  NPROC=4 bash scripts/run_one_model_ddp.sh resnet
+  NPROC=4 bash scripts/run_model.sh resnet
   # == torchrun --nproc_per_node=4 src/unified_train_diag.py --model resnet ...
 
 What it does:
@@ -14,8 +14,8 @@ What it does:
   * every --probe_every epochs (+ finally): dump frozen features on id_test (features_epoch*.npz).
 
 Analyse afterwards:
-  python src/analyze_gradient.py --log outputs/diag_resnet/grad_log.csv --out outputs/diag_resnet
-  python src/analyze_rank.py --npz outputs/diag_resnet/features_last.npz --out outputs/diag_resnet
+  python src/analyze_gradient.py --log outputs/backbone/diag_resnet/grad_log.csv --out outputs/backbone/diag_resnet
+  python src/analyze_rank.py --npz outputs/backbone/diag_resnet/features_last.npz --out outputs/backbone/diag_resnet
 """
 import argparse
 import csv
@@ -37,7 +37,8 @@ sys.path.insert(0, str(THIS.parent))
 import offline_patch  # noqa: F401  # auto-apply (env/argv detect); re-applied after parse_args for --online/--offline
 from manifest import DOMAIN_NAMES, DOMAIN2ID, find_manifests, load_samples
 from openmmsec_dataset import OpenMMSecUnifiedDataset, collate_with_domain
-from model_factory import MODEL_CFG, build_forensic_model, extract_features
+from model_config import MODEL_CFG, TRAIN_DEFAULTS
+from model_factory import build_forensic_model, extract_features
 
 
 def parse_args():
@@ -49,21 +50,22 @@ def parse_args():
     p.add_argument("--openmmsec_root", default=os.environ.get("OPENMMSEC_ROOT", None))
     p.add_argument("--path_prefix_from", default="")
     p.add_argument("--path_prefix_to", default="")
-    p.add_argument("--epochs", type=int, default=10)
-    p.add_argument("--batch_size", type=int, default=32, help="per-GPU batch size")
-    p.add_argument("--lr", type=float, default=1e-4)
-    p.add_argument("--weight_decay", type=float, default=0.05)
-    p.add_argument("--num_workers", type=int, default=4)
-    p.add_argument("--diag_every", type=int, default=50, help="per-domain grad diagnosis cadence (steps)")
-    p.add_argument("--probe_every", type=int, default=1)
-    p.add_argument("--probe_samples", type=int, default=2000, help="cap for feature dump")
+    p.add_argument("--epochs", type=int)
+    p.add_argument("--batch_size", type=int, help="per-GPU batch size")
+    p.add_argument("--lr", type=float)
+    p.add_argument("--weight_decay", type=float)
+    p.add_argument("--num_workers", type=int)
+    p.add_argument("--diag_every", type=int, help="per-domain grad diagnosis cadence (steps)")
+    p.add_argument("--probe_every", type=int)
+    p.add_argument("--probe_samples", type=int, help="cap for feature dump")
     p.add_argument("--image_size", type=int, default=None, help="override model default")
     p.add_argument("--out_dir", default="outputs/diag_run")
-    p.add_argument("--seed", type=int, default=42)
+    p.add_argument("--seed", type=int)
     p.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")
     p.add_argument("--dist_url", default="env://", help="DDP init method (torchrun sets env)")
     p.add_argument("--online", action="store_true", help="allow HF/timm downloads via mirror (default on, flag kept for explicitness)")
     p.add_argument("--offline", action="store_true", help="force offline: fail fast on cached weights, no downloads")
+    p.set_defaults(**TRAIN_DEFAULTS)
     return p.parse_args()
 
 

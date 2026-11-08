@@ -6,3 +6,10 @@
 __pycache__/
 *.py[cod]
 .pytest_cache/
+
+# 实验日志、特征及训练产物
+/outputs/
+
+# 生成的汇总报告
+/reports/*
+!/reports/README.md

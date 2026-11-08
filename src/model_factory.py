@@ -1,4 +1,4 @@
-"""Build any of the 15 sub-domain models through the sibling ForensicHub registry.
+"""Build configured models through the sibling ForensicHub registry.
 
 Sibling layout (local == remote):
   graduation_project/
@@ -21,45 +21,10 @@ for p in (str(FORENSICHUB_REPO),):
     if p not in sys.path:
         sys.path.insert(0, p)
 
-# short key (cli) -> ForensicHub build config
-# image_size / norm follow the corresponding statics/*.yaml conventions.
-MODEL_CFG = {
-    "resnet":       dict(registry="Resnet101",      image_size=256, norm="imagenet",
-                         init=dict(output_type="label", image_size=256)),
-    "efficientnet": dict(registry="EfficientB4",    image_size=256, norm="imagenet",
-                         init=dict(output_type="label", image_size=256)),
-    "capsulenet":   dict(registry="Capsule_net",    image_size=256, norm="imagenet",
-                         init=dict(), need_deepfake_yaml="capsule_net.yaml"),
-    "segformer":    dict(registry="Segformerb3",     image_size=256, norm="imagenet",
-                         init=dict(output_type="label", image_size=256)),
-    "swin":         dict(registry="SwinSmall",       image_size=256, norm="imagenet",
-                         init=dict(output_type="label", image_size=256)),
-    "convnext":     dict(registry="ConvNextSmall",   image_size=256, norm="imagenet",
-                         init=dict(output_type="label", image_size=256)),
-    "recce":        dict(registry="Recce",           image_size=256, norm="imagenet",
-                         init=dict(), need_deepfake_yaml="recce.yaml"),
-    "sia":          dict(registry="SIA",             image_size=256, norm="imagenet",
-                         init=dict(), need_deepfake_yaml="sia.yaml",
-                         deepfake_fallbacks=["SIA", "Sia", "sia"]),
-    "iml-vit":      dict(registry="IML_ViT",        image_size=256, norm="imagenet",
-                         init=dict(), wrapper="Mask2LabelWrapper",
-                         wrapper_init=dict(edge_lambda=20)),
-    "trufor":       dict(registry="Trufor",         image_size=256, norm="imagenet",
-                         init=dict(), wrapper="Mask2LabelWrapper", wrapper_init=dict()),
-    "univfd":       dict(registry="UnivFD",         image_size=224, norm="clip",
-                         init=dict(name="ViT-L/14", num_classes=1)),
-    "ffdn":         dict(registry="FFDN",           image_size=256, norm="imagenet",
-                         init=dict(), wrapper="Mask2LabelWrapper", wrapper_init=dict()),
-    "effort":       dict(registry="Effort",         image_size=256, norm="imagenet",
-                         init=dict(), wrapper="Mask2LabelWrapper", wrapper_init=dict()),
-    "mesorch":      dict(registry="Mesorch",        image_size=256, norm="imagenet",
-                         init=dict(), wrapper="Mask2LabelWrapper", wrapper_init=dict()),
-    "co-spy":       dict(registry="CO_SPY",         image_size=224, norm="clip",
-                         init=dict(clip_model="ViT-L/14", pretrained="datacomp_xl_s13b_b90k", dim_clip=768)),
-}
-
-MASK_WRAPPER_NEED = {"IML_ViT", "Mesorch", "Trufor", "Effort", "FFDN", "DTD",
-                     "MVSSNet", "PSCC_Net", "Cat_Net"}
+try:
+    from .model_config import MODEL_CFG
+except ImportError:
+    from model_config import MODEL_CFG
 
 
 def _resolve_deepfake_yaml(name_file):
@@ -214,7 +179,7 @@ def build_forensic_model(model_key):
         return any(k in s for k in keys)
 
     # 3) build (optionally wrapped for mask models)
-    if cfg.get("wrapper") == "Mask2LabelWrapper" or cfg["registry"] in MASK_WRAPPER_NEED:
+    if cfg.get("wrapper") == "Mask2LabelWrapper":
         outer = {"name": "Mask2LabelWrapper",
                  "init_config": {"name": cfg["registry"], "init_config": cfg.get("wrapper_init", {})}}
         try:
@@ -227,18 +192,12 @@ def build_forensic_model(model_key):
             model = build_from_registry(MODELS, outer)
     else:
         req = {"name": cfg["registry"], "init_config": init}
-        # deepfake SIA name may vary in case across DeepfakeBench versions
-        names_to_try = [cfg["registry"]] + cfg.get("deepfake_fallbacks", [])
         err = None
         model = None
-        for nm in names_to_try:
-            try:
-                req["name"] = nm
-                model = build_from_registry(MODELS, req)
-                cfg = {**cfg, "registry": nm}
-                break
-            except Exception as e:
-                err = e
+        try:
+            model = build_from_registry(MODELS, req)
+        except Exception as e:
+            err = e
         if model is None and _looks_like_network_err(err) and "pretrained" not in req["init_config"]:
             try:
                 warnings.warn(f"[{key}] network blocked, retry with pretrained=False.")
@@ -258,26 +217,7 @@ def build_forensic_model(model_key):
     return model, cfg
 
 
-FEATURE_TARGETS = {
-    # Model-specific semantic bottlenecks.  Do not use the final task head for
-    # these wrapper models: their last Linear can be a 16-D auxiliary branch or
-    # an 8-D pooled-statistics detector.
-    "iml-vit": {
-        "path": "base_model.predict_head.linear_fuse",
-        "expected_dim": 256,
-        "source": "output",
-    },
-    "trufor": {
-        "path": "base_model.model.decode_head.linear_fuse",
-        "expected_dim": 512,
-        "source": "output",
-    },
-    "sia": {
-        "path": "backbone.last_layer",
-        "expected_dim": 1792,
-        "source": "input",
-    },
-}
+FEATURE_TARGETS = {key: cfg["feature"] for key, cfg in MODEL_CFG.items() if "feature" in cfg}
 
 
 def _unwrap_feature_root(model):

@@ -1,17 +1,176 @@
-# 15 sub-domain models -> ForensicHub registry mapping (see src/model_factory.py MODEL_CFG)
-# key: cli --model value
-resnet:       {registry: Resnet101,    image_size: 256, norm: imagenet}
-efficientnet: {registry: EfficientB4,  image_size: 256, norm: imagenet}
-capsulenet:   {registry: Capsule_net,  image_size: 256, norm: imagenet}
-segformer:    {registry: Segformerb3,  image_size: 256, norm: imagenet}
-swin:         {registry: SwinSmall,    image_size: 256, norm: imagenet}
-convnext:     {registry: ConvNextSmall,image_size: 256, norm: imagenet}
-recce:        {registry: Recce,        image_size: 256, norm: imagenet}
-sia:          {registry: SIA,          image_size: 256, norm: imagenet}
-iml-vit:      {registry: IML_ViT,      image_size: 256, norm: imagenet, wrapper: Mask2LabelWrapper}
-trufor:       {registry: Trufor,       image_size: 256, norm: imagenet, wrapper: Mask2LabelWrapper}
-univfd:       {registry: UnivFD,       image_size: 224, norm: clip}
-ffdn:         {registry: FFDN,         image_size: 256, norm: imagenet, wrapper: Mask2LabelWrapper}
-effort:       {registry: Effort,       image_size: 256, norm: imagenet, wrapper: Mask2LabelWrapper}
-mesorch:      {registry: Mesorch,      image_size: 256, norm: imagenet, wrapper: Mask2LabelWrapper}
-co-spy:       {registry: CO_SPY,       image_size: 224, norm: clip}
+# Model definitions shared by training, launch scripts and result inspection.
+resnet:
+  registry: Resnet101
+  category: backbone
+  image_size: 256
+  norm: imagenet
+  init:
+    output_type: label
+    image_size: 256
+  ddp:
+    batch_size: 128
+    lr: 0.0004
+efficientnet:
+  registry: EfficientB4
+  category: backbone
+  image_size: 256
+  norm: imagenet
+  init:
+    output_type: label
+    image_size: 256
+  ddp:
+    batch_size: 128
+    lr: 0.0004
+capsulenet:
+  registry: Capsule_net
+  category: deepfake
+  image_size: 256
+  norm: imagenet
+  init: {}
+  need_deepfake_yaml: capsule_net.yaml
+  ddp:
+    batch_size: 128
+    lr: 0.0004
+segformer:
+  registry: Segformerb3
+  category: backbone
+  image_size: 256
+  norm: imagenet
+  init:
+    output_type: label
+    image_size: 256
+  ddp:
+    batch_size: 128
+    lr: 0.0004
+swin:
+  registry: SwinSmall
+  category: backbone
+  image_size: 256
+  norm: imagenet
+  init:
+    output_type: label
+    image_size: 256
+  ddp:
+    batch_size: 128
+    lr: 0.0004
+convnext:
+  registry: ConvNextSmall
+  category: backbone
+  image_size: 256
+  norm: imagenet
+  init:
+    output_type: label
+    image_size: 256
+  ddp:
+    batch_size: 128
+    lr: 0.0004
+recce:
+  registry: Recce
+  category: deepfake
+  image_size: 256
+  norm: imagenet
+  init: {}
+  need_deepfake_yaml: recce.yaml
+  ddp:
+    batch_size: 128
+    lr: 0.0004
+sia:
+  registry: SIADetector
+  category: deepfake
+  image_size: 256
+  norm: imagenet
+  init: {}
+  need_deepfake_yaml: sia.yaml
+  ddp:
+    batch_size: 128
+    lr: 0.0004
+  feature:
+    path: backbone.last_layer
+    expected_dim: 1792
+    source: input
+iml-vit:
+  registry: IML_ViT
+  category: imdl
+  image_size: 256
+  norm: imagenet
+  init: {}
+  wrapper: Mask2LabelWrapper
+  wrapper_init:
+    edge_lambda: 20
+  ddp:
+    batch_size: 64
+    lr: 0.0002
+  feature:
+    path: base_model.predict_head.linear_fuse
+    expected_dim: 256
+    source: output
+trufor:
+  registry: Trufor
+  category: imdl
+  image_size: 256
+  norm: imagenet
+  init: {}
+  wrapper: Mask2LabelWrapper
+  wrapper_init: {}
+  ddp:
+    batch_size: 64
+    lr: 0.0002
+  feature:
+    path: base_model.model.decode_head.linear_fuse
+    expected_dim: 512
+    source: output
+univfd:
+  registry: UnivFD
+  category: aigc
+  image_size: 224
+  norm: clip
+  init:
+    name: ViT-L/14
+    num_classes: 1
+  ddp:
+    batch_size: 64
+    lr: 0.0002
+ffdn:
+  registry: FFDN
+  category: document
+  image_size: 256
+  norm: imagenet
+  init: {}
+  wrapper: Mask2LabelWrapper
+  wrapper_init: {}
+  ddp:
+    batch_size: 64
+    lr: 0.0002
+effort:
+  registry: EffortDetector
+  category: aigc
+  image_size: 224
+  norm: clip
+  init: {}
+  need_deepfake_yaml: effort.yaml
+  ddp:
+    batch_size: 64
+    lr: 0.0002
+mesorch:
+  registry: Mesorch
+  category: imdl
+  image_size: 256
+  norm: imagenet
+  init: {}
+  wrapper: Mask2LabelWrapper
+  wrapper_init: {}
+  ddp:
+    batch_size: 64
+    lr: 0.0002
+co-spy:
+  registry: CO_SPY
+  category: aigc
+  image_size: 224
+  norm: clip
+  init:
+    clip_model: ViT-L/14
+    pretrained: datacomp_xl_s13b_b90k
+    dim_clip: 768
+  ddp:
+    batch_size: 64
+    lr: 0.0002

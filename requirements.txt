@@ -9,5 +9,5 @@ pyyaml
 timm
 # remote server must also have (for the corresponding models):
 #   pip install -e <ForensicHub>  (sibling repo, already there)
-#   pip install imdlbenco          (for iml-vit / trufor / mesorch / effort)
-#   pip install DeepfakeBench      (for recce / sia / capsulenet / spsl path)
+#   pip install imdlbenco          (for iml-vit / trufor / mesorch)
+#   pip install DeepfakeBench      (for recce / sia / effort / capsulenet / spsl path)
