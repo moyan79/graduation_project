@@ -13,3 +13,8 @@ __pycache__/
 # 生成的汇总报告
 /reports/*
 !/reports/README.md
+!/reports/experiment_completion_20261119.json
+!/reports/未完成模型与ckpt下载地址_20261119.md
+!/reports/ForensicHub模型分类_20261119.md
+!/reports/HF镜像权重下载记录_20261119.md
+!/reports/hf_download_manifest_20261119.json

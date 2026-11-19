@@ -6,6 +6,11 @@ import sys
 
 import yaml
 
+try:
+    from .forensichub_inventory import exclusion_reason, load_experiment_scope
+except ImportError:
+    from forensichub_inventory import exclusion_reason, load_experiment_scope
+
 
 CONFIG_DIR = Path(__file__).resolve().parents[1] / "configs"
 MODEL_CATEGORIES = ("backbone", "deepfake", "imdl", "aigc", "document")
@@ -22,8 +27,16 @@ def load_config(filename):
 
 MODEL_CFG = load_config("models.yaml")
 TRAIN_DEFAULTS = load_config("unified_diag.yaml")
+EXPERIMENT_SCOPE = load_experiment_scope()
+
+
+def get_exclusion_reason(model, config=None):
+    return exclusion_reason(model, config, EXPERIMENT_SCOPE)
 
 for model, config in MODEL_CFG.items():
+    reason = get_exclusion_reason(model, config)
+    if reason:
+        raise ValueError(f"Model {model!r} is outside the experiment scope: {reason}")
     if config.get("category") not in MODEL_CATEGORIES:
         raise ValueError(f"Invalid category for model {model!r}")
 
@@ -41,6 +54,9 @@ def main():
         print("\n".join(MODEL_CFG))
         return
     key = args.model.lower()
+    reason = get_exclusion_reason(key)
+    if reason:
+        parser.error(f"Model {args.model!r} is outside the experiment scope: {reason}")
     if key not in MODEL_CFG:
         parser.error(f"Unknown model {args.model!r}; choose from {', '.join(MODEL_CFG)}")
     config = MODEL_CFG[key]

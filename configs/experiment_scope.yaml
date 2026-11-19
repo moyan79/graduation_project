@@ -1,0 +1,62 @@
+# The experiment covers image forensic models and their visual backbones.
+# Generative language/VLM and temporal video models are excluded by user scope.
+# CLIP, OpenCLIP, UnivFD, Effort and CO-SPY remain image-model experiments.
+# LSDA's grouped/domain-paired input is not a temporal video protocol.
+excluded_models:
+  - kind: generative_llm_vlm
+    reason: Generative language and vision-language models are outside this image forensic experiment.
+    registry_patterns:
+      - Qwen*
+      - Llama*
+      - LLaVA*
+      - InternVL*
+      - GLM*
+      - '*LLM*'
+      - '*VLM*'
+    module_patterns:
+      - ForensicHub.common.backbones.*llm*
+      - ForensicHub.common.backbones.*vlm*
+      - ForensicHub.tasks.*.models.*llm*
+      - ForensicHub.tasks.*.models.*vlm*
+    source_patterns:
+      - '*/common/backbones/*llm*.py'
+      - '*/common/backbones/*vlm*.py'
+      - '*/tasks/*/models/*llm*/*.py'
+      - '*/tasks/*/models/*vlm*/*.py'
+  - kind: temporal_video
+    reason: Temporal video models require frame sequences and are outside this independent-image experiment.
+    registry_patterns:
+      - AltFreezingDetector
+      - altfreezing
+      - FTCNDetector
+      - ftcn
+      - I3DDetector
+      - i3d
+      - STILDetector
+      - stil
+      - TALLDetector
+      - tall
+      - TimeSformerDetector
+      - timesformer
+      - VideoMAEDetector
+      - videomae
+      - XCLIPDetector
+      - xclip
+    module_patterns:
+      - DeepfakeBench.training.detectors.altfreezing_detector
+      - DeepfakeBench.training.detectors.ftcn_detector
+      - DeepfakeBench.training.detectors.i3d_detector
+      - DeepfakeBench.training.detectors.stil_detector
+      - DeepfakeBench.training.detectors.tall_detector
+      - DeepfakeBench.training.detectors.timesformer_detector
+      - DeepfakeBench.training.detectors.videomae_detector
+      - DeepfakeBench.training.detectors.xclip_detector
+    source_patterns:
+      - '*/training/detectors/altfreezing_detector.py'
+      - '*/training/detectors/ftcn_detector.py'
+      - '*/training/detectors/i3d_detector.py'
+      - '*/training/detectors/stil_detector.py'
+      - '*/training/detectors/tall_detector.py'
+      - '*/training/detectors/timesformer_detector.py'
+      - '*/training/detectors/videomae_detector.py'
+      - '*/training/detectors/xclip_detector.py'

@@ -40,16 +40,14 @@ echo "[run] model=$MODEL nproc=$NPROC out=$OUT ${EXTRA_ARGS:-}"
 "${LAUNCH[@]}" src/unified_train_diag.py "${TRAIN_ARGS[@]}" "${EXTRA[@]}" \
   2>&1 | tee "$OUT/train.log"
 
-"$PYTHON_BIN" src/analyze_gradient.py --log "$OUT/grad_log.csv" --out "$OUT" \
-  || echo "[warn] analyze_gradient failed"
-"$PYTHON_BIN" src/analyze_rank.py --npz "$OUT/features_last.npz" --out "$OUT" \
-  || echo "[warn] analyze_rank failed"
+"$PYTHON_BIN" src/analyze_gradient.py --log "$OUT/grad_log.csv" --out "$OUT"
+"$PYTHON_BIN" src/analyze_rank.py --npz "$OUT/features_last.npz" --out "$OUT"
 : > "$OUT/traj.log"
 for path in "$OUT"/features_epoch*.npz; do
   [ -e "$path" ] || continue
   name=$(basename "$path" .npz)
   echo "== $name ==" >> "$OUT/traj.log"
   "$PYTHON_BIN" src/analyze_rank.py --npz "$path" --out "$OUT/traj/$name" \
-    >> "$OUT/traj.log" 2>&1 || echo "[warn] traj $name failed"
+    >> "$OUT/traj.log" 2>&1
 done
 echo "[run] done: $OUT/rank_report.json $OUT/gradient_report.json"

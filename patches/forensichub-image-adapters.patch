@@ -1,0 +1,105 @@
+diff --git a/ForensicHub/lazy_maps.py b/ForensicHub/lazy_maps.py
+--- a/ForensicHub/lazy_maps.py
++++ b/ForensicHub/lazy_maps.py
+@@ -7,4 +7,6 @@
+     from ForensicHub.tasks.deepfake import _lazy_model_map as _deepfake_model_map
+     from ForensicHub.tasks.deepfake import _lazy_postfunc_map as _deepfake_postfunc_map
++    from ForensicHub.tasks.fidl.models import _lazy_model_map as _fidl_model_map
++    from ForensicHub.tasks.fidl.models import _lazy_postfunc_map as _fidl_postfunc_map
+ 
+     model_map = {}
+@@ -12,4 +14,5 @@
+     model_map.update(_document_model_map)
+     model_map.update(_deepfake_model_map)
++    model_map.update(_fidl_model_map)
+ 
+     postfunc_map = {}
+@@ -17,4 +20,5 @@
+     postfunc_map.update(_document_postfunc_map)
+     postfunc_map.update(_deepfake_postfunc_map)
++    postfunc_map.update(_fidl_postfunc_map)
+ 
+     return model_map, postfunc_map
+diff --git a/ForensicHub/tasks/aigc/models/__init__.py b/ForensicHub/tasks/aigc/models/__init__.py
+index b35cdc7..a642a84 100644
+--- a/ForensicHub/tasks/aigc/models/__init__.py
++++ b/ForensicHub/tasks/aigc/models/__init__.py
+@@ -1,4 +1,4 @@
+ _lazy_model_map = {
+-    "Dire": "ForensicHub.tasks.aigc.models.dire.dire.dire",
++    "Dire": "ForensicHub.tasks.aigc.models.dire.dire",
+     "HiFi_Net": "ForensicHub.tasks.aigc.models.hifi_net.HiFi_Net",
+     "DualNet": "ForensicHub.tasks.aigc.models.dualnet.DualNet",
+diff --git a/ForensicHub/tasks/aigc/models/dire/dire.py b/ForensicHub/tasks/aigc/models/dire/dire.py
+index 296f3eb..2dfc60e 100644
+--- a/ForensicHub/tasks/aigc/models/dire/dire.py
++++ b/ForensicHub/tasks/aigc/models/dire/dire.py
+@@ -1,3 +1,4 @@
+ import torch
++from collections.abc import Mapping
+ 
+ from .guided_diffusion.script_util import (
+@@ -18,5 +19,5 @@ class Dire(BaseModel):
+     def __init__(self,
+                  model_path="/mnt/data1/dubo/workspace/ForensicHub/ForensicHub/tasks/aigc/models/dire/imagenet_adm.pth",
+-                 backbone="resnet50"):
++                 backbone="resnet50", use_fp16=False, classifier_pretrained=True):
+         super().__init__()
+         self.backbone = backbone
+@@ -24,9 +25,8 @@ class Dire(BaseModel):
+         self.classifier = None
+         if backbone == 'resnet50':
+-            self.classifier = Resnet50()
++            self.classifier = Resnet50(pretrained=classifier_pretrained)
+         else:
+             raise NotImplementedError(f"Backbone {backbone} not supported!")
+ 
+-        use_fp16 = True if self.training else False
+         self.model_args = dict(
+             attention_resolutions="32,16,8",
+@@ -57,10 +57,24 @@ class Dire(BaseModel):
+ 
+         self.model, self.diffusion = create_model_and_diffusion(**self.model_args)
+-        state_dict = torch.load(model_path, map_location="cpu")['model']
+-        # self.model.load_state_dict(state_dict)
++        state_dict = torch.load(model_path, map_location="cpu", weights_only=True)
++        for field in ("state_dict", "model"):
++            if isinstance(state_dict, Mapping) and isinstance(state_dict.get(field), Mapping):
++                state_dict = state_dict[field]
++        if not isinstance(state_dict, Mapping) or not state_dict:
++            raise ValueError(f"Invalid DIRE diffusion checkpoint: {model_path}")
++        if all(key.startswith("module.") for key in state_dict):
++            state_dict = {key[len("module."):]: value for key, value in state_dict.items()}
++        self.model.load_state_dict(state_dict, strict=True)
++        self.model.requires_grad_(False)
+         if self.model_args["use_fp16"]:
+             self.model.convert_to_fp16()
+         self.model.eval()
+ 
++    def train(self, mode=True):
++        super().train(mode)
++        # DDIM reconstruction is a frozen preprocessing step throughout training.
++        self.model.eval()
++        return self
++
+     @torch.no_grad()
+     def compute_dire_value(self, image: torch.Tensor) -> torch.Tensor:
+diff --git a/ForensicHub/tasks/aigc/models/hifi_net/models/NLCDetection_api.py b/ForensicHub/tasks/aigc/models/hifi_net/models/NLCDetection_api.py
+index 26ad50b..a48652e 100644
+--- a/ForensicHub/tasks/aigc/models/hifi_net/models/NLCDetection_api.py
++++ b/ForensicHub/tasks/aigc/models/hifi_net/models/NLCDetection_api.py
+@@ -9,4 +9,5 @@ import torch.nn.functional as F
+ from .seg_hrnet_config import get_cfg_defaults
+ import time
++import math
+ 
+ 
+@@ -211,6 +212,6 @@ class NLCDetection(nn.Module):
+     def __init__(self):
+         super(NLCDetection, self).__init__()
+-        self.split_tensor_1 = torch.tensor([1, 3]).cuda()
+-        self.split_tensor_2 = torch.tensor([1, 2, 1, 3]).cuda()
++        self.register_buffer("split_tensor_1", torch.tensor([1, 3]), persistent=False)
++        self.register_buffer("split_tensor_2", torch.tensor([1, 2, 1, 3]), persistent=False)
+         self.softmax_m = nn.Softmax(dim=1)
+         FENet_cfg = get_cfg_defaults()

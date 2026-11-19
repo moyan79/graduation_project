@@ -17,6 +17,8 @@ CLIP_STD = [0.26862954, 0.26130258, 0.27577711]
 
 
 def build_transform(image_size, is_train, norm_type="imagenet"):
+    if norm_type not in ("imagenet", "clip", "deepfake", "none"):
+        raise ValueError(f"Unknown image normalization: {norm_type}")
     mean = CLIP_MEAN if norm_type == "clip" else IMAGENET_MEAN
     std = CLIP_STD if norm_type == "clip" else IMAGENET_STD
     if norm_type == "deepfake":
@@ -24,7 +26,9 @@ def build_transform(image_size, is_train, norm_type="imagenet"):
     ops = []
     if is_train:
         ops.append(T.RandomHorizontalFlip(p=0.5))
-    ops += [T.Resize((image_size, image_size)), T.ToTensor(), T.Normalize(mean, std)]
+    ops += [T.Resize((image_size, image_size)), T.ToTensor()]
+    if norm_type != "none":
+        ops.append(T.Normalize(mean, std))
     return T.Compose(ops)
 
 

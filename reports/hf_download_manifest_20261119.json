@@ -1,0 +1,1435 @@
+{
+  "endpoint": "https://hf-mirror.com",
+  "scope": "independent image forensic models only; generative LLM/VLM and temporal video models excluded",
+  "status": "weights_complete_optional_metadata_partial",
+  "items": [
+    {
+      "repo": "Sense-X/uniformer_image",
+      "revision": "ae70a7dc23e2d85972370501db47717efcd2c6f1",
+      "filename": "uniformer_base_in1k.pth",
+      "path": "/mnt/data3/tianxin/graduation_project/weights/manual/backbones/uniformer_base_in1k.pth",
+      "bytes": 199378501,
+      "sha256": "82c01015818cb897b00a29352043053df53ce4c02c2d012226b3a8a12ccb60eb",
+      "models": [
+        "SparseViT",
+        "SparseViTBackbone"
+      ],
+      "kind": "backbone_initialization",
+      "status": "downloaded_verified",
+      "final_verified": true
+    },
+    {
+      "repo": "timm/resnet50.a1_in1k",
+      "revision": "767268603ca0cb0bfe326fa87277f19c419566ef",
+      "filename": "model.safetensors",
+      "expected_bytes": 102469840,
+      "expected_sha256": "773525d5821de224f8f30c33377b7a795d7863e08522698200d3217d3f2a41bb",
+      "kind": "backbone_initialization",
+      "models": [
+        "resnet50"
+      ],
+      "local_dir": null,
+      "status": "downloaded_verified",
+      "path": "/mnt/data3/tianxin/graduation_project/weights/hf/hub/models--timm--resnet50.a1_in1k/snapshots/767268603ca0cb0bfe326fa87277f19c419566ef/model.safetensors",
+      "bytes": 102469840,
+      "sha256": "773525d5821de224f8f30c33377b7a795d7863e08522698200d3217d3f2a41bb",
+      "final_verified": true
+    },
+    {
+      "repo": "timm/resnet50.a1_in1k",
+      "revision": "767268603ca0cb0bfe326fa87277f19c419566ef",
+      "filename": "config.json",
+      "expected_bytes": 756,
+      "expected_sha256": null,
+      "kind": "metadata",
+      "models": [
+        "resnet50"
+      ],
+      "local_dir": null,
+      "status": "downloaded_verified",
+      "path": "/mnt/data3/tianxin/graduation_project/weights/hf/hub/models--timm--resnet50.a1_in1k/snapshots/767268603ca0cb0bfe326fa87277f19c419566ef/config.json",
+      "bytes": 756,
+      "sha256": null
+    },
+    {
+      "repo": "timm/resnet50.a1_in1k",
+      "revision": "767268603ca0cb0bfe326fa87277f19c419566ef",
+      "filename": "README.md",
+      "expected_bytes": 38435,
+      "expected_sha256": null,
+      "kind": "metadata",
+      "models": [
+        "resnet50"
+      ],
+      "local_dir": null,
+      "status": "downloaded_verified",
+      "path": "/mnt/data3/tianxin/graduation_project/weights/hf/hub/models--timm--resnet50.a1_in1k/snapshots/767268603ca0cb0bfe326fa87277f19c419566ef/README.md",
+      "bytes": 38435,
+      "sha256": null
+    },
+    {
+      "repo": "timm/resnet101.a1h_in1k",
+      "revision": "31c8dd57af17e8f4a74423ce917e37a3f8d71175",
+      "filename": "model.safetensors",
+      "expected_bytes": 178675806,
+      "expected_sha256": "1a076c0384295e7d3704f201c5711ff245507db934230bab72ff3014a95f90fe",
+      "kind": "backbone_initialization",
+      "models": [
+        "resnet101"
+      ],
+      "local_dir": null,
+      "status": "existing_verified",
+      "path": "/mnt/data3/tianxin/graduation_project/weights/hf/hub/models--timm--resnet101.a1h_in1k/snapshots/31c8dd57af17e8f4a74423ce917e37a3f8d71175/model.safetensors",
+      "bytes": 178675806,
+      "sha256": "1a076c0384295e7d3704f201c5711ff245507db934230bab72ff3014a95f90fe",
+      "final_verified": true
+    },
+    {
+      "repo": "timm/resnet101.a1h_in1k",
+      "revision": "31c8dd57af17e8f4a74423ce917e37a3f8d71175",
+      "filename": "config.json",
+      "expected_bytes": 758,
+      "expected_sha256": null,
+      "kind": "metadata",
+      "models": [
+        "resnet101"
+      ],
+      "local_dir": null,
+      "status": "downloaded_verified",
+      "path": "/mnt/data3/tianxin/graduation_project/weights/hf/hub/models--timm--resnet101.a1h_in1k/snapshots/31c8dd57af17e8f4a74423ce917e37a3f8d71175/config.json",
+      "bytes": 758,
+      "sha256": null
+    },
+    {
+      "repo": "timm/resnet101.a1h_in1k",
+      "revision": "31c8dd57af17e8f4a74423ce917e37a3f8d71175",
+      "filename": "README.md",
+      "expected_bytes": 38539,
+      "expected_sha256": null,
+      "kind": "metadata",
+      "models": [
+        "resnet101"
+      ],
+      "local_dir": null,
+      "status": "downloaded_verified",
+      "path": "/mnt/data3/tianxin/graduation_project/weights/hf/hub/models--timm--resnet101.a1h_in1k/snapshots/31c8dd57af17e8f4a74423ce917e37a3f8d71175/README.md",
+      "bytes": 38539,
+      "sha256": null
+    },
+    {
+      "repo": "timm/resnet152.a1h_in1k",
+      "revision": "394d5cec41d60cbe669afd3e09cee61693582595",
+      "filename": "model.safetensors",
+      "expected_bytes": 241463512,
+      "expected_sha256": "d1150016b45de35e2a7085e226415397bbff158ae9a5753d83107723e01f7a59",
+      "kind": "backbone_initialization",
+      "models": [
+        "resnet152"
+      ],
+      "local_dir": null,
+      "status": "downloaded_verified",
+      "path": "/mnt/data3/tianxin/graduation_project/weights/hf/hub/models--timm--resnet152.a1h_in1k/snapshots/394d5cec41d60cbe669afd3e09cee61693582595/model.safetensors",
+      "bytes": 241463512,
+      "sha256": "d1150016b45de35e2a7085e226415397bbff158ae9a5753d83107723e01f7a59",
+      "final_verified": true
+    },
+    {
+      "repo": "timm/resnet152.a1h_in1k",
+      "revision": "394d5cec41d60cbe669afd3e09cee61693582595",
+      "filename": "config.json",
+      "expected_bytes": 758,
+      "expected_sha256": null,
+      "kind": "metadata",
+      "models": [
+        "resnet152"
+      ],
+      "local_dir": null,
+      "status": "downloaded_verified",
+      "previous_error": "HfHubHTTPError: Server error '503 Service Unavailable' for url 'https://hf-mirror.com/api/resolve-cache/models/timm/resnet152.a1h_in1k/394d5cec41d60cbe669afd3e09cee61693582595/config.json?%2Ftimm%2Fresnet152.a1h_in1k%2Fresolve%2Fmain%2Fconfig.json=&etag=%22eba045c4548ea85a0588184d47530ecd3686bb37%22'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/503",
+      "path": "/mnt/data3/tianxin/graduation_project/weights/hf/hub/models--timm--resnet152.a1h_in1k/snapshots/394d5cec41d60cbe669afd3e09cee61693582595/config.json",
+      "bytes": 758,
+      "recovered_with_pinned_revision": true
+    },
+    {
+      "repo": "timm/resnet152.a1h_in1k",
+      "revision": "394d5cec41d60cbe669afd3e09cee61693582595",
+      "filename": "README.md",
+      "expected_bytes": 38540,
+      "expected_sha256": null,
+      "kind": "metadata",
+      "models": [
+        "resnet152"
+      ],
+      "local_dir": null,
+      "status": "failed",
+      "error": "HfHubHTTPError: Server error '503 Service Unavailable' for url 'https://hf-mirror.com/api/resolve-cache/models/timm/resnet152.a1h_in1k/394d5cec41d60cbe669afd3e09cee61693582595/README.md?%2Ftimm%2Fresnet152.a1h_in1k%2Fresolve%2F394d5cec41d60cbe669afd3e09cee61693582595%2FREADME.md=&etag=%2233bba50f221deeffdf823f85d76c0870b64f39ba%22'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/503",
+      "previous_error": "HfHubHTTPError: Server error '503 Service Unavailable' for url 'https://hf-mirror.com/api/resolve-cache/models/timm/resnet152.a1h_in1k/394d5cec41d60cbe669afd3e09cee61693582595/README.md?%2Ftimm%2Fresnet152.a1h_in1k%2Fresolve%2Fmain%2FREADME.md=&etag=%2233bba50f221deeffdf823f85d76c0870b64f39ba%22'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/503"
+    },
+    {
+      "repo": "timm/efficientnet_b4.ra2_in1k",
+      "revision": "442c00e15609ff467772913d230768706a406aca",
+      "filename": "model.safetensors",
+      "expected_bytes": 77933206,
+      "expected_sha256": "8030f9c929ed71a06728db4b61323960e573b463e68f310bd1bfb31ed62cbf91",
+      "kind": "backbone_initialization",
+      "models": [
+        "efficientnet_b4"
+      ],
+      "local_dir": null,
+      "status": "existing_verified",
+      "path": "/mnt/data3/tianxin/graduation_project/weights/hf/hub/models--timm--efficientnet_b4.ra2_in1k/snapshots/442c00e15609ff467772913d230768706a406aca/model.safetensors",
+      "bytes": 77933206,
+      "sha256": "8030f9c929ed71a06728db4b61323960e573b463e68f310bd1bfb31ed62cbf91",
+      "final_verified": true
+    },
+    {
+      "repo": "timm/efficientnet_b4.ra2_in1k",
+      "revision": "442c00e15609ff467772913d230768706a406aca",
+      "filename": "config.json",
+      "expected_bytes": 641,
+      "expected_sha256": null,
+      "kind": "metadata",
+      "models": [
+        "efficientnet_b4"
+      ],
+      "local_dir": null,
+      "status": "failed",
+      "error": "HfHubHTTPError: Server error '503 Service Unavailable' for url 'https://hf-mirror.com/api/resolve-cache/models/timm/efficientnet_b4.ra2_in1k/442c00e15609ff467772913d230768706a406aca/config.json?%2Ftimm%2Fefficientnet_b4.ra2_in1k%2Fresolve%2F442c00e15609ff467772913d230768706a406aca%2Fconfig.json=&etag=%22408cfb2425385eac259bbe1582868bb455d3b574%22'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/503",
+      "previous_error": "HfHubHTTPError: Server error '503 Service Unavailable' for url 'https://hf-mirror.com/api/resolve-cache/models/timm/efficientnet_b4.ra2_in1k/442c00e15609ff467772913d230768706a406aca/config.json?%2Ftimm%2Fefficientnet_b4.ra2_in1k%2Fresolve%2Fmain%2Fconfig.json=&etag=%22408cfb2425385eac259bbe1582868bb455d3b574%22'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/503"
+    },
+    {
+      "repo": "timm/efficientnet_b4.ra2_in1k",
+      "revision": "442c00e15609ff467772913d230768706a406aca",
+      "filename": "README.md",
+      "expected_bytes": 4756,
+      "expected_sha256": null,
+      "kind": "metadata",
+      "models": [
+        "efficientnet_b4"
+      ],
+      "local_dir": null,
+      "status": "failed",
+      "error": "HfHubHTTPError: Server error '503 Service Unavailable' for url 'https://hf-mirror.com/api/resolve-cache/models/timm/efficientnet_b4.ra2_in1k/442c00e15609ff467772913d230768706a406aca/README.md?%2Ftimm%2Fefficientnet_b4.ra2_in1k%2Fresolve%2F442c00e15609ff467772913d230768706a406aca%2FREADME.md=&etag=%2230fc5fc7f4638484b8bb9c5ec2efdaa40c86bacc%22'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/503",
+      "previous_error": "HfHubHTTPError: Server error '503 Service Unavailable' for url 'https://hf-mirror.com/api/resolve-cache/models/timm/efficientnet_b4.ra2_in1k/442c00e15609ff467772913d230768706a406aca/README.md?%2Ftimm%2Fefficientnet_b4.ra2_in1k%2Fresolve%2Fmain%2FREADME.md=&etag=%2230fc5fc7f4638484b8bb9c5ec2efdaa40c86bacc%22'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/503"
+    },
+    {
+      "repo": "timm/convnext_small.in12k_ft_in1k",
+      "revision": "45db0bc46e10f927840106d2763c36e6b8a2fc53",
+      "filename": "model.safetensors",
+      "expected_bytes": 200928946,
+      "expected_sha256": "eb6f6171daa484fac5e74c28cba90de9328939c03ee96d7e163a0c421898280e",
+      "kind": "backbone_initialization",
+      "models": [
+        "convnext_small"
+      ],
+      "local_dir": null,
+      "status": "existing_verified",
+      "path": "/mnt/data3/tianxin/graduation_project/weights/hf/hub/models--timm--convnext_small.in12k_ft_in1k/snapshots/45db0bc46e10f927840106d2763c36e6b8a2fc53/model.safetensors",
+      "bytes": 200928946,
+      "sha256": "eb6f6171daa484fac5e74c28cba90de9328939c03ee96d7e163a0c421898280e",
+      "final_verified": true
+    },
+    {
+      "repo": "timm/convnext_small.in12k_ft_in1k",
+      "revision": "45db0bc46e10f927840106d2763c36e6b8a2fc53",
+      "filename": "config.json",
+      "expected_bytes": 663,
+      "expected_sha256": null,
+      "kind": "metadata",
+      "models": [
+        "convnext_small"
+      ],
+      "local_dir": null,
+      "status": "downloaded_verified",
+      "previous_error": "HfHubHTTPError: Server error '503 Service Unavailable' for url 'https://hf-mirror.com/api/resolve-cache/models/timm/convnext_small.in12k_ft_in1k/45db0bc46e10f927840106d2763c36e6b8a2fc53/config.json?%2Ftimm%2Fconvnext_small.in12k_ft_in1k%2Fresolve%2Fmain%2Fconfig.json=&etag=%22f51a4ba0dfee8b6cef12c24d7c6a1ba07926e5f5%22'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/503",
+      "path": "/mnt/data3/tianxin/graduation_project/weights/hf/hub/models--timm--convnext_small.in12k_ft_in1k/snapshots/45db0bc46e10f927840106d2763c36e6b8a2fc53/config.json",
+      "bytes": 663,
+      "recovered_with_pinned_revision": true
+    },
+    {
+      "repo": "timm/convnext_small.in12k_ft_in1k",
+      "revision": "45db0bc46e10f927840106d2763c36e6b8a2fc53",
+      "filename": "README.md",
+      "expected_bytes": 16010,
+      "expected_sha256": null,
+      "kind": "metadata",
+      "models": [
+        "convnext_small"
+      ],
+      "local_dir": null,
+      "status": "failed",
+      "error": "HfHubHTTPError: Server error '503 Service Unavailable' for url 'https://hf-mirror.com/api/resolve-cache/models/timm/convnext_small.in12k_ft_in1k/45db0bc46e10f927840106d2763c36e6b8a2fc53/README.md?%2Ftimm%2Fconvnext_small.in12k_ft_in1k%2Fresolve%2Fmain%2FREADME.md=&etag=%22bf7c25c81f86195db819f77dcbc5d693634e6438%22'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/503"
+    },
+    {
+      "repo": "timm/convnext_tiny.in12k_ft_in1k",
+      "revision": "aa096f03029c7f0ec052013f64c819b34f8ad790",
+      "filename": "model.safetensors",
+      "expected_bytes": 114374272,
+      "expected_sha256": "a1aefa409b513cf209b085424eb3efffe4e4a9f511491bc2c12ea35209e6bb95",
+      "kind": "backbone_initialization",
+      "models": [
+        "convnext_tiny"
+      ],
+      "local_dir": null,
+      "status": "downloaded_verified",
+      "path": "/mnt/data3/tianxin/graduation_project/weights/hf/hub/models--timm--convnext_tiny.in12k_ft_in1k/snapshots/aa096f03029c7f0ec052013f64c819b34f8ad790/model.safetensors",
+      "bytes": 114374272,
+      "sha256": "a1aefa409b513cf209b085424eb3efffe4e4a9f511491bc2c12ea35209e6bb95",
+      "final_verified": true
+    },
+    {
+      "repo": "timm/convnext_tiny.in12k_ft_in1k",
+      "revision": "aa096f03029c7f0ec052013f64c819b34f8ad790",
+      "filename": "config.json",
+      "expected_bytes": 662,
+      "expected_sha256": null,
+      "kind": "metadata",
+      "models": [
+        "convnext_tiny"
+      ],
+      "local_dir": null,
+      "status": "downloaded_verified",
+      "path": "/mnt/data3/tianxin/graduation_project/weights/hf/hub/models--timm--convnext_tiny.in12k_ft_in1k/snapshots/aa096f03029c7f0ec052013f64c819b34f8ad790/config.json",
+      "bytes": 662,
+      "sha256": null
+    },
+    {
+      "repo": "timm/convnext_tiny.in12k_ft_in1k",
+      "revision": "aa096f03029c7f0ec052013f64c819b34f8ad790",
+      "filename": "README.md",
+      "expected_bytes": 16006,
+      "expected_sha256": null,
+      "kind": "metadata",
+      "models": [
+        "convnext_tiny"
+      ],
+      "local_dir": null,
+      "status": "failed",
+      "error": "HfHubHTTPError: Server error '503 Service Unavailable' for url 'https://hf-mirror.com/api/resolve-cache/models/timm/convnext_tiny.in12k_ft_in1k/aa096f03029c7f0ec052013f64c819b34f8ad790/README.md?%2Ftimm%2Fconvnext_tiny.in12k_ft_in1k%2Fresolve%2Fmain%2FREADME.md=&etag=%22984d425c3950f659a7a692cbaf2f4babf4a0f201%22'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/503"
+    },
+    {
+      "repo": "timm/swin_small_patch4_window7_224.ms_in22k_ft_in1k",
+      "revision": "221ee757828e4772df860bd42ef476de78dd5fc6",
+      "filename": "model.safetensors",
+      "expected_bytes": 200037522,
+      "expected_sha256": "e17adf843764761f138cb8cab081d9a37824db4a948c0082c7af7f0092d19581",
+      "kind": "backbone_initialization",
+      "models": [
+        "swin_small_patch4_window7_224"
+      ],
+      "local_dir": null,
+      "status": "existing_verified",
+      "path": "/mnt/data3/tianxin/graduation_project/weights/hf/hub/models--timm--swin_small_patch4_window7_224.ms_in22k_ft_in1k/snapshots/221ee757828e4772df860bd42ef476de78dd5fc6/model.safetensors",
+      "bytes": 200037522,
+      "sha256": "e17adf843764761f138cb8cab081d9a37824db4a948c0082c7af7f0092d19581",
+      "final_verified": true
+    },
+    {
+      "repo": "timm/swin_small_patch4_window7_224.ms_in22k_ft_in1k",
+      "revision": "221ee757828e4772df860bd42ef476de78dd5fc6",
+      "filename": "config.json",
+      "expected_bytes": 647,
+      "expected_sha256": null,
+      "kind": "metadata",
+      "models": [
+        "swin_small_patch4_window7_224"
+      ],
+      "local_dir": null,
+      "status": "downloaded_verified",
+      "path": "/mnt/data3/tianxin/graduation_project/weights/hf/hub/models--timm--swin_small_patch4_window7_224.ms_in22k_ft_in1k/snapshots/221ee757828e4772df860bd42ef476de78dd5fc6/config.json",
+      "bytes": 647,
+      "sha256": null
+    },
+    {
+      "repo": "timm/swin_small_patch4_window7_224.ms_in22k_ft_in1k",
+      "revision": "221ee757828e4772df860bd42ef476de78dd5fc6",
+      "filename": "README.md",
+      "expected_bytes": 4543,
+      "expected_sha256": null,
+      "kind": "metadata",
+      "models": [
+        "swin_small_patch4_window7_224"
+      ],
+      "local_dir": null,
+      "status": "downloaded_verified",
+      "path": "/mnt/data3/tianxin/graduation_project/weights/hf/hub/models--timm--swin_small_patch4_window7_224.ms_in22k_ft_in1k/snapshots/221ee757828e4772df860bd42ef476de78dd5fc6/README.md",
+      "bytes": 4543,
+      "sha256": null
+    },
+    {
+      "repo": "timm/vit_base_patch16_224.augreg2_in21k_ft_in1k",
+      "revision": "063c6c38a5d8510b2e57df480445e94b231dad2c",
+      "filename": "model.safetensors",
+      "expected_bytes": 346284714,
+      "expected_sha256": "32aa17d6e17b43500f531d5f6dc9bc93e56ed8841b8a75682e1bb295d722405b",
+      "kind": "backbone_initialization",
+      "models": [
+        "vit_base_patch16_224"
+      ],
+      "local_dir": null,
+      "status": "downloaded_verified",
+      "path": "/mnt/data3/tianxin/graduation_project/weights/hf/hub/models--timm--vit_base_patch16_224.augreg2_in21k_ft_in1k/snapshots/063c6c38a5d8510b2e57df480445e94b231dad2c/model.safetensors",
+      "bytes": 346284714,
+      "sha256": "32aa17d6e17b43500f531d5f6dc9bc93e56ed8841b8a75682e1bb295d722405b",
+      "final_verified": true
+    },
+    {
+      "repo": "timm/vit_base_patch16_224.augreg2_in21k_ft_in1k",
+      "revision": "063c6c38a5d8510b2e57df480445e94b231dad2c",
+      "filename": "config.json",
+      "expected_bytes": 588,
+      "expected_sha256": null,
+      "kind": "metadata",
+      "models": [
+        "vit_base_patch16_224"
+      ],
+      "local_dir": null,
+      "status": "downloaded_verified",
+      "path": "/mnt/data3/tianxin/graduation_project/weights/hf/hub/models--timm--vit_base_patch16_224.augreg2_in21k_ft_in1k/snapshots/063c6c38a5d8510b2e57df480445e94b231dad2c/config.json",
+      "bytes": 588,
+      "sha256": null
+    },
+    {
+      "repo": "timm/vit_base_patch16_224.augreg2_in21k_ft_in1k",
+      "revision": "063c6c38a5d8510b2e57df480445e94b231dad2c",
+      "filename": "README.md",
+      "expected_bytes": 3900,
+      "expected_sha256": null,
+      "kind": "metadata",
+      "models": [
+        "vit_base_patch16_224"
+      ],
+      "local_dir": null,
+      "status": "downloaded_verified",
+      "path": "/mnt/data3/tianxin/graduation_project/weights/hf/hub/models--timm--vit_base_patch16_224.augreg2_in21k_ft_in1k/snapshots/063c6c38a5d8510b2e57df480445e94b231dad2c/README.md",
+      "bytes": 3900,
+      "sha256": null
+    },
+    {
+      "repo": "timm/mobilenetv3_large_100.ra_in1k",
+      "revision": "96f46a1c52932f27492dff66c72378eb99b443a7",
+      "filename": "model.safetensors",
+      "expected_bytes": 22058321,
+      "expected_sha256": "f425af34cc1cead2b5d6211f789a1f30b94835dc32f9c0fcc5a916e4fd2dde85",
+      "kind": "backbone_initialization",
+      "models": [
+        "mobilenetv3_large_100"
+      ],
+      "local_dir": null,
+      "status": "downloaded_verified",
+      "path": "/mnt/data3/tianxin/graduation_project/weights/hf/hub/models--timm--mobilenetv3_large_100.ra_in1k/snapshots/96f46a1c52932f27492dff66c72378eb99b443a7/model.safetensors",
+      "bytes": 22058321,
+      "sha256": "f425af34cc1cead2b5d6211f789a1f30b94835dc32f9c0fcc5a916e4fd2dde85",
+      "final_verified": true
+    },
+    {
+      "repo": "timm/mobilenetv3_large_100.ra_in1k",
+      "revision": "96f46a1c52932f27492dff66c72378eb99b443a7",
+      "filename": "config.json",
+      "expected_bytes": 584,
+      "expected_sha256": null,
+      "kind": "metadata",
+      "models": [
+        "mobilenetv3_large_100"
+      ],
+      "local_dir": null,
+      "status": "downloaded_verified",
+      "path": "/mnt/data3/tianxin/graduation_project/weights/hf/hub/models--timm--mobilenetv3_large_100.ra_in1k/snapshots/96f46a1c52932f27492dff66c72378eb99b443a7/config.json",
+      "bytes": 584,
+      "sha256": null
+    },
+    {
+      "repo": "timm/mobilenetv3_large_100.ra_in1k",
+      "revision": "96f46a1c52932f27492dff66c72378eb99b443a7",
+      "filename": "README.md",
+      "expected_bytes": 4807,
+      "expected_sha256": null,
+      "kind": "metadata",
+      "models": [
+        "mobilenetv3_large_100"
+      ],
+      "local_dir": null,
+      "status": "downloaded_verified",
+      "path": "/mnt/data3/tianxin/graduation_project/weights/hf/hub/models--timm--mobilenetv3_large_100.ra_in1k/snapshots/96f46a1c52932f27492dff66c72378eb99b443a7/README.md",
+      "bytes": 4807,
+      "sha256": null
+    },
+    {
+      "repo": "timm/densenet121.ra_in1k",
+      "revision": "92007b6200e0b4a4fe68cb4e3947022a928aaaae",
+      "filename": "model.safetensors",
+      "expected_bytes": 32334434,
+      "expected_sha256": "eae900d8ae5b3716efa7f443fcc692aeb5a7f01f72581835c03c8c495f9eda10",
+      "kind": "backbone_initialization",
+      "models": [
+        "densenet121"
+      ],
+      "local_dir": null,
+      "status": "downloaded_verified",
+      "path": "/mnt/data3/tianxin/graduation_project/weights/hf/hub/models--timm--densenet121.ra_in1k/snapshots/92007b6200e0b4a4fe68cb4e3947022a928aaaae/model.safetensors",
+      "bytes": 32334434,
+      "sha256": "eae900d8ae5b3716efa7f443fcc692aeb5a7f01f72581835c03c8c495f9eda10",
+      "final_verified": true
+    },
+    {
+      "repo": "timm/densenet121.ra_in1k",
+      "revision": "92007b6200e0b4a4fe68cb4e3947022a928aaaae",
+      "filename": "config.json",
+      "expected_bytes": 668,
+      "expected_sha256": null,
+      "kind": "metadata",
+      "models": [
+        "densenet121"
+      ],
+      "local_dir": null,
+      "status": "downloaded_verified",
+      "path": "/mnt/data3/tianxin/graduation_project/weights/hf/hub/models--timm--densenet121.ra_in1k/snapshots/92007b6200e0b4a4fe68cb4e3947022a928aaaae/config.json",
+      "bytes": 668,
+      "sha256": null
+    },
+    {
+      "repo": "timm/densenet121.ra_in1k",
+      "revision": "92007b6200e0b4a4fe68cb4e3947022a928aaaae",
+      "filename": "README.md",
+      "expected_bytes": 4026,
+      "expected_sha256": null,
+      "kind": "metadata",
+      "models": [
+        "densenet121"
+      ],
+      "local_dir": null,
+      "status": "downloaded_verified",
+      "path": "/mnt/data3/tianxin/graduation_project/weights/hf/hub/models--timm--densenet121.ra_in1k/snapshots/92007b6200e0b4a4fe68cb4e3947022a928aaaae/README.md",
+      "bytes": 4026,
+      "sha256": null
+    },
+    {
+      "repo": "timm/hrnet_w18.ms_aug_in1k",
+      "revision": "7e2c5583769f54514fd87e3ba9de408e33eaba0f",
+      "filename": "model.safetensors",
+      "expected_bytes": 85602968,
+      "expected_sha256": "f9e3c451448c037d4dd549c96f3013d2926b492f69f27c74bbcc909e053e677c",
+      "kind": "backbone_initialization",
+      "models": [
+        "hrnet_w18"
+      ],
+      "local_dir": null,
+      "status": "downloaded_verified",
+      "path": "/mnt/data3/tianxin/graduation_project/weights/hf/hub/models--timm--hrnet_w18.ms_aug_in1k/snapshots/7e2c5583769f54514fd87e3ba9de408e33eaba0f/model.safetensors",
+      "bytes": 85602968,
+      "sha256": "f9e3c451448c037d4dd549c96f3013d2926b492f69f27c74bbcc909e053e677c",
+      "final_verified": true
+    },
+    {
+      "repo": "timm/hrnet_w18.ms_aug_in1k",
+      "revision": "7e2c5583769f54514fd87e3ba9de408e33eaba0f",
+      "filename": "config.json",
+      "expected_bytes": 572,
+      "expected_sha256": null,
+      "kind": "metadata",
+      "models": [
+        "hrnet_w18"
+      ],
+      "local_dir": null,
+      "status": "downloaded_verified",
+      "path": "/mnt/data3/tianxin/graduation_project/weights/hf/hub/models--timm--hrnet_w18.ms_aug_in1k/snapshots/7e2c5583769f54514fd87e3ba9de408e33eaba0f/config.json",
+      "bytes": 572,
+      "sha256": null
+    },
+    {
+      "repo": "timm/hrnet_w18.ms_aug_in1k",
+      "revision": "7e2c5583769f54514fd87e3ba9de408e33eaba0f",
+      "filename": "README.md",
+      "expected_bytes": 3786,
+      "expected_sha256": null,
+      "kind": "metadata",
+      "models": [
+        "hrnet_w18"
+      ],
+      "local_dir": null,
+      "status": "downloaded_verified",
+      "path": "/mnt/data3/tianxin/graduation_project/weights/hf/hub/models--timm--hrnet_w18.ms_aug_in1k/snapshots/7e2c5583769f54514fd87e3ba9de408e33eaba0f/README.md",
+      "bytes": 3786,
+      "sha256": null
+    },
+    {
+      "repo": "ADPer/verity-weights",
+      "revision": "c6efbdff822160e0815e48d1743ba076b88e1a72",
+      "filename": "deepfakebench/core_best.pth",
+      "expected_bytes": 87766765,
+      "expected_sha256": "3d34dca33ab66ee027425e0bc48fb889811ecd4ea53f72f958d83124144d1af7",
+      "kind": "detector_task_checkpoint",
+      "models": [
+        "CORE"
+      ],
+      "local_dir": "/mnt/data3/tianxin/graduation_project/weights/manual/hf_tasks",
+      "status": "downloaded_verified",
+      "path": "/mnt/data3/tianxin/graduation_project/weights/manual/hf_tasks/deepfakebench/core_best.pth",
+      "bytes": 87766765,
+      "sha256": "3d34dca33ab66ee027425e0bc48fb889811ecd4ea53f72f958d83124144d1af7",
+      "final_verified": true
+    },
+    {
+      "repo": "ADPer/verity-weights",
+      "revision": "c6efbdff822160e0815e48d1743ba076b88e1a72",
+      "filename": "deepfakebench/effnb4_best.pth",
+      "expected_bytes": 70979261,
+      "expected_sha256": "74cbd82d7be1bf5e6adec717824274a95b4509b02e1e78401608d32b3cbeaf0f",
+      "kind": "detector_task_checkpoint",
+      "models": [
+        "EfficientDetector"
+      ],
+      "local_dir": "/mnt/data3/tianxin/graduation_project/weights/manual/hf_tasks",
+      "status": "downloaded_verified",
+      "path": "/mnt/data3/tianxin/graduation_project/weights/manual/hf_tasks/deepfakebench/effnb4_best.pth",
+      "bytes": 70979261,
+      "sha256": "74cbd82d7be1bf5e6adec717824274a95b4509b02e1e78401608d32b3cbeaf0f",
+      "final_verified": true
+    },
+    {
+      "repo": "ADPer/verity-weights",
+      "revision": "c6efbdff822160e0815e48d1743ba076b88e1a72",
+      "filename": "deepfakebench/ffd_best.pth",
+      "expected_bytes": 87796541,
+      "expected_sha256": "445f5b70f115bf777067a4bc498dd73847964dc23f90e5d516b71d0ebb4f65a7",
+      "kind": "detector_task_checkpoint",
+      "models": [
+        "FFD"
+      ],
+      "local_dir": "/mnt/data3/tianxin/graduation_project/weights/manual/hf_tasks",
+      "status": "downloaded_verified",
+      "path": "/mnt/data3/tianxin/graduation_project/weights/manual/hf_tasks/deepfakebench/ffd_best.pth",
+      "bytes": 87796541,
+      "sha256": "445f5b70f115bf777067a4bc498dd73847964dc23f90e5d516b71d0ebb4f65a7",
+      "final_verified": true
+    },
+    {
+      "repo": "ADPer/verity-weights",
+      "revision": "c6efbdff822160e0815e48d1743ba076b88e1a72",
+      "filename": "deepfakebench/meso4Incep_best.pth",
+      "expected_bytes": 126419,
+      "expected_sha256": "16a2d7cec846e5bcbcb7f4826a1691620b80dcd7c1c63bafe040f1e811991f66",
+      "kind": "detector_task_checkpoint",
+      "models": [
+        "Meso4Inception"
+      ],
+      "local_dir": "/mnt/data3/tianxin/graduation_project/weights/manual/hf_tasks",
+      "status": "downloaded_verified",
+      "path": "/mnt/data3/tianxin/graduation_project/weights/manual/hf_tasks/deepfakebench/meso4Incep_best.pth",
+      "bytes": 126419,
+      "sha256": "16a2d7cec846e5bcbcb7f4826a1691620b80dcd7c1c63bafe040f1e811991f66",
+      "final_verified": true
+    },
+    {
+      "repo": "ADPer/verity-weights",
+      "revision": "c6efbdff822160e0815e48d1743ba076b88e1a72",
+      "filename": "deepfakebench/meso4_best.pth",
+      "expected_bytes": 117943,
+      "expected_sha256": "a362ebbef2658daa551d808fbfccd57f0b5fd34fda46a05996e807cccddff4e0",
+      "kind": "detector_task_checkpoint",
+      "models": [
+        "Meso4"
+      ],
+      "local_dir": "/mnt/data3/tianxin/graduation_project/weights/manual/hf_tasks",
+      "status": "downloaded_verified",
+      "path": "/mnt/data3/tianxin/graduation_project/weights/manual/hf_tasks/deepfakebench/meso4_best.pth",
+      "bytes": 117943,
+      "sha256": "a362ebbef2658daa551d808fbfccd57f0b5fd34fda46a05996e807cccddff4e0",
+      "final_verified": true
+    },
+    {
+      "repo": "ADPer/verity-weights",
+      "revision": "c6efbdff822160e0815e48d1743ba076b88e1a72",
+      "filename": "deepfakebench/recce_best.pth",
+      "expected_bytes": 191466941,
+      "expected_sha256": "1349fd80d75cdb2d212f2dc4035529140b147b80ae87ad227242fa0451586ceb",
+      "kind": "detector_task_checkpoint",
+      "models": [
+        "RecceDetector"
+      ],
+      "local_dir": "/mnt/data3/tianxin/graduation_project/weights/manual/hf_tasks",
+      "status": "downloaded_verified",
+      "path": "/mnt/data3/tianxin/graduation_project/weights/manual/hf_tasks/deepfakebench/recce_best.pth",
+      "bytes": 191466941,
+      "sha256": "1349fd80d75cdb2d212f2dc4035529140b147b80ae87ad227242fa0451586ceb",
+      "final_verified": true
+    },
+    {
+      "repo": "ADPer/verity-weights",
+      "revision": "c6efbdff822160e0815e48d1743ba076b88e1a72",
+      "filename": "deepfakebench/ucf_best.pth",
+      "expected_bytes": 188006161,
+      "expected_sha256": "4afa2517feeb473024e1b73049bfa61ce446eb4da14d17c864f2e2a76b3223e5",
+      "kind": "detector_task_checkpoint",
+      "models": [
+        "UCF"
+      ],
+      "local_dir": "/mnt/data3/tianxin/graduation_project/weights/manual/hf_tasks",
+      "status": "downloaded_verified",
+      "path": "/mnt/data3/tianxin/graduation_project/weights/manual/hf_tasks/deepfakebench/ucf_best.pth",
+      "bytes": 188006161,
+      "sha256": "4afa2517feeb473024e1b73049bfa61ce446eb4da14d17c864f2e2a76b3223e5",
+      "final_verified": true
+    },
+    {
+      "repo": "ADPer/verity-weights",
+      "revision": "c6efbdff822160e0815e48d1743ba076b88e1a72",
+      "filename": "backbones/hrnetv2_w48_imagenet_pretrained.pth",
+      "expected_bytes": 310643500,
+      "expected_sha256": "0efec102d97f2ef58f0e258b2c3076b3704b93ffc2b73f64c8da5462c0037ef8",
+      "kind": "backbone_initialization",
+      "models": [
+        "Cat_Net"
+      ],
+      "local_dir": "/mnt/data3/tianxin/graduation_project/weights/manual/hf_tasks",
+      "status": "downloaded_verified",
+      "path": "/mnt/data3/tianxin/graduation_project/weights/manual/hf_tasks/backbones/hrnetv2_w48_imagenet_pretrained.pth",
+      "bytes": 310643500,
+      "sha256": "0efec102d97f2ef58f0e258b2c3076b3704b93ffc2b73f64c8da5462c0037ef8",
+      "final_verified": true
+    },
+    {
+      "repo": "ADPer/verity-weights",
+      "revision": "c6efbdff822160e0815e48d1743ba076b88e1a72",
+      "filename": "backbones/xception-b5690688.pth",
+      "expected_bytes": 91674713,
+      "expected_sha256": "b56906886cbaf573fc8819216d2dcc753fb564fa81a7733a0f2620b2a1973f7a",
+      "kind": "backbone_initialization",
+      "models": [
+        "DeepfakeBench Xception initialization"
+      ],
+      "local_dir": "/mnt/data3/tianxin/graduation_project/weights/manual/hf_tasks",
+      "status": "downloaded_verified",
+      "path": "/mnt/data3/tianxin/graduation_project/weights/manual/hf_tasks/backbones/xception-b5690688.pth",
+      "bytes": 91674713,
+      "sha256": "b56906886cbaf573fc8819216d2dcc753fb564fa81a7733a0f2620b2a1973f7a",
+      "final_verified": true
+    },
+    {
+      "repo": "ADPer/verity-weights",
+      "revision": "c6efbdff822160e0815e48d1743ba076b88e1a72",
+      "filename": "deepfakebench/spsl_best.pth",
+      "expected_bytes": 87764683,
+      "expected_sha256": "7305d660c68aa6ac138f8d59c068832a43244f390fa6e54355f211d81bc246bd",
+      "kind": "detector_task_checkpoint",
+      "models": [
+        "SPSL"
+      ],
+      "local_dir": "/mnt/data3/tianxin/graduation_project/weights/manual/hf_tasks",
+      "status": "existing_verified",
+      "path": "/mnt/data3/tianxin/graduation_project/weights/manual/hf_tasks/deepfakebench/spsl_best.pth",
+      "bytes": 87764683,
+      "sha256": "7305d660c68aa6ac138f8d59c068832a43244f390fa6e54355f211d81bc246bd",
+      "final_verified": true
+    },
+    {
+      "repo": "ADPer/verity-weights",
+      "revision": "c6efbdff822160e0815e48d1743ba076b88e1a72",
+      "filename": "deepfakebench/srm_best.pth",
+      "expected_bytes": 222088575,
+      "expected_sha256": "666e8fc7f9938f541a7f5cea7b11d975cc749ec1c8ba6b350ae3eb3d2d34a1e8",
+      "kind": "detector_task_checkpoint",
+      "models": [
+        "SRM"
+      ],
+      "local_dir": "/mnt/data3/tianxin/graduation_project/weights/manual/hf_tasks",
+      "status": "existing_verified",
+      "path": "/mnt/data3/tianxin/graduation_project/weights/manual/hf_tasks/deepfakebench/srm_best.pth",
+      "bytes": 222088575,
+      "sha256": "666e8fc7f9938f541a7f5cea7b11d975cc749ec1c8ba6b350ae3eb3d2d34a1e8",
+      "final_verified": true
+    },
+    {
+      "repo": "ADPer/verity-weights",
+      "revision": "c6efbdff822160e0815e48d1743ba076b88e1a72",
+      "filename": "deepfakebench/f3net_best.pth",
+      "expected_bytes": 90398839,
+      "expected_sha256": "deee7d25bfc1b8b5ba83054a664880078de51213b1067f1e472c2bed7cc667f9",
+      "kind": "detector_task_checkpoint",
+      "models": [
+        "F3Net"
+      ],
+      "local_dir": "/mnt/data3/tianxin/graduation_project/weights/manual/hf_tasks",
+      "status": "existing_verified",
+      "path": "/mnt/data3/tianxin/graduation_project/weights/manual/hf_tasks/deepfakebench/f3net_best.pth",
+      "bytes": 90398839,
+      "sha256": "deee7d25bfc1b8b5ba83054a664880078de51213b1067f1e472c2bed7cc667f9",
+      "final_verified": true
+    },
+    {
+      "repo": "ADPer/verity-weights",
+      "revision": "c6efbdff822160e0815e48d1743ba076b88e1a72",
+      "filename": "deepfakebench/xception_best.pth",
+      "expected_bytes": 87763531,
+      "expected_sha256": "dd61186f9ac8e99aae85982cae338b555dfaeef042f6b699e5a55cae3998ba47",
+      "kind": "detector_task_checkpoint",
+      "models": [
+        "XceptionDetector"
+      ],
+      "local_dir": "/mnt/data3/tianxin/graduation_project/weights/manual/hf_tasks",
+      "status": "existing_verified",
+      "path": "/mnt/data3/tianxin/graduation_project/weights/manual/hf_tasks/deepfakebench/xception_best.pth",
+      "bytes": 87763531,
+      "sha256": "dd61186f9ac8e99aae85982cae338b555dfaeef042f6b699e5a55cae3998ba47",
+      "final_verified": true
+    },
+    {
+      "repo": "ADPer/verity-weights",
+      "revision": "c6efbdff822160e0815e48d1743ba076b88e1a72",
+      "filename": "deepfakebench/capsule_best.pth",
+      "expected_bytes": 15694749,
+      "expected_sha256": "40e96997c2248aeb7958fce5c99f8a81dd3c8dea120c78ed8468a837b2ba51f8",
+      "kind": "detector_task_checkpoint",
+      "models": [
+        "CapsuleNet"
+      ],
+      "local_dir": "/mnt/data3/tianxin/graduation_project/weights/manual/hf_tasks",
+      "status": "existing_verified",
+      "path": "/mnt/data3/tianxin/graduation_project/weights/manual/hf_tasks/deepfakebench/capsule_best.pth",
+      "bytes": 15694749,
+      "sha256": "40e96997c2248aeb7958fce5c99f8a81dd3c8dea120c78ed8468a837b2ba51f8",
+      "final_verified": true
+    },
+    {
+      "repo": "ADPer/verity-weights",
+      "revision": "c6efbdff822160e0815e48d1743ba076b88e1a72",
+      "filename": "univfd/fc_weights.pth",
+      "expected_bytes": 4083,
+      "expected_sha256": "477100745713bcc957beb2b40859536859b6483fd6301b3b9293151b194c7847",
+      "kind": "trained_classification_head",
+      "models": [
+        "UnivFD"
+      ],
+      "local_dir": "/mnt/data3/tianxin/graduation_project/weights/manual/hf_tasks",
+      "status": "existing_verified",
+      "path": "/mnt/data3/tianxin/graduation_project/weights/manual/hf_tasks/univfd/fc_weights.pth",
+      "bytes": 4083,
+      "sha256": "477100745713bcc957beb2b40859536859b6483fd6301b3b9293151b194c7847",
+      "final_verified": true
+    },
+    {
+      "repo": "ADPer/verity-weights",
+      "revision": "c6efbdff822160e0815e48d1743ba076b88e1a72",
+      "filename": "README.md",
+      "expected_bytes": 7686,
+      "expected_sha256": null,
+      "kind": "metadata",
+      "models": [],
+      "local_dir": "/mnt/data3/tianxin/graduation_project/weights/manual/hf_tasks",
+      "status": "existing_verified",
+      "path": "/mnt/data3/tianxin/graduation_project/weights/manual/hf_tasks/README.md",
+      "bytes": 7686,
+      "sha256": null
+    },
+    {
+      "repo": "ADPer/verity-weights",
+      "revision": "c6efbdff822160e0815e48d1743ba076b88e1a72",
+      "filename": "NOTICE.md",
+      "expected_bytes": 9897,
+      "expected_sha256": null,
+      "kind": "metadata",
+      "models": [],
+      "local_dir": "/mnt/data3/tianxin/graduation_project/weights/manual/hf_tasks",
+      "status": "existing_verified",
+      "path": "/mnt/data3/tianxin/graduation_project/weights/manual/hf_tasks/NOTICE.md",
+      "bytes": 9897,
+      "sha256": null
+    },
+    {
+      "repo": "ADPer/verity-weights",
+      "revision": "c6efbdff822160e0815e48d1743ba076b88e1a72",
+      "filename": "LICENSE",
+      "expected_bytes": 591,
+      "expected_sha256": null,
+      "kind": "metadata",
+      "models": [],
+      "local_dir": "/mnt/data3/tianxin/graduation_project/weights/manual/hf_tasks",
+      "status": "existing_verified",
+      "path": "/mnt/data3/tianxin/graduation_project/weights/manual/hf_tasks/LICENSE",
+      "bytes": 591,
+      "sha256": null
+    },
+    {
+      "repo": "ADPer/verity-weights",
+      "revision": "c6efbdff822160e0815e48d1743ba076b88e1a72",
+      "filename": "manifest.json",
+      "expected_bytes": 8024,
+      "expected_sha256": null,
+      "kind": "metadata",
+      "models": [],
+      "local_dir": "/mnt/data3/tianxin/graduation_project/weights/manual/hf_tasks",
+      "status": "existing_verified",
+      "path": "/mnt/data3/tianxin/graduation_project/weights/manual/hf_tasks/manifest.json",
+      "bytes": 8024,
+      "sha256": null
+    },
+    {
+      "repo": "ADPer/verity-weights",
+      "revision": "c6efbdff822160e0815e48d1743ba076b88e1a72",
+      "filename": "sha256sums.txt",
+      "expected_bytes": 2011,
+      "expected_sha256": null,
+      "kind": "metadata",
+      "models": [],
+      "local_dir": "/mnt/data3/tianxin/graduation_project/weights/manual/hf_tasks",
+      "status": "downloaded_verified",
+      "path": "/mnt/data3/tianxin/graduation_project/weights/manual/hf_tasks/sha256sums.txt",
+      "bytes": 2011,
+      "sha256": null
+    },
+    {
+      "repo": "openai/clip-vit-base-patch16",
+      "revision": "57c216476eefef5ab752ec549e440a49ae4ae5f3",
+      "filename": "pytorch_model.bin",
+      "expected_bytes": 598641023,
+      "expected_sha256": "ec89c7b09c749a60aae3c9cd910516f24b58214a7df060b48962d14c469cfbf0",
+      "kind": "vision_encoder_initialization",
+      "models": [
+        "CLIPDetector"
+      ],
+      "local_dir": null,
+      "status": "downloaded_verified",
+      "path": "/mnt/data3/tianxin/graduation_project/weights/hf/hub/models--openai--clip-vit-base-patch16/snapshots/57c216476eefef5ab752ec549e440a49ae4ae5f3/pytorch_model.bin",
+      "bytes": 598641023,
+      "sha256": "ec89c7b09c749a60aae3c9cd910516f24b58214a7df060b48962d14c469cfbf0",
+      "final_verified": true
+    },
+    {
+      "repo": "openai/clip-vit-base-patch16",
+      "revision": "57c216476eefef5ab752ec549e440a49ae4ae5f3",
+      "filename": "config.json",
+      "expected_bytes": 4104,
+      "expected_sha256": null,
+      "kind": "metadata",
+      "models": [
+        "CLIPDetector"
+      ],
+      "local_dir": null,
+      "status": "downloaded_verified",
+      "path": "/mnt/data3/tianxin/graduation_project/weights/hf/hub/models--openai--clip-vit-base-patch16/snapshots/57c216476eefef5ab752ec549e440a49ae4ae5f3/config.json",
+      "bytes": 4104,
+      "sha256": null
+    },
+    {
+      "repo": "openai/clip-vit-base-patch16",
+      "revision": "57c216476eefef5ab752ec549e440a49ae4ae5f3",
+      "filename": "preprocessor_config.json",
+      "expected_bytes": 316,
+      "expected_sha256": null,
+      "kind": "metadata",
+      "models": [
+        "CLIPDetector"
+      ],
+      "local_dir": null,
+      "status": "downloaded_verified",
+      "path": "/mnt/data3/tianxin/graduation_project/weights/hf/hub/models--openai--clip-vit-base-patch16/snapshots/57c216476eefef5ab752ec549e440a49ae4ae5f3/preprocessor_config.json",
+      "bytes": 316,
+      "sha256": null
+    },
+    {
+      "repo": "openai/clip-vit-base-patch16",
+      "revision": "57c216476eefef5ab752ec549e440a49ae4ae5f3",
+      "filename": "tokenizer.json",
+      "expected_bytes": 2224003,
+      "expected_sha256": null,
+      "kind": "metadata",
+      "models": [
+        "CLIPDetector"
+      ],
+      "local_dir": null,
+      "status": "downloaded_verified",
+      "path": "/mnt/data3/tianxin/graduation_project/weights/hf/hub/models--openai--clip-vit-base-patch16/snapshots/57c216476eefef5ab752ec549e440a49ae4ae5f3/tokenizer.json",
+      "bytes": 2224003,
+      "sha256": null
+    },
+    {
+      "repo": "openai/clip-vit-base-patch16",
+      "revision": "57c216476eefef5ab752ec549e440a49ae4ae5f3",
+      "filename": "tokenizer_config.json",
+      "expected_bytes": 905,
+      "expected_sha256": null,
+      "kind": "metadata",
+      "models": [
+        "CLIPDetector"
+      ],
+      "local_dir": null,
+      "status": "downloaded_verified",
+      "path": "/mnt/data3/tianxin/graduation_project/weights/hf/hub/models--openai--clip-vit-base-patch16/snapshots/57c216476eefef5ab752ec549e440a49ae4ae5f3/tokenizer_config.json",
+      "bytes": 905,
+      "sha256": null
+    },
+    {
+      "repo": "openai/clip-vit-base-patch16",
+      "revision": "57c216476eefef5ab752ec549e440a49ae4ae5f3",
+      "filename": "special_tokens_map.json",
+      "expected_bytes": 389,
+      "expected_sha256": null,
+      "kind": "metadata",
+      "models": [
+        "CLIPDetector"
+      ],
+      "local_dir": null,
+      "status": "downloaded_verified",
+      "path": "/mnt/data3/tianxin/graduation_project/weights/hf/hub/models--openai--clip-vit-base-patch16/snapshots/57c216476eefef5ab752ec549e440a49ae4ae5f3/special_tokens_map.json",
+      "bytes": 389,
+      "sha256": null
+    },
+    {
+      "repo": "openai/clip-vit-base-patch16",
+      "revision": "57c216476eefef5ab752ec549e440a49ae4ae5f3",
+      "filename": "merges.txt",
+      "expected_bytes": 524619,
+      "expected_sha256": null,
+      "kind": "metadata",
+      "models": [
+        "CLIPDetector"
+      ],
+      "local_dir": null,
+      "status": "downloaded_verified",
+      "path": "/mnt/data3/tianxin/graduation_project/weights/hf/hub/models--openai--clip-vit-base-patch16/snapshots/57c216476eefef5ab752ec549e440a49ae4ae5f3/merges.txt",
+      "bytes": 524619,
+      "sha256": null
+    },
+    {
+      "repo": "openai/clip-vit-base-patch16",
+      "revision": "57c216476eefef5ab752ec549e440a49ae4ae5f3",
+      "filename": "vocab.json",
+      "expected_bytes": 961143,
+      "expected_sha256": null,
+      "kind": "metadata",
+      "models": [
+        "CLIPDetector"
+      ],
+      "local_dir": null,
+      "status": "downloaded_verified",
+      "path": "/mnt/data3/tianxin/graduation_project/weights/hf/hub/models--openai--clip-vit-base-patch16/snapshots/57c216476eefef5ab752ec549e440a49ae4ae5f3/vocab.json",
+      "bytes": 961143,
+      "sha256": null
+    },
+    {
+      "repo": "openai/clip-vit-base-patch16",
+      "revision": "57c216476eefef5ab752ec549e440a49ae4ae5f3",
+      "filename": "README.md",
+      "expected_bytes": 7928,
+      "expected_sha256": null,
+      "kind": "metadata",
+      "models": [
+        "CLIPDetector"
+      ],
+      "local_dir": null,
+      "status": "downloaded_verified",
+      "path": "/mnt/data3/tianxin/graduation_project/weights/hf/hub/models--openai--clip-vit-base-patch16/snapshots/57c216476eefef5ab752ec549e440a49ae4ae5f3/README.md",
+      "bytes": 7928,
+      "sha256": null
+    },
+    {
+      "repo": "openai/clip-vit-large-patch14",
+      "revision": "32bd64288804d66eefd0ccbe215aa642df71cc41",
+      "filename": "model.safetensors",
+      "expected_bytes": 1710540580,
+      "expected_sha256": "a2bf730a0c7debf160f7a6b50b3aaf3703e7e88ac73de7a314903141db026dcb",
+      "kind": "vision_encoder_initialization",
+      "models": [
+        "Effort"
+      ],
+      "local_dir": null,
+      "status": "existing_verified",
+      "path": "/mnt/data3/tianxin/graduation_project/weights/hf/hub/models--openai--clip-vit-large-patch14/snapshots/32bd64288804d66eefd0ccbe215aa642df71cc41/model.safetensors",
+      "bytes": 1710540580,
+      "sha256": "a2bf730a0c7debf160f7a6b50b3aaf3703e7e88ac73de7a314903141db026dcb",
+      "final_verified": true
+    },
+    {
+      "repo": "openai/clip-vit-large-patch14",
+      "revision": "32bd64288804d66eefd0ccbe215aa642df71cc41",
+      "filename": "config.json",
+      "expected_bytes": 4519,
+      "expected_sha256": null,
+      "kind": "metadata",
+      "models": [
+        "Effort"
+      ],
+      "local_dir": null,
+      "status": "existing_verified",
+      "path": "/mnt/data3/tianxin/graduation_project/weights/hf/hub/models--openai--clip-vit-large-patch14/snapshots/32bd64288804d66eefd0ccbe215aa642df71cc41/config.json",
+      "bytes": 4519,
+      "sha256": null
+    },
+    {
+      "repo": "openai/clip-vit-large-patch14",
+      "revision": "32bd64288804d66eefd0ccbe215aa642df71cc41",
+      "filename": "preprocessor_config.json",
+      "expected_bytes": 316,
+      "expected_sha256": null,
+      "kind": "metadata",
+      "models": [
+        "Effort"
+      ],
+      "local_dir": null,
+      "status": "existing_verified",
+      "path": "/mnt/data3/tianxin/graduation_project/weights/hf/hub/models--openai--clip-vit-large-patch14/snapshots/32bd64288804d66eefd0ccbe215aa642df71cc41/preprocessor_config.json",
+      "bytes": 316,
+      "sha256": null
+    },
+    {
+      "repo": "openai/clip-vit-large-patch14",
+      "revision": "32bd64288804d66eefd0ccbe215aa642df71cc41",
+      "filename": "tokenizer.json",
+      "expected_bytes": 2224003,
+      "expected_sha256": null,
+      "kind": "metadata",
+      "models": [
+        "Effort"
+      ],
+      "local_dir": null,
+      "status": "existing_verified",
+      "path": "/mnt/data3/tianxin/graduation_project/weights/hf/hub/models--openai--clip-vit-large-patch14/snapshots/32bd64288804d66eefd0ccbe215aa642df71cc41/tokenizer.json",
+      "bytes": 2224003,
+      "sha256": null
+    },
+    {
+      "repo": "openai/clip-vit-large-patch14",
+      "revision": "32bd64288804d66eefd0ccbe215aa642df71cc41",
+      "filename": "tokenizer_config.json",
+      "expected_bytes": 905,
+      "expected_sha256": null,
+      "kind": "metadata",
+      "models": [
+        "Effort"
+      ],
+      "local_dir": null,
+      "status": "existing_verified",
+      "path": "/mnt/data3/tianxin/graduation_project/weights/hf/hub/models--openai--clip-vit-large-patch14/snapshots/32bd64288804d66eefd0ccbe215aa642df71cc41/tokenizer_config.json",
+      "bytes": 905,
+      "sha256": null
+    },
+    {
+      "repo": "openai/clip-vit-large-patch14",
+      "revision": "32bd64288804d66eefd0ccbe215aa642df71cc41",
+      "filename": "special_tokens_map.json",
+      "expected_bytes": 389,
+      "expected_sha256": null,
+      "kind": "metadata",
+      "models": [
+        "Effort"
+      ],
+      "local_dir": null,
+      "status": "existing_verified",
+      "path": "/mnt/data3/tianxin/graduation_project/weights/hf/hub/models--openai--clip-vit-large-patch14/snapshots/32bd64288804d66eefd0ccbe215aa642df71cc41/special_tokens_map.json",
+      "bytes": 389,
+      "sha256": null
+    },
+    {
+      "repo": "openai/clip-vit-large-patch14",
+      "revision": "32bd64288804d66eefd0ccbe215aa642df71cc41",
+      "filename": "merges.txt",
+      "expected_bytes": 524619,
+      "expected_sha256": null,
+      "kind": "metadata",
+      "models": [
+        "Effort"
+      ],
+      "local_dir": null,
+      "status": "existing_verified",
+      "path": "/mnt/data3/tianxin/graduation_project/weights/hf/hub/models--openai--clip-vit-large-patch14/snapshots/32bd64288804d66eefd0ccbe215aa642df71cc41/merges.txt",
+      "bytes": 524619,
+      "sha256": null
+    },
+    {
+      "repo": "openai/clip-vit-large-patch14",
+      "revision": "32bd64288804d66eefd0ccbe215aa642df71cc41",
+      "filename": "vocab.json",
+      "expected_bytes": 961143,
+      "expected_sha256": null,
+      "kind": "metadata",
+      "models": [
+        "Effort"
+      ],
+      "local_dir": null,
+      "status": "existing_verified",
+      "path": "/mnt/data3/tianxin/graduation_project/weights/hf/hub/models--openai--clip-vit-large-patch14/snapshots/32bd64288804d66eefd0ccbe215aa642df71cc41/vocab.json",
+      "bytes": 961143,
+      "sha256": null
+    },
+    {
+      "repo": "openai/clip-vit-large-patch14",
+      "revision": "32bd64288804d66eefd0ccbe215aa642df71cc41",
+      "filename": "README.md",
+      "expected_bytes": 7947,
+      "expected_sha256": null,
+      "kind": "metadata",
+      "models": [
+        "Effort"
+      ],
+      "local_dir": null,
+      "status": "existing_verified",
+      "path": "/mnt/data3/tianxin/graduation_project/weights/hf/hub/models--openai--clip-vit-large-patch14/snapshots/32bd64288804d66eefd0ccbe215aa642df71cc41/README.md",
+      "bytes": 7947,
+      "sha256": null
+    },
+    {
+      "repo": "laion/CLIP-ViT-L-14-DataComp.XL-s13B-b90K",
+      "revision": "84c9828e63dc9a9351d1fe637c346d4c1c4db341",
+      "filename": "open_clip_pytorch_model.bin",
+      "expected_bytes": 1710639109,
+      "expected_sha256": "6509f07e6fc0da68f8e1ee881bf90803f0b053d2f7ed2013cc7c3a49ac4dd3db",
+      "kind": "vision_encoder_initialization",
+      "models": [
+        "CO-SPY semantic branch"
+      ],
+      "local_dir": null,
+      "status": "existing_verified",
+      "path": "/mnt/data3/tianxin/graduation_project/weights/hf/hub/models--laion--CLIP-ViT-L-14-DataComp.XL-s13B-b90K/snapshots/84c9828e63dc9a9351d1fe637c346d4c1c4db341/open_clip_pytorch_model.bin",
+      "bytes": 1710639109,
+      "sha256": "6509f07e6fc0da68f8e1ee881bf90803f0b053d2f7ed2013cc7c3a49ac4dd3db",
+      "final_verified": true
+    },
+    {
+      "repo": "laion/CLIP-ViT-L-14-DataComp.XL-s13B-b90K",
+      "revision": "84c9828e63dc9a9351d1fe637c346d4c1c4db341",
+      "filename": "config.json",
+      "expected_bytes": 4413,
+      "expected_sha256": null,
+      "kind": "metadata",
+      "models": [
+        "CO-SPY semantic branch"
+      ],
+      "local_dir": null,
+      "status": "failed",
+      "error": "HfHubHTTPError: Server error '503 Service Unavailable' for url 'https://hf-mirror.com/api/resolve-cache/models/laion/CLIP-ViT-L-14-DataComp.XL-s13B-b90K/84c9828e63dc9a9351d1fe637c346d4c1c4db341/config.json?%2Flaion%2FCLIP-ViT-L-14-DataComp.XL-s13B-b90K%2Fresolve%2Fmain%2Fconfig.json=&etag=%22e3c977ec49edff2e749b8967b8d053aec229de22%22'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/503"
+    },
+    {
+      "repo": "laion/CLIP-ViT-L-14-DataComp.XL-s13B-b90K",
+      "revision": "84c9828e63dc9a9351d1fe637c346d4c1c4db341",
+      "filename": "open_clip_config.json",
+      "expected_bytes": 471,
+      "expected_sha256": null,
+      "kind": "metadata",
+      "models": [
+        "CO-SPY semantic branch"
+      ],
+      "local_dir": null,
+      "status": "downloaded_verified",
+      "path": "/mnt/data3/tianxin/graduation_project/weights/hf/hub/models--laion--CLIP-ViT-L-14-DataComp.XL-s13B-b90K/snapshots/84c9828e63dc9a9351d1fe637c346d4c1c4db341/open_clip_config.json",
+      "bytes": 471,
+      "sha256": null
+    },
+    {
+      "repo": "laion/CLIP-ViT-L-14-DataComp.XL-s13B-b90K",
+      "revision": "84c9828e63dc9a9351d1fe637c346d4c1c4db341",
+      "filename": "preprocessor_config.json",
+      "expected_bytes": 315,
+      "expected_sha256": null,
+      "kind": "metadata",
+      "models": [
+        "CO-SPY semantic branch"
+      ],
+      "local_dir": null,
+      "status": "failed",
+      "error": "HfHubHTTPError: Server error '502 Bad Gateway' for url 'https://hf-mirror.com/api/resolve-cache/models/laion/CLIP-ViT-L-14-DataComp.XL-s13B-b90K/84c9828e63dc9a9351d1fe637c346d4c1c4db341/preprocessor_config.json?%2Flaion%2FCLIP-ViT-L-14-DataComp.XL-s13B-b90K%2Fresolve%2Fmain%2Fpreprocessor_config.json=&etag=%22c13c679c06519325749d1eef242ff98e2a5d2165%22'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/502"
+    },
+    {
+      "repo": "laion/CLIP-ViT-L-14-DataComp.XL-s13B-b90K",
+      "revision": "84c9828e63dc9a9351d1fe637c346d4c1c4db341",
+      "filename": "tokenizer.json",
+      "expected_bytes": 2224053,
+      "expected_sha256": null,
+      "kind": "metadata",
+      "models": [
+        "CO-SPY semantic branch"
+      ],
+      "local_dir": null,
+      "status": "failed",
+      "error": "HfHubHTTPError: Server error '503 Service Unavailable' for url 'https://hf-mirror.com/api/resolve-cache/models/laion/CLIP-ViT-L-14-DataComp.XL-s13B-b90K/84c9828e63dc9a9351d1fe637c346d4c1c4db341/tokenizer.json?%2Flaion%2FCLIP-ViT-L-14-DataComp.XL-s13B-b90K%2Fresolve%2Fmain%2Ftokenizer.json=&etag=%22c450dc623f789418ff9dcce68b0df76ffba82b99%22'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/503"
+    },
+    {
+      "repo": "laion/CLIP-ViT-L-14-DataComp.XL-s13B-b90K",
+      "revision": "84c9828e63dc9a9351d1fe637c346d4c1c4db341",
+      "filename": "tokenizer_config.json",
+      "expected_bytes": 806,
+      "expected_sha256": null,
+      "kind": "metadata",
+      "models": [
+        "CO-SPY semantic branch"
+      ],
+      "local_dir": null,
+      "status": "failed",
+      "error": "HfHubHTTPError: Server error '503 Service Unavailable' for url 'https://hf-mirror.com/api/resolve-cache/models/laion/CLIP-ViT-L-14-DataComp.XL-s13B-b90K/84c9828e63dc9a9351d1fe637c346d4c1c4db341/tokenizer_config.json?%2Flaion%2FCLIP-ViT-L-14-DataComp.XL-s13B-b90K%2Fresolve%2Fmain%2Ftokenizer_config.json=&etag=%225ba7bf706515bc60487ad0e1816b4929b82542d6%22'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/503"
+    },
+    {
+      "repo": "laion/CLIP-ViT-L-14-DataComp.XL-s13B-b90K",
+      "revision": "84c9828e63dc9a9351d1fe637c346d4c1c4db341",
+      "filename": "special_tokens_map.json",
+      "expected_bytes": 472,
+      "expected_sha256": null,
+      "kind": "metadata",
+      "models": [
+        "CO-SPY semantic branch"
+      ],
+      "local_dir": null,
+      "status": "failed",
+      "error": "HfHubHTTPError: Server error '503 Service Unavailable' for url 'https://hf-mirror.com/api/resolve-cache/models/laion/CLIP-ViT-L-14-DataComp.XL-s13B-b90K/84c9828e63dc9a9351d1fe637c346d4c1c4db341/special_tokens_map.json?%2Flaion%2FCLIP-ViT-L-14-DataComp.XL-s13B-b90K%2Fresolve%2Fmain%2Fspecial_tokens_map.json=&etag=%222c2130b544c0c5a72d5d00da071ba130a9800fb2%22'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/503"
+    },
+    {
+      "repo": "laion/CLIP-ViT-L-14-DataComp.XL-s13B-b90K",
+      "revision": "84c9828e63dc9a9351d1fe637c346d4c1c4db341",
+      "filename": "merges.txt",
+      "expected_bytes": 524657,
+      "expected_sha256": null,
+      "kind": "metadata",
+      "models": [
+        "CO-SPY semantic branch"
+      ],
+      "local_dir": null,
+      "status": "downloaded_verified",
+      "path": "/mnt/data3/tianxin/graduation_project/weights/hf/hub/models--laion--CLIP-ViT-L-14-DataComp.XL-s13B-b90K/snapshots/84c9828e63dc9a9351d1fe637c346d4c1c4db341/merges.txt",
+      "bytes": 524657,
+      "sha256": null
+    },
+    {
+      "repo": "laion/CLIP-ViT-L-14-DataComp.XL-s13B-b90K",
+      "revision": "84c9828e63dc9a9351d1fe637c346d4c1c4db341",
+      "filename": "vocab.json",
+      "expected_bytes": 862328,
+      "expected_sha256": null,
+      "kind": "metadata",
+      "models": [
+        "CO-SPY semantic branch"
+      ],
+      "local_dir": null,
+      "status": "downloaded_verified",
+      "path": "/mnt/data3/tianxin/graduation_project/weights/hf/hub/models--laion--CLIP-ViT-L-14-DataComp.XL-s13B-b90K/snapshots/84c9828e63dc9a9351d1fe637c346d4c1c4db341/vocab.json",
+      "bytes": 862328,
+      "sha256": null
+    },
+    {
+      "repo": "laion/CLIP-ViT-L-14-DataComp.XL-s13B-b90K",
+      "revision": "84c9828e63dc9a9351d1fe637c346d4c1c4db341",
+      "filename": "README.md",
+      "expected_bytes": 7411,
+      "expected_sha256": null,
+      "kind": "metadata",
+      "models": [
+        "CO-SPY semantic branch"
+      ],
+      "local_dir": null,
+      "status": "downloaded_verified",
+      "path": "/mnt/data3/tianxin/graduation_project/weights/hf/hub/models--laion--CLIP-ViT-L-14-DataComp.XL-s13B-b90K/snapshots/84c9828e63dc9a9351d1fe637c346d4c1c4db341/README.md",
+      "bytes": 7411,
+      "sha256": null
+    },
+    {
+      "repo": "CompVis/stable-diffusion-v1-4",
+      "revision": "133a221b8aa7292a167afc5127cb63fb5005638b",
+      "filename": "vae/diffusion_pytorch_model.safetensors",
+      "expected_bytes": 334643276,
+      "expected_sha256": "a2b5134f4dbc140d9c11f11cba3233099e00af40f262f136c691fb7d38d2194c",
+      "kind": "frozen_vae_component",
+      "models": [
+        "CO-SPY artifact branch"
+      ],
+      "local_dir": null,
+      "status": "existing_verified",
+      "path": "/mnt/data3/tianxin/graduation_project/weights/hf/hub/models--CompVis--stable-diffusion-v1-4/snapshots/133a221b8aa7292a167afc5127cb63fb5005638b/vae/diffusion_pytorch_model.safetensors",
+      "bytes": 334643276,
+      "sha256": "a2b5134f4dbc140d9c11f11cba3233099e00af40f262f136c691fb7d38d2194c",
+      "final_verified": true
+    },
+    {
+      "repo": "CompVis/stable-diffusion-v1-4",
+      "revision": "133a221b8aa7292a167afc5127cb63fb5005638b",
+      "filename": "vae/config.json",
+      "expected_bytes": 551,
+      "expected_sha256": null,
+      "kind": "metadata",
+      "models": [
+        "CO-SPY artifact branch"
+      ],
+      "local_dir": null,
+      "status": "existing_verified",
+      "path": "/mnt/data3/tianxin/graduation_project/weights/hf/hub/models--CompVis--stable-diffusion-v1-4/snapshots/133a221b8aa7292a167afc5127cb63fb5005638b/vae/config.json",
+      "bytes": 551,
+      "sha256": null
+    }
+  ],
+  "excluded": [
+    "Qwen and other generative LLM/VLM",
+    "video-only checkpoints",
+    "unrelated audio/forensic repositories"
+  ],
+  "deferred": [
+    {
+      "model": "legacy_xception",
+      "reason": "A40 timm default has no HF hub ID; its original download channel is deferred."
+    }
+  ],
+  "timm_version": "1.0.24",
+  "summary": {
+    "downloaded_verified": 48,
+    "existing_verified": 26,
+    "failed": 10
+  },
+  "stopped_optional_retry_worker": [
+    4107539
+  ],
+  "offline_validation_errors": [],
+  "optional_metadata_failures": [
+    {
+      "repo": "timm/resnet152.a1h_in1k",
+      "filename": "README.md",
+      "error": "HfHubHTTPError: Server error '503 Service Unavailable' for url 'https://hf-mirror.com/api/resolve-cache/models/timm/resnet152.a1h_in1k/394d5cec41d60cbe669afd3e09cee61693582595/README.md?%2Ftimm%2Fresnet152.a1h_in1k%2Fresolve%2F394d5cec41d60cbe669afd3e09cee61693582595%2FREADME.md=&etag=%2233bba50f221deeffdf823f85d76c0870b64f39ba%22'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/503"
+    },
+    {
+      "repo": "timm/efficientnet_b4.ra2_in1k",
+      "filename": "config.json",
+      "error": "HfHubHTTPError: Server error '503 Service Unavailable' for url 'https://hf-mirror.com/api/resolve-cache/models/timm/efficientnet_b4.ra2_in1k/442c00e15609ff467772913d230768706a406aca/config.json?%2Ftimm%2Fefficientnet_b4.ra2_in1k%2Fresolve%2F442c00e15609ff467772913d230768706a406aca%2Fconfig.json=&etag=%22408cfb2425385eac259bbe1582868bb455d3b574%22'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/503"
+    },
+    {
+      "repo": "timm/efficientnet_b4.ra2_in1k",
+      "filename": "README.md",
+      "error": "HfHubHTTPError: Server error '503 Service Unavailable' for url 'https://hf-mirror.com/api/resolve-cache/models/timm/efficientnet_b4.ra2_in1k/442c00e15609ff467772913d230768706a406aca/README.md?%2Ftimm%2Fefficientnet_b4.ra2_in1k%2Fresolve%2F442c00e15609ff467772913d230768706a406aca%2FREADME.md=&etag=%2230fc5fc7f4638484b8bb9c5ec2efdaa40c86bacc%22'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/503"
+    },
+    {
+      "repo": "timm/convnext_small.in12k_ft_in1k",
+      "filename": "README.md",
+      "error": "HfHubHTTPError: Server error '503 Service Unavailable' for url 'https://hf-mirror.com/api/resolve-cache/models/timm/convnext_small.in12k_ft_in1k/45db0bc46e10f927840106d2763c36e6b8a2fc53/README.md?%2Ftimm%2Fconvnext_small.in12k_ft_in1k%2Fresolve%2Fmain%2FREADME.md=&etag=%22bf7c25c81f86195db819f77dcbc5d693634e6438%22'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/503"
+    },
+    {
+      "repo": "timm/convnext_tiny.in12k_ft_in1k",
+      "filename": "README.md",
+      "error": "HfHubHTTPError: Server error '503 Service Unavailable' for url 'https://hf-mirror.com/api/resolve-cache/models/timm/convnext_tiny.in12k_ft_in1k/aa096f03029c7f0ec052013f64c819b34f8ad790/README.md?%2Ftimm%2Fconvnext_tiny.in12k_ft_in1k%2Fresolve%2Fmain%2FREADME.md=&etag=%22984d425c3950f659a7a692cbaf2f4babf4a0f201%22'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/503"
+    },
+    {
+      "repo": "laion/CLIP-ViT-L-14-DataComp.XL-s13B-b90K",
+      "filename": "config.json",
+      "error": "HfHubHTTPError: Server error '503 Service Unavailable' for url 'https://hf-mirror.com/api/resolve-cache/models/laion/CLIP-ViT-L-14-DataComp.XL-s13B-b90K/84c9828e63dc9a9351d1fe637c346d4c1c4db341/config.json?%2Flaion%2FCLIP-ViT-L-14-DataComp.XL-s13B-b90K%2Fresolve%2Fmain%2Fconfig.json=&etag=%22e3c977ec49edff2e749b8967b8d053aec229de22%22'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/503"
+    },
+    {
+      "repo": "laion/CLIP-ViT-L-14-DataComp.XL-s13B-b90K",
+      "filename": "preprocessor_config.json",
+      "error": "HfHubHTTPError: Server error '502 Bad Gateway' for url 'https://hf-mirror.com/api/resolve-cache/models/laion/CLIP-ViT-L-14-DataComp.XL-s13B-b90K/84c9828e63dc9a9351d1fe637c346d4c1c4db341/preprocessor_config.json?%2Flaion%2FCLIP-ViT-L-14-DataComp.XL-s13B-b90K%2Fresolve%2Fmain%2Fpreprocessor_config.json=&etag=%22c13c679c06519325749d1eef242ff98e2a5d2165%22'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/502"
+    },
+    {
+      "repo": "laion/CLIP-ViT-L-14-DataComp.XL-s13B-b90K",
+      "filename": "tokenizer.json",
+      "error": "HfHubHTTPError: Server error '503 Service Unavailable' for url 'https://hf-mirror.com/api/resolve-cache/models/laion/CLIP-ViT-L-14-DataComp.XL-s13B-b90K/84c9828e63dc9a9351d1fe637c346d4c1c4db341/tokenizer.json?%2Flaion%2FCLIP-ViT-L-14-DataComp.XL-s13B-b90K%2Fresolve%2Fmain%2Ftokenizer.json=&etag=%22c450dc623f789418ff9dcce68b0df76ffba82b99%22'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/503"
+    },
+    {
+      "repo": "laion/CLIP-ViT-L-14-DataComp.XL-s13B-b90K",
+      "filename": "tokenizer_config.json",
+      "error": "HfHubHTTPError: Server error '503 Service Unavailable' for url 'https://hf-mirror.com/api/resolve-cache/models/laion/CLIP-ViT-L-14-DataComp.XL-s13B-b90K/84c9828e63dc9a9351d1fe637c346d4c1c4db341/tokenizer_config.json?%2Flaion%2FCLIP-ViT-L-14-DataComp.XL-s13B-b90K%2Fresolve%2Fmain%2Ftokenizer_config.json=&etag=%225ba7bf706515bc60487ad0e1816b4929b82542d6%22'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/503"
+    },
+    {
+      "repo": "laion/CLIP-ViT-L-14-DataComp.XL-s13B-b90K",
+      "filename": "special_tokens_map.json",
+      "error": "HfHubHTTPError: Server error '503 Service Unavailable' for url 'https://hf-mirror.com/api/resolve-cache/models/laion/CLIP-ViT-L-14-DataComp.XL-s13B-b90K/84c9828e63dc9a9351d1fe637c346d4c1c4db341/special_tokens_map.json?%2Flaion%2FCLIP-ViT-L-14-DataComp.XL-s13B-b90K%2Fresolve%2Fmain%2Fspecial_tokens_map.json=&etag=%222c2130b544c0c5a72d5d00da071ba130a9800fb2%22'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/503"
+    }
+  ],
+  "weight_summary": {
+    "total": 31,
+    "new_downloads": 18,
+    "existing_reused": 13,
+    "new_bytes": 2771185829,
+    "all_final_verified": true
+  }
+}

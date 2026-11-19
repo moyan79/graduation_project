@@ -24,7 +24,7 @@ def main():
         "frac_steps_majority_conflict": float((df["conflict_ratio"] > 0.5).mean()),
         "mean_cos_overall": float(df["mean_cos"].mean()),
         "per_pair_mean_cos": {c: float(df[c].mean()) for c in cos_cols},
-        "per_pair_neg_frac": {c: float((df[c] < 0).mean()) for c in cos_cols},
+        "per_pair_neg_frac": {c: float((df[c].dropna() < 0).mean()) for c in cos_cols},
     }
     import json
     with open(out / "gradient_report.json", "w") as f:

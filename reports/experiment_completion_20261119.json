@@ -1,0 +1,157 @@
+{
+  "date": "2026-11-19",
+  "experiment": "OpenMMSecV2 four-domain joint training with feature-spectrum and domain-gradient diagnostics",
+  "expected_epochs": 10,
+  "path_base": "linear_probe-and-gradient project root",
+  "verification_scope": "Read-only local artifacts and retained A40 acceptance reports; no fresh remote verification, download or training.",
+  "completed_model_keys": [
+    "resnet", "efficientnet", "segformer", "swin", "convnext",
+    "capsulenet", "recce", "sia", "iml-vit", "trufor", "univfd",
+    "effort", "mesorch", "co-spy", "spsl", "srm", "f3net", "xception"
+  ],
+  "baseline_model_keys": [
+    "resnet", "efficientnet", "segformer", "swin", "convnext",
+    "capsulenet", "recce", "sia", "iml-vit", "trufor", "univfd",
+    "effort", "mesorch", "co-spy"
+  ],
+  "task_pretrained_model_keys": [
+    "capsulenet", "iml-vit", "trufor", "univfd", "mesorch",
+    "spsl", "srm", "f3net", "xception"
+  ],
+  "completed_runs": 23,
+  "completed_unique_models": 18,
+  "incomplete_model_keys": ["ffdn"],
+  "evidence_levels": {
+    "local_artifacts": "Local baseline run contains epoch rows 0..9, training completion log, final spectrum and gradient reports, and ten per-epoch spectrum reports. Final checkpoint transfer is incomplete for most baseline runs, so this is not a new complete weight acceptance.",
+    "nov9_acceptance": "Retained 2026-11-09 A40 acceptance JSON confirms ten epochs, strict task-checkpoint loading and valid retained reports/logs/final weights, with notes. No remote revalidation in this audit.",
+    "nov18_document": "Retained 2026-11-18 summary document explicitly records completed results; corresponding new raw run directories are not available locally for revalidation."
+  },
+  "sources": {
+    "local_outputs": "../outputs/",
+    "nov9_acceptance": "reports/model_acceptance_20261109.json",
+    "nov9_imdl_preflight": "reports/imdl_task_preflight_20261109.json",
+    "nov18_document": "../OpenMMSecV2_域预训练新结果数据总结_20261118.docx",
+    "nov4_document": "../OpenMMSecV2_多模型统一训练实验总结_20261104.docx",
+    "handoff": "../交接文档.md"
+  },
+  "models": [
+    {
+      "model": "resnet",
+      "status": "completed",
+      "runs": [{"kind": "baseline", "evidence_level": "local_artifacts", "source": "local_outputs", "path": "../outputs/diag_ddp_resnet"}]
+    },
+    {
+      "model": "efficientnet",
+      "status": "completed",
+      "runs": [{"kind": "baseline", "evidence_level": "local_artifacts", "source": "local_outputs", "path": "../outputs/diag_ddp_efficientnet"}]
+    },
+    {
+      "model": "segformer",
+      "status": "completed",
+      "runs": [{"kind": "baseline", "evidence_level": "local_artifacts", "source": "local_outputs", "path": "../outputs/diag_ddp_segformer"}]
+    },
+    {
+      "model": "swin",
+      "status": "completed",
+      "runs": [{"kind": "baseline", "evidence_level": "local_artifacts", "source": "local_outputs", "path": "../outputs/diag_ddp_swin"}]
+    },
+    {
+      "model": "convnext",
+      "status": "completed",
+      "runs": [{"kind": "baseline", "evidence_level": "local_artifacts", "source": "local_outputs", "path": "../outputs/diag_ddp_convnext"}]
+    },
+    {
+      "model": "capsulenet",
+      "status": "completed",
+      "runs": [
+        {"kind": "baseline", "evidence_level": "local_artifacts", "source": "local_outputs", "path": "../outputs/diag_ddp_capsulenet", "feature_dim": 64},
+        {"kind": "task_pretrained", "evidence_level": "nov9_acceptance", "source": "nov9_acceptance", "feature_dim": 256}
+      ]
+    },
+    {
+      "model": "recce",
+      "status": "completed",
+      "runs": [{"kind": "baseline", "evidence_level": "local_artifacts", "source": "local_outputs", "path": "../outputs/diag_ddp_recce"}]
+    },
+    {
+      "model": "sia",
+      "status": "completed",
+      "runs": [{"kind": "baseline", "evidence_level": "nov18_document", "source": "nov18_document", "task_checkpoint_loaded": false}]
+    },
+    {
+      "model": "iml-vit",
+      "status": "completed",
+      "runs": [
+        {"kind": "baseline", "evidence_level": "local_artifacts", "source": "local_outputs", "path": "../outputs/diag_ddp_iml-vit"},
+        {"kind": "task_pretrained", "evidence_level": "nov18_document", "source": "nov18_document"}
+      ]
+    },
+    {
+      "model": "trufor",
+      "status": "completed",
+      "runs": [
+        {"kind": "baseline", "evidence_level": "local_artifacts", "source": "local_outputs", "path": "../outputs/diag_ddp_trufor"},
+        {"kind": "task_pretrained", "evidence_level": "nov18_document", "source": "nov18_document"}
+      ]
+    },
+    {
+      "model": "univfd",
+      "status": "completed",
+      "runs": [
+        {"kind": "baseline", "evidence_level": "local_artifacts", "source": "local_outputs", "path": "../outputs/diag_ddp_univfd"},
+        {"kind": "task_pretrained", "evidence_level": "nov9_acceptance", "source": "nov9_acceptance", "checkpoint_scope": "fc classification head only; CLIP encoder frozen"}
+      ]
+    },
+    {
+      "model": "effort",
+      "status": "completed",
+      "runs": [{"kind": "baseline", "evidence_level": "nov18_document", "source": "nov18_document", "task_checkpoint_loaded": false}]
+    },
+    {
+      "model": "mesorch",
+      "status": "completed",
+      "runs": [
+        {"kind": "baseline", "evidence_level": "local_artifacts", "source": "local_outputs", "path": "../outputs/diag_ddp_mesorch"},
+        {"kind": "task_pretrained", "evidence_level": "nov18_document", "source": "nov18_document"}
+      ]
+    },
+    {
+      "model": "co-spy",
+      "status": "completed",
+      "runs": [{"kind": "baseline", "evidence_level": "local_artifacts", "source": "local_outputs", "path": "../outputs/diag_ddp_co-spy"}]
+    },
+    {
+      "model": "spsl",
+      "status": "completed",
+      "runs": [{"kind": "task_pretrained", "evidence_level": "nov9_acceptance", "source": "nov9_acceptance", "batch_per_gpu": 64}]
+    },
+    {
+      "model": "srm",
+      "status": "completed",
+      "runs": [{"kind": "task_pretrained", "evidence_level": "nov9_acceptance", "source": "nov9_acceptance", "batch_per_gpu": 32}]
+    },
+    {
+      "model": "f3net",
+      "status": "completed",
+      "runs": [{"kind": "task_pretrained", "evidence_level": "nov9_acceptance", "source": "nov9_acceptance", "batch_per_gpu": 64}]
+    },
+    {
+      "model": "xception",
+      "status": "completed",
+      "runs": [{"kind": "task_pretrained", "evidence_level": "nov9_acceptance", "source": "nov9_acceptance", "batch_per_gpu": 64}]
+    },
+    {
+      "model": "ffdn",
+      "status": "incomplete",
+      "runs": [{"kind": "baseline", "evidence_level": "local_artifacts", "source": "local_outputs", "path": "../outputs/diag_ddp_ffdn", "completed_epochs": 0, "reason": "CUDA out of memory; epoch_loss.csv has header only, no completion log or final spectrum report", "failure_log_line": 166}],
+      "notes": "The handoff's 256-pixel/batch64 command is a proposed rerun, not a completed result."
+    }
+  ],
+  "notes": [
+    "IML-ViT, TruFor and Mesorch task-pretrained completion in the Nov18 document supersedes the Nov9 CPU-preflight-only handoff status.",
+    "SIA and Effort completed as detector baselines without domain task checkpoints.",
+    "Same-name baseline and task-pretrained runs have different initialization and sometimes different feature dimensions; they are separate runs.",
+    "Nov9 acceptance records note that actual lr and seed were not independently logged.",
+    "A completed result for one model key does not imply coverage of another ForensicHub backbone variant or a different exported detector."
+  ]
+}

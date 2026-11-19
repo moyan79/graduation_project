@@ -10,6 +10,7 @@ resnet:
   ddp:
     batch_size: 128
     lr: 0.0004
+  import_module: ForensicHub.common.backbones.resnet
 efficientnet:
   registry: EfficientB4
   category: backbone
@@ -21,6 +22,7 @@ efficientnet:
   ddp:
     batch_size: 128
     lr: 0.0004
+  import_module: ForensicHub.common.backbones.efficientnet
 capsulenet:
   registry: Capsule_net
   category: deepfake
@@ -47,6 +49,7 @@ segformer:
   ddp:
     batch_size: 128
     lr: 0.0004
+  import_module: ForensicHub.common.backbones.segformer
 swin:
   registry: SwinSmall
   category: backbone
@@ -58,6 +61,7 @@ swin:
   ddp:
     batch_size: 128
     lr: 0.0004
+  import_module: ForensicHub.common.backbones.swintransformer
 convnext:
   registry: ConvNextSmall
   category: backbone
@@ -69,6 +73,7 @@ convnext:
   ddp:
     batch_size: 128
     lr: 0.0004
+  import_module: ForensicHub.common.backbones.convnext
 recce:
   registry: Recce
   category: deepfake
@@ -100,6 +105,8 @@ iml-vit:
   norm: imagenet
   init: {}
   wrapper: Mask2LabelWrapper
+  task_checkpoint: weights/manual/imdl_tasks/iml_vit_casiav2.pth
+  task_checkpoint_target: base_model
   wrapper_init:
     edge_lambda: 20
   ddp:
@@ -116,6 +123,8 @@ trufor:
   norm: imagenet
   init: {}
   wrapper: Mask2LabelWrapper
+  task_checkpoint: weights/manual/imdl_tasks/trufor_casiav2.pth
+  task_checkpoint_target: base_model
   wrapper_init: {}
   ddp:
     batch_size: 64
@@ -147,6 +156,8 @@ ffdn:
   ddp:
     batch_size: 64
     lr: 0.0002
+  input_kind: jpeg_dct
+  blocked_reason: Legacy run used zero DCT and unit quantization placeholders and did not complete. A faithful FFDN run requires real JPEG coefficients/tables before it can be counted as this model experiment.
 effort:
   registry: EffortDetector
   category: aigc
@@ -164,6 +175,8 @@ mesorch:
   norm: imagenet
   init: {}
   wrapper: Mask2LabelWrapper
+  task_checkpoint: weights/manual/imdl_tasks/mesorch-98-model.pth
+  task_checkpoint_target: base_model
   wrapper_init: {}
   ddp:
     batch_size: 64
@@ -207,8 +220,8 @@ srm:
   task_checkpoint: weights/manual/hf_tasks/deepfakebench/srm_best.pth
   task_checkpoint_target: _base_model
   ddp:
-    batch_size: 32
-    lr: 0.0001
+    batch_size: 64
+    lr: 0.0002
   feature:
     path: backbone_rgb.last_linear
     expected_dim: 2048
@@ -244,4 +257,1466 @@ xception:
   feature:
     path: backbone.last_linear
     expected_dim: 2048
+    source: input
+
+# In-scope ForensicHub declarations. Generative LLM/VLM and temporal-video exclusions are defined in
+# experiment_scope.yaml; blocked_reason entries remain visible
+# in the experiment plan and are never silently treated as successful runs.
+apsc:
+  registry: APSCNet
+  category: imdl
+  image_size: 256
+  norm: imagenet
+  init: {}
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  wrapper: LabelOnlyMaskWrapper
+  wrapper_init: {}
+  task_checkpoint_target: base_model
+  label_adapter:
+    prediction_field: pred_mask
+bayerconvnextsmall:
+  registry: BayerConvNextSmall
+  category: backbone
+  image_size: 256
+  norm: imagenet
+  init:
+    output_type: label
+    image_size: 256
+    pretrained: true
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  import_module: ForensicHub.common.backbones.convnext
+  feature:
+    path: head
+    source: input
+bayerdensenet121:
+  registry: BayerDenseNet121
+  category: backbone
+  image_size: 224
+  norm: imagenet
+  init:
+    output_type: label
+    image_size: 224
+    pretrained: true
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  import_module: ForensicHub.common.backbones.densenet
+  feature:
+    path: head
+    source: input
+bayerefficientb4:
+  registry: BayerEfficientB4
+  category: backbone
+  image_size: 256
+  norm: imagenet
+  init:
+    output_type: label
+    image_size: 256
+    pretrained: true
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  import_module: ForensicHub.common.backbones.efficientnet
+  feature:
+    path: head
+    source: input
+bayermobilenetv3:
+  registry: BayerMobileNetV3
+  category: backbone
+  image_size: 256
+  norm: imagenet
+  init:
+    output_type: label
+    image_size: 256
+    pretrained: true
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  import_module: ForensicHub.common.backbones.mobilenet
+  feature:
+    path: head
+    source: input
+bayerresnet101:
+  registry: BayerResnet101
+  category: backbone
+  image_size: 256
+  norm: imagenet
+  init:
+    output_type: label
+    image_size: 256
+    pretrained: true
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  import_module: ForensicHub.common.backbones.resnet
+  feature:
+    path: head
+    source: input
+bayersegformerb3:
+  registry: BayerSegformerb3
+  category: backbone
+  image_size: 256
+  norm: imagenet
+  init:
+    output_type: label
+    image_size: 256
+    pretrain_path: weights/manual/backbones/mit_b3.pth
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  import_module: ForensicHub.common.backbones.segformer
+  feature:
+    path: head
+    source: input
+bayerswinsmall:
+  registry: BayerSwinSmall
+  category: backbone
+  image_size: 256
+  norm: imagenet
+  init:
+    output_type: label
+    image_size: 256
+    pretrained: true
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  import_module: ForensicHub.common.backbones.swintransformer
+  feature:
+    path: head
+    source: input
+bayerunet:
+  registry: BayerUNet
+  category: backbone
+  image_size: 256
+  norm: imagenet
+  init:
+    output_type: label
+    image_size: 256
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  import_module: ForensicHub.common.backbones.unet
+  feature:
+    path: head
+    source: input
+bayervitbase:
+  registry: BayerViTBase
+  category: backbone
+  image_size: 224
+  norm: imagenet
+  init:
+    output_type: label
+    image_size: 224
+    pretrained: true
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  import_module: ForensicHub.common.backbones.vit
+  feature:
+    path: head
+    source: input
+bayerxception:
+  registry: BayerXception
+  category: backbone
+  image_size: 256
+  norm: imagenet
+  init:
+    output_type: label
+    image_size: 256
+    pretrained: true
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  import_module: ForensicHub.common.backbones.xception
+  feature:
+    path: head
+    source: input
+caftb:
+  registry: CAFTB_Net
+  category: document
+  image_size: 256
+  norm: imagenet
+  init: {}
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  import_module: ForensicHub.tasks.document.models.caftb_net.caftb_net
+  wrapper: LabelOnlyMaskWrapper
+  wrapper_init: {}
+  task_checkpoint_target: base_model
+clip:
+  registry: CLIPDetector
+  category: deepfake
+  image_size: 224
+  norm: clip
+  init: {}
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  need_deepfake_yaml: clip.yaml
+  task_checkpoint_target: _base_model
+  feature:
+    path: head
+    source: input
+    expected_dim: 768
+clip-lora:
+  registry: CLIP_LORA_PURE
+  category: aigc
+  image_size: 224
+  norm: clip
+  init:
+    name: ViT-L/14
+    num_classes: 1
+    tune_mode: lora
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  import_module: ForensicHub.tasks.fidl.models.clip.clip_lora_pure
+  feature:
+    path: fc
+    source: input
+    expected_dim: 768
+capsule-deepfakebench:
+  registry: CapsuleNetDetector
+  category: deepfake
+  image_size: 256
+  norm: deepfake
+  init: {}
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  need_deepfake_yaml: capsule_net.yaml
+  task_checkpoint_target: _base_model
+cat-net:
+  registry: Cat_Net
+  category: imdl
+  image_size: 256
+  norm: imagenet
+  init: {}
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  wrapper: LabelOnlyMaskWrapper
+  wrapper_init:
+    cfg_file: ../IMDLBenCo/IMDLBenCo/statics/model_zoo/configs/cat_net.yaml
+  task_checkpoint_target: base_model
+  input_kind: jpeg_dct
+  blocked_reason: Requires real JPEG DCT coefficients and quantization tables; current
+    unified Dataset only provides RGB.
+core:
+  registry: CoreDetector
+  category: deepfake
+  image_size: 256
+  norm: deepfake
+  init: {}
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  need_deepfake_yaml: core.yaml
+  task_checkpoint_target: _base_model
+dctconvnextsmall:
+  registry: DCTConvNextSmall
+  category: backbone
+  image_size: 256
+  norm: imagenet
+  init:
+    output_type: label
+    image_size: 256
+    pretrained: true
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  import_module: ForensicHub.common.backbones.convnext
+  feature:
+    path: head
+    source: input
+dctdensenet121:
+  registry: DCTDenseNet121
+  category: backbone
+  image_size: 224
+  norm: imagenet
+  init:
+    output_type: label
+    image_size: 224
+    pretrained: true
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  import_module: ForensicHub.common.backbones.densenet
+  feature:
+    path: head
+    source: input
+dctefficientb4:
+  registry: DCTEfficientB4
+  category: backbone
+  image_size: 256
+  norm: imagenet
+  init:
+    output_type: label
+    image_size: 256
+    pretrained: true
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  import_module: ForensicHub.common.backbones.efficientnet
+  feature:
+    path: head
+    source: input
+dctmobilenetv3:
+  registry: DCTMobilenetV3
+  category: backbone
+  image_size: 256
+  norm: imagenet
+  init:
+    output_type: label
+    image_size: 256
+    pretrained: true
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  import_module: ForensicHub.common.backbones.mobilenet
+  feature:
+    path: head
+    source: input
+dctresnet101:
+  registry: DCTResnet101
+  category: backbone
+  image_size: 256
+  norm: imagenet
+  init:
+    output_type: label
+    image_size: 256
+    pretrained: true
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  import_module: ForensicHub.common.backbones.resnet
+  feature:
+    path: head
+    source: input
+dctsegformerb3:
+  registry: DCTSegformerb3
+  category: backbone
+  image_size: 256
+  norm: imagenet
+  init:
+    output_type: label
+    image_size: 256
+    pretrain_path: weights/manual/backbones/mit_b3.pth
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  import_module: ForensicHub.common.backbones.segformer
+  feature:
+    path: head
+    source: input
+dctswinsmall:
+  registry: DCTSwinSmall
+  category: backbone
+  image_size: 256
+  norm: imagenet
+  init:
+    output_type: label
+    image_size: 256
+    pretrained: true
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  import_module: ForensicHub.common.backbones.swintransformer
+  feature:
+    path: head
+    source: input
+dctunet:
+  registry: DCTUNet
+  category: backbone
+  image_size: 256
+  norm: imagenet
+  init:
+    output_type: label
+    image_size: 256
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  import_module: ForensicHub.common.backbones.unet
+  feature:
+    path: head
+    source: input
+dctvitbase:
+  registry: DCTViTBase
+  category: backbone
+  image_size: 224
+  norm: imagenet
+  init:
+    output_type: label
+    image_size: 224
+    pretrained: true
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  import_module: ForensicHub.common.backbones.vit
+  feature:
+    path: head
+    source: input
+dctxception:
+  registry: DCTXception
+  category: backbone
+  image_size: 256
+  norm: imagenet
+  init:
+    output_type: label
+    image_size: 256
+    pretrained: true
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  import_module: ForensicHub.common.backbones.xception
+  feature:
+    path: head
+    source: input
+dtd:
+  registry: DTD
+  category: document
+  image_size: 256
+  norm: imagenet
+  init: {}
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  import_module: ForensicHub.tasks.document.models.dtd.dtd
+  wrapper: LabelOnlyMaskWrapper
+  wrapper_init: {}
+  task_checkpoint_target: base_model
+  input_kind: jpeg_dct
+  blocked_reason: Requires real JPEG DCT coefficients and quantization tables; current
+    unified Dataset only provides RGB.
+densenet:
+  registry: DenseNet121
+  category: backbone
+  image_size: 224
+  norm: imagenet
+  init:
+    output_type: label
+    image_size: 224
+    pretrained: true
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  import_module: ForensicHub.common.backbones.densenet
+  feature:
+    path: head
+    source: input
+dire:
+  registry: Dire
+  category: aigc
+  image_size: 256
+  norm: deepfake
+  init:
+    model_path: weights/manual/backbones/imagenet_adm.pth
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  import_module: ForensicHub.tasks.aigc.models.dire.dire
+  task_checkpoint_target: classifier
+  feature:
+    path: classifier.head
+    source: input
+dualnet:
+  registry: DualNet
+  category: aigc
+  image_size: 256
+  norm: imagenet
+  init: {}
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  import_module: ForensicHub.tasks.aigc.models.dualnet.DualNet
+  feature:
+    path: fc1
+    source: input
+    expected_dim: 512
+efficient:
+  registry: EfficientDetector
+  category: deepfake
+  image_size: 256
+  norm: deepfake
+  init: {}
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  need_deepfake_yaml: efficientnetb4.yaml
+  task_checkpoint_target: _base_model
+ffd:
+  registry: FFDDetector
+  category: deepfake
+  image_size: 256
+  norm: deepfake
+  init: {}
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  need_deepfake_yaml: ffd.yaml
+  task_checkpoint_target: _base_model
+  blocked_reason: Native loss requires a mask key and the current Deepfake wrapper drops auxiliary inputs; its template assets also contain author-machine paths.
+fftconvnextsmall:
+  registry: FFTConvNextSmall
+  category: backbone
+  image_size: 256
+  norm: imagenet
+  init:
+    output_type: label
+    image_size: 256
+    pretrained: true
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  import_module: ForensicHub.common.backbones.convnext
+  feature:
+    path: head
+    source: input
+fftdensenet121:
+  registry: FFTDenseNet121
+  category: backbone
+  image_size: 224
+  norm: imagenet
+  init:
+    output_type: label
+    image_size: 224
+    pretrained: true
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  import_module: ForensicHub.common.backbones.densenet
+  feature:
+    path: head
+    source: input
+fftefficientb4:
+  registry: FFTEfficientB4
+  category: backbone
+  image_size: 256
+  norm: imagenet
+  init:
+    output_type: label
+    image_size: 256
+    pretrained: true
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  import_module: ForensicHub.common.backbones.efficientnet
+  feature:
+    path: head
+    source: input
+fftmobilenetv3:
+  registry: FFTMobilenetV3
+  category: backbone
+  image_size: 256
+  norm: imagenet
+  init:
+    output_type: label
+    image_size: 256
+    pretrained: true
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  import_module: ForensicHub.common.backbones.mobilenet
+  feature:
+    path: head
+    source: input
+fftresnet101:
+  registry: FFTResnet101
+  category: backbone
+  image_size: 256
+  norm: imagenet
+  init:
+    output_type: label
+    image_size: 256
+    pretrained: true
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  import_module: ForensicHub.common.backbones.resnet
+  feature:
+    path: head
+    source: input
+fftsegformerb3:
+  registry: FFTSegformerb3
+  category: backbone
+  image_size: 256
+  norm: imagenet
+  init:
+    output_type: label
+    image_size: 256
+    pretrain_path: weights/manual/backbones/mit_b3.pth
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  import_module: ForensicHub.common.backbones.segformer
+  feature:
+    path: head
+    source: input
+fftswinsmall:
+  registry: FFTSwinSmall
+  category: backbone
+  image_size: 256
+  norm: imagenet
+  init:
+    output_type: label
+    image_size: 256
+    pretrained: true
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  import_module: ForensicHub.common.backbones.swintransformer
+  feature:
+    path: head
+    source: input
+fftunet:
+  registry: FFTUNet
+  category: backbone
+  image_size: 256
+  norm: imagenet
+  init:
+    output_type: label
+    image_size: 256
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  import_module: ForensicHub.common.backbones.unet
+  feature:
+    path: head
+    source: input
+fftvitbase:
+  registry: FFTViTBase
+  category: backbone
+  image_size: 224
+  norm: imagenet
+  init:
+    output_type: label
+    image_size: 224
+    pretrained: true
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  import_module: ForensicHub.common.backbones.vit
+  feature:
+    path: head
+    source: input
+fftxception:
+  registry: FFTXception
+  category: backbone
+  image_size: 256
+  norm: imagenet
+  init:
+    output_type: label
+    image_size: 256
+    pretrained: true
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  import_module: ForensicHub.common.backbones.xception
+  feature:
+    path: head
+    source: input
+fwa:
+  registry: FWADetector
+  category: deepfake
+  image_size: 256
+  norm: deepfake
+  init: {}
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  need_deepfake_yaml: fwa.yaml
+  task_checkpoint_target: _base_model
+facexray:
+  registry: FaceXrayDetector
+  category: deepfake
+  image_size: 256
+  norm: deepfake
+  init: {}
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  need_deepfake_yaml: facexray.yaml
+  task_checkpoint_target: _base_model
+  blocked_reason: Native training loss requires blended pixel-mask targets absent
+    from this image-label project.
+fatformer:
+  registry: FatFormer
+  category: aigc
+  image_size: 224
+  norm: clip
+  init:
+    backbone: ViT-B/16
+    d_model: 768
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  import_module: ForensicHub.tasks.aigc.models.fatformer.FatFormer
+  feature:
+    path: image_encoder
+    source: output
+    expected_dim: 512
+hifi-net:
+  registry: HiFi_Net
+  category: aigc
+  image_size: 256
+  norm: imagenet
+  init: {}
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  import_module: ForensicHub.tasks.aigc.models.hifi_net.HiFi_Net
+  feature:
+    path: SegNet.branch_cls_level_1.fc
+    source: input
+    expected_dim: 18
+iid:
+  registry: IIDDetector
+  category: deepfake
+  image_size: 256
+  norm: deepfake
+  init: {}
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  need_deepfake_yaml: iid.yaml
+  task_checkpoint_target: _base_model
+  blocked_reason: Native identity-inconsistency training requires id_index and identity supervision absent from this unified image-label dataset.
+lrl:
+  registry: LRLDetector
+  category: deepfake
+  image_size: 256
+  norm: deepfake
+  init: {}
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  need_deepfake_yaml: lrl.yaml
+  task_checkpoint_target: _base_model
+  blocked_reason: Native training requires idct and manipulation-mask supervision absent from this unified image-label dataset.
+lsda:
+  registry: LSDADetector
+  category: deepfake
+  image_size: 256
+  norm: deepfake
+  init: {}
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  need_deepfake_yaml: lsda.yaml
+  task_checkpoint_target: _base_model
+  blocked_reason: Native training requires augmentation configuration and batch pairing
+    beyond image/label.
+mscdi:
+  registry: MSCDI_Net
+  category: imdl
+  image_size: 256
+  norm: imagenet
+  init: {}
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  wrapper: LabelOnlyMaskWrapper
+  wrapper_init:
+    backbone_weights_path: weights/manual/backbones/mit_b4.pth
+  task_checkpoint_target: base_model
+  feature:
+    path: base_model.upsamplingers.0.0
+    source: input
+    expected_dim: 512
+mvss:
+  registry: MVSSNet
+  category: imdl
+  image_size: 256
+  norm: imagenet
+  init: {}
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  wrapper: LabelOnlyMaskWrapper
+  wrapper_init:
+    pretrained_base: false
+  task_checkpoint_target: base_model
+  feature:
+    path: base_model.head.out.1
+    source: input
+    expected_dim: 1024
+mantranet:
+  registry: MantraNet
+  category: imdl
+  image_size: 256
+  norm: imagenet
+  init: {}
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  wrapper: LabelOnlyMaskWrapper
+  wrapper_init:
+    device: cpu
+  task_checkpoint_target: base_model
+  feature:
+    path: base_model.AnomalyDetector.end.0
+    source: input
+    expected_dim: 8
+meso4:
+  registry: Meso4Detector
+  category: deepfake
+  image_size: 256
+  norm: deepfake
+  init: {}
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  need_deepfake_yaml: meso4.yaml
+  task_checkpoint_target: _base_model
+meso4inception:
+  registry: Meso4InceptionDetector
+  category: deepfake
+  image_size: 256
+  norm: deepfake
+  init: {}
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  need_deepfake_yaml: meso4Inception.yaml
+  task_checkpoint_target: _base_model
+mobilenet:
+  registry: MobileNetV3
+  category: backbone
+  image_size: 256
+  norm: imagenet
+  init:
+    output_type: label
+    image_size: 256
+    pretrained: true
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  import_module: ForensicHub.common.backbones.mobilenet
+  feature:
+    path: head
+    source: input
+multiattention:
+  registry: MultiAttentionDetector
+  category: deepfake
+  image_size: 256
+  norm: deepfake
+  init: {}
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  need_deepfake_yaml: multi_attention.yaml
+  task_checkpoint_target: _base_model
+objectformer:
+  registry: ObjectFormer
+  category: imdl
+  image_size: 224
+  norm: imagenet
+  init: {}
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  wrapper: LabelOnlyMaskWrapper
+  wrapper_init:
+    input_size: 224
+  task_checkpoint_target: base_model
+  feature:
+    path: base_model.localization.0
+    source: input
+    expected_dim: 1536
+pclxception:
+  registry: PCLXceptionDetector
+  category: deepfake
+  image_size: 256
+  norm: deepfake
+  init: {}
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  need_deepfake_yaml: pcl_xception.yaml
+  task_checkpoint_target: _base_model
+  blocked_reason: Native training requires patch consistency targets and paired blending
+    supervision.
+pscc:
+  registry: PSCC_Net
+  category: imdl
+  image_size: 256
+  norm: imagenet
+  init: {}
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  wrapper: LabelOnlyMaskWrapper
+  wrapper_init:
+    input_size: 256
+  task_checkpoint_target: base_model
+psnet:
+  registry: PSNet
+  category: document
+  image_size: 256
+  norm: imagenet
+  init: {}
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  import_module: ForensicHub.tasks.document.models.psnet.psnet
+  wrapper: LabelOnlyMaskWrapper
+  wrapper_init: {}
+  task_checkpoint_target: base_model
+  label_adapter:
+    logits: true
+  feature:
+    path: base_model.cls.classifier
+    source: input
+    expected_dim: 128
+qtconvnextsmall:
+  registry: QtConvNextSmall
+  category: backbone
+  image_size: 256
+  norm: imagenet
+  init:
+    output_type: label
+    image_size: 256
+    pretrained: true
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  import_module: ForensicHub.common.backbones.convnext
+  feature:
+    path: head
+    source: input
+  input_kind: jpeg_dct
+  blocked_reason: Requires real JPEG DCT coefficients and quantization tables; current
+    unified Dataset only provides RGB. Dummy zero/one auxiliary tensors cannot satisfy
+    this experiment.
+qtefficientb4:
+  registry: QtEfficientB4
+  category: backbone
+  image_size: 256
+  norm: imagenet
+  init:
+    output_type: label
+    image_size: 256
+    pretrained: true
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  import_module: ForensicHub.common.backbones.efficientnet
+  feature:
+    path: head
+    source: input
+  input_kind: jpeg_dct
+  blocked_reason: Requires real JPEG DCT coefficients and quantization tables; current
+    unified Dataset only provides RGB. Dummy zero/one auxiliary tensors cannot satisfy
+    this experiment.
+qtresnet101:
+  registry: QtResnet101
+  category: backbone
+  image_size: 256
+  norm: imagenet
+  init:
+    output_type: label
+    image_size: 256
+    pretrained: true
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  import_module: ForensicHub.common.backbones.resnet
+  feature:
+    path: head
+    source: input
+  input_kind: jpeg_dct
+  blocked_reason: Requires real JPEG DCT coefficients and quantization tables; current
+    unified Dataset only provides RGB. Dummy zero/one auxiliary tensors cannot satisfy
+    this experiment.
+qtsegformerb3:
+  registry: QtSegformerb3
+  category: backbone
+  image_size: 256
+  norm: imagenet
+  init:
+    output_type: label
+    image_size: 256
+    pretrain_path: weights/manual/backbones/mit_b3.pth
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  import_module: ForensicHub.common.backbones.segformer
+  feature:
+    path: head
+    source: input
+  input_kind: jpeg_dct
+  blocked_reason: Requires real JPEG DCT coefficients and quantization tables; current
+    unified Dataset only provides RGB. Dummy zero/one auxiliary tensors cannot satisfy
+    this experiment.
+qtswinsmall:
+  registry: QtSwinSmall
+  category: backbone
+  image_size: 256
+  norm: imagenet
+  init:
+    output_type: label
+    image_size: 256
+    pretrained: true
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  import_module: ForensicHub.common.backbones.swintransformer
+  feature:
+    path: head
+    source: input
+  input_kind: jpeg_dct
+  blocked_reason: Requires real JPEG DCT coefficients and quantization tables; current
+    unified Dataset only provides RGB. Dummy zero/one auxiliary tensors cannot satisfy
+    this experiment.
+qtxception:
+  registry: QtXception
+  category: backbone
+  image_size: 256
+  norm: imagenet
+  init:
+    output_type: label
+    image_size: 256
+    pretrained: true
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  import_module: ForensicHub.common.backbones.xception
+  feature:
+    path: head
+    source: input
+  input_kind: jpeg_dct
+  blocked_reason: Requires real JPEG DCT coefficients and quantization tables; current
+    unified Dataset only provides RGB. Dummy zero/one auxiliary tensors cannot satisfy
+    this experiment.
+rfm:
+  registry: RFMDetector
+  category: deepfake
+  image_size: 256
+  norm: deepfake
+  init: {}
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  need_deepfake_yaml: rfm.yaml
+  task_checkpoint_target: _base_model
+recce-deepfakebench:
+  registry: RecceDetector
+  category: deepfake
+  image_size: 256
+  norm: deepfake
+  init: {}
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  need_deepfake_yaml: recce.yaml
+  task_checkpoint_target: _base_model
+resnet152:
+  registry: Resnet152
+  category: backbone
+  image_size: 256
+  norm: imagenet
+  init:
+    output_type: label
+    image_size: 256
+    pretrained: true
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  import_module: ForensicHub.common.backbones.resnet
+  feature:
+    path: head
+    source: input
+resnet50:
+  registry: Resnet50
+  category: backbone
+  image_size: 256
+  norm: imagenet
+  init:
+    output_type: label
+    image_size: 256
+    pretrained: true
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  import_module: ForensicHub.common.backbones.resnet
+  feature:
+    path: head
+    source: input
+resnet-registry:
+  registry: ResnetDetector
+  category: deepfake
+  image_size: 256
+  norm: deepfake
+  init: {}
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  need_deepfake_yaml: resnet34.yaml
+  task_checkpoint_target: _base_model
+sbi:
+  registry: SBIDetector
+  category: deepfake
+  image_size: 256
+  norm: deepfake
+  init: {}
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  need_deepfake_yaml: sbi.yaml
+  task_checkpoint_target: _base_model
+sladdxception:
+  registry: SLADDXceptionDetector
+  category: deepfake
+  image_size: 256
+  norm: deepfake
+  init: {}
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  need_deepfake_yaml: sladd_detector.yaml
+  task_checkpoint_target: _base_model
+  blocked_reason: Native training requires the SLADD synthesizer and its paired/generated
+    supervision.
+span:
+  registry: SPAN
+  category: imdl
+  image_size: 256
+  norm: imagenet
+  init: {}
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  wrapper: LabelOnlyMaskWrapper
+  wrapper_init:
+    weight_path: weights/manual/backbones/mantranet.pth
+    device: cpu
+  task_checkpoint_target: base_model
+  blocked_reason: Native Last_Layer_0725 creates new random Conv2d heads on each forward. Those layers are neither registered nor optimized/saved; a stable head and checkpoint protocol must be repaired before this experiment.
+segformer-b2:
+  registry: Segformerb2
+  category: backbone
+  image_size: 256
+  norm: imagenet
+  init:
+    output_type: label
+    image_size: 256
+    pretrain_path: weights/manual/backbones/mit_b2.pth
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  import_module: ForensicHub.common.backbones.segformer
+  feature:
+    path: head
+    source: input
+sobelconvnextsmall:
+  registry: SobelConvNextSmall
+  category: backbone
+  image_size: 256
+  norm: imagenet
+  init:
+    output_type: label
+    image_size: 256
+    pretrained: true
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  import_module: ForensicHub.common.backbones.convnext
+  feature:
+    path: head
+    source: input
+sobeldensenet121:
+  registry: SobelDenseNet121
+  category: backbone
+  image_size: 224
+  norm: imagenet
+  init:
+    output_type: label
+    image_size: 224
+    pretrained: true
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  import_module: ForensicHub.common.backbones.densenet
+  feature:
+    path: head
+    source: input
+sobelefficientb4:
+  registry: SobelEfficientB4
+  category: backbone
+  image_size: 256
+  norm: imagenet
+  init:
+    output_type: label
+    image_size: 256
+    pretrained: true
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  import_module: ForensicHub.common.backbones.efficientnet
+  feature:
+    path: head
+    source: input
+sobelmobilenetv3:
+  registry: SobelMobileNetV3
+  category: backbone
+  image_size: 256
+  norm: imagenet
+  init:
+    output_type: label
+    image_size: 256
+    pretrained: true
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  import_module: ForensicHub.common.backbones.mobilenet
+  feature:
+    path: head
+    source: input
+sobelresnet101:
+  registry: SobelResnet101
+  category: backbone
+  image_size: 256
+  norm: imagenet
+  init:
+    output_type: label
+    image_size: 256
+    pretrained: true
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  import_module: ForensicHub.common.backbones.resnet
+  feature:
+    path: head
+    source: input
+sobelsegformerb3:
+  registry: SobelSegformerb3
+  category: backbone
+  image_size: 256
+  norm: imagenet
+  init:
+    output_type: label
+    image_size: 256
+    pretrain_path: weights/manual/backbones/mit_b3.pth
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  import_module: ForensicHub.common.backbones.segformer
+  feature:
+    path: head
+    source: input
+sobelswinsmall:
+  registry: SobelSwinSmall
+  category: backbone
+  image_size: 256
+  norm: imagenet
+  init:
+    output_type: label
+    image_size: 256
+    pretrained: true
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  import_module: ForensicHub.common.backbones.swintransformer
+  feature:
+    path: head
+    source: input
+sobelunet:
+  registry: SobelUNet
+  category: backbone
+  image_size: 256
+  norm: imagenet
+  init:
+    output_type: label
+    image_size: 256
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  import_module: ForensicHub.common.backbones.unet
+  feature:
+    path: head
+    source: input
+sobelvitbase:
+  registry: SobelViTBase
+  category: backbone
+  image_size: 224
+  norm: imagenet
+  init:
+    output_type: label
+    image_size: 224
+    pretrained: true
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  import_module: ForensicHub.common.backbones.vit
+  feature:
+    path: head
+    source: input
+sobelxception:
+  registry: SobelXception
+  category: backbone
+  image_size: 256
+  norm: imagenet
+  init:
+    output_type: label
+    image_size: 256
+    pretrained: true
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  import_module: ForensicHub.common.backbones.xception
+  feature:
+    path: head
+    source: input
+sparse-vit:
+  registry: SparseViT
+  category: imdl
+  image_size: 512
+  norm: imagenet
+  init: {}
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  wrapper: LabelOnlyMaskWrapper
+  wrapper_init:
+    img_size: 512
+  task_checkpoint_target: base_model
+  feature:
+    path: base_model.lmu.conv_last
+    source: input
+    expected_dim: 512
+sparse-vit-backbone:
+  registry: SparseViTBackbone
+  category: imdl
+  image_size: 256
+  norm: imagenet
+  init: {}
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  wrapper: LabelOnlyMaskWrapper
+  wrapper_init: {}
+  task_checkpoint_target: base_model
+  blocked_reason: Feature-only backbone returns a feature dictionary; a binary head
+    and its checkpoint protocol must be designed explicitly.
+spsl-native:
+  registry: Spsl
+  category: deepfake
+  image_size: 256
+  norm: deepfake
+  init: {}
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  import_module: ForensicHub.tasks.deepfake.models.spsl.spsl
+  need_deepfake_yaml: spsl.yaml
+  feature:
+    path: backbone.fc
+    source: input
+    expected_dim: 2048
+synthbuster:
+  registry: Synthbuster
+  category: aigc
+  image_size: 256
+  norm: none
+  init: {}
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  import_module: ForensicHub.tasks.aigc.models.synthbuster.Synthbuster
+  feature:
+    path: fc1
+    source: input
+    expected_dim: 24
+tifdm:
+  registry: Tifdm
+  category: document
+  image_size: 256
+  norm: imagenet
+  init: {}
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  import_module: ForensicHub.tasks.document.models.tifdm.tifdm
+  wrapper: LabelOnlyMaskWrapper
+  wrapper_init: {}
+  task_checkpoint_target: base_model
+  feature:
+    path: base_model.linearp
+    source: input
+    expected_dim: 64
+ucf:
+  registry: UCFDetector
+  category: deepfake
+  image_size: 256
+  norm: deepfake
+  init: {}
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  need_deepfake_yaml: ucf.yaml
+  task_checkpoint_target: _base_model
+  blocked_reason: Native training requires paired real/fake identities and augmentation
+    losses not supplied by the unified image-label batch.
+uiavit:
+  registry: UIAViTDetector
+  category: deepfake
+  image_size: 224
+  norm: deepfake
+  init: {}
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  need_deepfake_yaml: uia_vit.yaml
+  task_checkpoint_target: _base_model
+unet:
+  registry: UNetBase
+  category: backbone
+  image_size: 256
+  norm: imagenet
+  init:
+    output_type: label
+    image_size: 256
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  import_module: ForensicHub.common.backbones.unet
+  feature:
+    path: head
+    source: input
+vit:
+  registry: ViTBase
+  category: backbone
+  image_size: 224
+  norm: imagenet
+  init:
+    output_type: label
+    image_size: 224
+    pretrained: true
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  import_module: ForensicHub.common.backbones.vit
+  feature:
+    path: head
+    source: input
+xception-backbone:
+  registry: Xception
+  category: backbone
+  image_size: 256
+  norm: imagenet
+  init:
+    output_type: label
+    image_size: 256
+    pretrained: true
+  ddp:
+    batch_size: 16
+    lr: 5.0e-05
+  import_module: ForensicHub.common.backbones.xception
+  feature:
+    path: head
     source: input

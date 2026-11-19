@@ -9,6 +9,7 @@ So ForensicHub is found as <project_root>/../ForensicHub.
 """
 import sys
 import warnings
+import importlib
 from collections.abc import Mapping
 from pathlib import Path
 
@@ -23,9 +24,9 @@ for p in (str(FORENSICHUB_REPO),):
         sys.path.insert(0, p)
 
 try:
-    from .model_config import MODEL_CFG
+    from .model_config import MODEL_CFG, get_exclusion_reason
 except ImportError:
-    from model_config import MODEL_CFG
+    from model_config import MODEL_CFG, get_exclusion_reason
 
 
 def _resolve_deepfake_yaml(name_file):
@@ -146,13 +147,64 @@ def _build_task_deepfake(registry_name, yaml_config_path):
     return Deepfake2ForensicWrapper(TaskDetector, yaml_config_path)
 
 
-def build_forensic_model(model_key, task_checkpoint=None):
+class LabelOnlyMaskWrapper(nn.Module):
+    """Train a native localizer using the project's image labels only.
+
+    Pixel losses computed with placeholder masks are discarded; only image BCE
+    updates the model. Per-model settings select a segmentation branch when the
+    native image head detaches the backbone, or handle raw logits explicitly.
+    """
+
+    def __init__(self, base_model, prediction_field=None, logits=False):
+        super().__init__()
+        if prediction_field not in (None, "pred_label", "pred_mask"):
+            raise ValueError(f"Unknown label prediction field: {prediction_field}")
+        self.base_model = base_model
+        self.prediction_field = prediction_field
+        self.logits = logits
+
+    def forward(self, image, label, **kwargs):
+        batch, _, height, width = image.shape
+        kwargs.setdefault("mask", image.new_zeros(batch, 1, height, width))
+        kwargs.setdefault("edge_mask", image.new_zeros(batch, 1, height, width))
+        result = self.base_model(image=image, label=label, **kwargs)
+        pred = result.get("pred_label") if self.prediction_field != "pred_mask" else None
+        if pred is None:
+            mask = result.get("pred_mask")
+            if mask is None or mask.ndim != 4:
+                raise ValueError("Localizer must return pred_label or [B,C,H,W] pred_mask")
+            pred = mask[:, -1:].amax(dim=(1, 2, 3))
+        pred = pred.reshape(-1)
+        if pred.numel() != label.numel():
+            raise ValueError("Localizer image predictions do not match batch labels")
+        target = label.float().reshape(-1)
+        if self.logits:
+            loss = nn.functional.binary_cross_entropy_with_logits(pred, target)
+            pred = pred.sigmoid()
+        else:
+            loss = nn.functional.binary_cross_entropy(pred, target)
+        return {"backward_loss": loss, "pred_label": pred,
+                "visual_loss": {"image_label_loss": loss}}
+
+
+def build_forensic_model(model_key, task_checkpoint=None, task_checkpoint_target=None,
+                         require_task_checkpoint=False, device=None):
     """Return (model, cfg). Raises with actionable message if dep missing."""
     key = model_key.lower()
+    exclusion = get_exclusion_reason(model_key)
+    if exclusion:
+        raise ValueError(f"[{model_key}] outside experiment scope: {exclusion}")
     if key not in MODEL_CFG:
         raise KeyError(f"Unknown --model {model_key!r}. Choose from: {sorted(MODEL_CFG)}")
-    cfg = MODEL_CFG[key]
+    cfg = dict(MODEL_CFG[key])
+    if cfg.get("blocked_reason"):
+        raise RuntimeError(f"[{key}] project adapter unavailable: {cfg['blocked_reason']}")
+    if task_checkpoint_target is not None:
+        cfg["task_checkpoint_target"] = task_checkpoint_target
     task_checkpoint = task_checkpoint or cfg.get("task_checkpoint")
+    if require_task_checkpoint and not task_checkpoint:
+        raise ValueError(f"[{key}] --require_task_checkpoint needs a detector checkpoint; "
+                         "backbone initialization alone does not qualify")
     if task_checkpoint:
         task_checkpoint = Path(task_checkpoint).expanduser()
         if not task_checkpoint.is_absolute():
@@ -162,8 +214,24 @@ def build_forensic_model(model_key, task_checkpoint=None):
             raise FileNotFoundError(f"[{key}] task checkpoint not found: {task_checkpoint}")
         if cfg.get("task_norm"):
             cfg = {**cfg, "norm": cfg["task_norm"]}
+        cfg["task_checkpoint"] = str(task_checkpoint)
 
     from ForensicHub.registry import MODELS, build_from_registry
+    if cfg.get("import_module"):
+        importlib.import_module(cfg["import_module"])
+
+    for field in ("init", "wrapper_init"):
+        resolved = dict(cfg.get(field, {}))
+        if device is not None and "device" in resolved:
+            resolved["device"] = str(device)
+        for name, value in resolved.items():
+            if isinstance(value, str) and name.endswith(("_path", "_weights")):
+                asset = Path(value).expanduser()
+                if not asset.is_absolute():
+                    asset = THIS.parents[1] / asset
+                resolved[name] = str(asset.resolve())
+        if field in cfg:
+            cfg[field] = resolved
 
     # 1) deepfake yaml-based models: fill yaml_config_path automatically
     init = dict(cfg.get("init", {}))
@@ -195,7 +263,7 @@ def build_forensic_model(model_key, task_checkpoint=None):
 
 
     # 2b) server-side weight paths (resolve dynamically; local/server layouts differ)
-    if key == "segformer":
+    if key == "segformer" and not init.get("pretrain_path"):
         mit = (_resolve_imdl_asset("model_zoo", "diffiml", "mit_b3.pth")
                or _resolve_imdl_asset("diffiml", "mit_b3.pth"))
         if mit:
@@ -231,8 +299,13 @@ def build_forensic_model(model_key, task_checkpoint=None):
         return any(k in s for k in keys)
 
     # 3) build (optionally wrapped for mask models)
-    if task_checkpoint and cfg.get("task_checkpoint_target") == "_base_model":
+    if (task_checkpoint and cfg.get("task_checkpoint_target") == "_base_model"
+            and cfg["registry"] in {"SpslDetector", "SRMDetector", "F3netDetector", "XceptionDetector"}):
         model = _build_task_deepfake(cfg["registry"], init["yaml_config_path"])
+    elif cfg.get("wrapper") == "LabelOnlyMaskWrapper":
+        model = LabelOnlyMaskWrapper(build_from_registry(MODELS, {
+            "name": cfg["registry"], "init_config": cfg.get("wrapper_init", init)}),
+            **cfg.get("label_adapter", {}))
     elif cfg.get("wrapper") == "Mask2LabelWrapper":
         outer = {"name": "Mask2LabelWrapper",
                  "init_config": {"name": cfg["registry"], "init_config": cfg.get("wrapper_init", {})}}

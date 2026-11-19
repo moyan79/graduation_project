@@ -20,6 +20,7 @@ Analyse afterwards:
 import argparse
 import csv
 import itertools
+import json
 import os
 import sys
 from pathlib import Path
@@ -45,6 +46,9 @@ def parse_args():
     p = argparse.ArgumentParser()
     p.add_argument("--model", default="resnet", help=f"one of {sorted(MODEL_CFG)}")
     p.add_argument("--task_checkpoint", help="domain-trained detector or configured task-head weights")
+    p.add_argument("--task_checkpoint_target", help="module path inside the model to load strictly")
+    p.add_argument("--require_task_checkpoint", action="store_true",
+                   help="fail instead of starting a detector-baseline experiment")
     p.add_argument("--manifest_dir", default=os.environ.get("MANIFEST_DIR", None))
     p.add_argument("--train_json", default=os.environ.get("TRAIN_JSON", None))
     p.add_argument("--id_test_json", default=os.environ.get("ID_TEST_JSON", None))
@@ -208,10 +212,15 @@ def main():
     if is_main(a):
         print(f"[diag] train={len(train_samples)} id_test={len(id_samples)}")
 
-    model, mcfg = build_forensic_model(a.model, task_checkpoint=a.task_checkpoint)
+    model, mcfg = build_forensic_model(
+        a.model, task_checkpoint=a.task_checkpoint,
+        task_checkpoint_target=a.task_checkpoint_target,
+        require_task_checkpoint=a.require_task_checkpoint, device=device)
     img_size = a.image_size or mcfg["image_size"]
     norm = mcfg["norm"]
     model.to(device)
+    if not any(p.requires_grad for p in model.parameters()):
+        raise RuntimeError(f"[{a.model}] has no trainable parameters for gradient diagnostics")
     if a.distributed:
         # The wrapper puts a zero-valued dependency on every trainable parameter
         # inside the DDP forward. This handles dynamic branches without using
@@ -237,6 +246,10 @@ def main():
             "Re-run with --path_prefix_from/--path_prefix_to (via EXTRA_ARGS), e.g. "
             'EXTRA_ARGS="--path_prefix_from /mnt/public/public_datasets/OpenMMSecV2/ '
             '--path_prefix_to /mnt/nas/public/public_datasets/OpenMMSecV2/" ...')
+    present = {sample["domain"] for sample in ds_train.samples}
+    missing = set(DOMAIN_NAMES) - present
+    if missing:
+        raise RuntimeError(f"Four-domain training is missing readable domains: {sorted(missing)}")
     # cap probe set (same indices on all ranks: same seed, no rank offset here)
     if len(ds_probe) > a.probe_samples:
         rng = np.random.RandomState(a.seed)
@@ -255,6 +268,26 @@ def main():
     dl_probe = DataLoader(ds_probe, batch_size=a.batch_size, sampler=probe_sampler,
                           shuffle=(probe_sampler is None),
                           num_workers=a.num_workers, pin_memory=True, collate_fn=collate_with_domain)
+    if len(dl_train) == 0:
+        raise RuntimeError("No training batches: reduce batch size or check the dataset")
+
+    metadata = {
+        "model": a.model, "registry": mcfg["registry"], "status": "running",
+        "epochs_requested": a.epochs, "epochs_completed": 0,
+        "probe_every": a.probe_every,
+        "seed": a.seed, "lr": a.lr, "world_size": a.world_size,
+        "batch_size_per_gpu": a.batch_size, "image_size": img_size, "norm": norm,
+        "task_checkpoint": mcfg.get("task_checkpoint"),
+        "task_checkpoint_target": mcfg.get("task_checkpoint_target", ""),
+        "task_checkpoint_strict": bool(mcfg.get("task_checkpoint")),
+        "label_adapter": mcfg.get("label_adapter", {}), "feature": mcfg.get("feature"),
+        "train_manifest": str(train_json), "probe_manifest": str(id_json),
+        "train_samples": len(ds_train), "probe_samples": len(ds_probe),
+        "domains": sorted(present),
+    }
+    if is_main(a):
+        (out / "run_metadata.json").write_text(
+            json.dumps(metadata, ensure_ascii=False, indent=2), encoding="utf-8")
 
     opt = torch.optim.AdamW(model.parameters(), lr=a.lr, weight_decay=a.weight_decay)
 
@@ -325,6 +358,8 @@ def main():
             loss = outd["backward_loss"]
             if loss.dim() > 0:
                 loss = loss.mean()
+            if not torch.isfinite(loss).all():
+                raise RuntimeError(f"Non-finite training loss at epoch={ep} step={step}")
             loss.backward()
             opt.step()
             ep_loss_sum += float(loss.item())
@@ -346,6 +381,9 @@ def main():
                 csv.writer(f).writerow(row)
             print(f"[ep{ep}] avg_loss={ep_mean_loss:.4f} ({int(stat[1])} steps)"
                   + (f" avg_conflict={row[3]} avg_cos={row[4]}" if ep_crs else ""))
+            metadata["epochs_completed"] = ep + 1
+            (out / "run_metadata.json").write_text(
+                json.dumps(metadata, ensure_ascii=False, indent=2), encoding="utf-8")
 
         # --- periodic frozen-feature dump for SVD representation diagnostics ---
         if (ep + 1) % a.probe_every == 0 or ep == a.epochs - 1:
@@ -389,6 +427,9 @@ def main():
         dist.barrier()
         dist.destroy_process_group()
     if is_main(a):
+        metadata["status"] = "training_complete"
+        (out / "run_metadata.json").write_text(
+            json.dumps(metadata, ensure_ascii=False, indent=2), encoding="utf-8")
         print(f"[diag] done. grad log: {grad_csv}")
         print(f"[diag] next: analyze_gradient.py + analyze_rank.py on {out}")
 
