@@ -1,3 +1,6 @@
+# 本地交接文档：仅保留工作区最外层副本，不上传 GitHub
+/docs/
+
 # 模型权重：只留说明文件，大文件不进 git
 /weights/*
 !/weights/README.md
